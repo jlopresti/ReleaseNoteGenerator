@@ -10,6 +10,10 @@ namespace ReleaseNoteGenerator.Console
     {
         static void Main(string[] args)
         {
+            new ApplicationBootstrapper(new ReleaseNoteGeneratorConsoleApplication())
+                .ConfigureLogging()
+                .ExitOn(ConsoleKey.Enter)
+                .Start(args);
         }
     }
 }
