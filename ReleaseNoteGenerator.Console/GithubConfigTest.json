@@ -1,0 +1,10 @@
+﻿{
+  "host": "XXX",
+  "login": "XXX",
+  "apikey": "XXX",
+  "owner": "XXX",
+  "project": "XXX",
+  "prodBranch": "master",
+  "releaseBranchPattern": "release/.*"
+
+}

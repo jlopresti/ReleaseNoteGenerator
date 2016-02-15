@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace ReleaseNoteGenerator.Console
+namespace ReleaseNoteGenerator.Console.Common
 {
     internal interface IApplicationBootstrapper
     {
         IApplicationBootstrapper ConfigureLogging();
-        void Start(string[] args);
+        int Start(string[] args);
         IApplicationBootstrapper ExitOn(ConsoleKey key);
     }
 }

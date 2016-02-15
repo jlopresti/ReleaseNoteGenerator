@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 
-namespace ReleaseNoteGenerator.Console
+namespace ReleaseNoteGenerator.Console.Common
 {
     internal interface IConsoleApplication
     {
-        Task Run(string[] args);
+        Task<int> Run(string[] args);
     }
 }

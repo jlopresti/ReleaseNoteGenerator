@@ -1,18 +1,21 @@
 ﻿using System;
+using CommandLine;
 using log4net;
 using log4net.Appender;
 using log4net.Config;
 using log4net.Core;
 using log4net.Layout;
 using log4net.Repository.Hierarchy;
+using ReleaseNoteGenerator.Console.Models;
 
-namespace ReleaseNoteGenerator.Console
+namespace ReleaseNoteGenerator.Console.Common
 {
     internal class ApplicationBootstrapper : IApplicationBootstrapper
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(ApplicationBootstrapper));
         private readonly IConsoleApplication _application;
         private Action _exitOnAction = () => { };
+        private Hierarchy _hierarchy;
 
         public ApplicationBootstrapper(IConsoleApplication application)
         {
@@ -31,18 +34,33 @@ namespace ReleaseNoteGenerator.Console
 
             BasicConfigurator.Configure(appender);
 
-            var hierarchy = (Hierarchy)LogManager.GetRepository();
-            hierarchy.Root.AddAppender(appender);
-            hierarchy.Root.Level = Level.All;
-            hierarchy.Configured = true;
+            _hierarchy = (Hierarchy)LogManager.GetRepository();
+            _hierarchy.Root.AddAppender(appender);
+            _hierarchy.Root.Level = Level.Info;
+            _hierarchy.Configured = true;
 
             return this;
         }
 
-        public void Start(string[] args)
+        public int Start(string[] args)
         {
-            _application.Run(args).Wait();
-            _exitOnAction();
+            var settings = new ApplicationSettings();
+            if (Parser.Default.ParseArguments(args, settings))
+            {
+                SetupLoggingLevel(settings);
+                var task = _application.Run(args);
+                task.Wait();
+                if(task.Result == Constants.SUCCESS_EXIT_CODE)
+                _exitOnAction();
+                return task.Result;
+            }
+            return Constants.FAIL_EXIT_CODE;
+        }
+
+        private void SetupLoggingLevel(ApplicationSettings settings)
+        {
+            if (_hierarchy == null) return;
+            if (settings.Verbose) _hierarchy.Root.Level = Level.Verbose;
         }
 
         public IApplicationBootstrapper ExitOn(ConsoleKey key)
