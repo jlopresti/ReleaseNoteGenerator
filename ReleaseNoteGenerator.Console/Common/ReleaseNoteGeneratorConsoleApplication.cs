@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using CommandLine;
 using log4net;
-using ReleaseNoteGenerator.Console.Helpers;
 using ReleaseNoteGenerator.Console.IssueTracker;
 using ReleaseNoteGenerator.Console.Models;
 using ReleaseNoteGenerator.Console.SourceControl;
@@ -25,6 +24,7 @@ namespace ReleaseNoteGenerator.Console.Common
             var settings = new Settings();
             if (Parser.Default.ParseArguments(args, settings))
             {
+                _logger.Info("SUCCESS");
                 var sourceControl = _sourceControlProvider.GetProvider(settings);
                 var issueTracker = _issueTrackerFactory.GetProvider(settings);              
             }

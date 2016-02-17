@@ -14,8 +14,11 @@ namespace ReleaseNoteGenerator.Console.Models
         [Option('p', "publish", Required = false, DefaultValue = false, HelpText = "Jira config path for creating release note")]
         public bool Publish { get; set; }
 
-        [Option('r', "rel", Required = true, HelpText = "Release number")]
+        [Option('r', "release", Required = true, HelpText = "Release number")]
         public bool RelNumber { get; set; }
+
+        [Option('c', "issue-commit-pattern", Required = true, HelpText = "Release number")]
+        public string IssueCommitPattern { get; set; }
 
         [ParserState]
         public IParserState LastParserState { get; set; }

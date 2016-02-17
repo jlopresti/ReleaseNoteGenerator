@@ -2,10 +2,11 @@
 
 namespace ReleaseNoteGenerator.Console.Common
 {
-    internal interface IApplicationBootstrapper
+    internal interface IApplicationBootstrapper<TApp, TParam> where TApp : IConsoleApplication
     {
-        IApplicationBootstrapper ConfigureLogging();
+        IApplicationBootstrapper<TApp, TParam> ConfigureLogging();
         int Start(string[] args);
-        IApplicationBootstrapper ExitOn(ConsoleKey key);
+        IApplicationBootstrapper<TApp, TParam> ExitOn(ConsoleKey key);
+        IApplicationBootstrapper<TApp, TParam> AddDependency<T, U>();
     }
 }

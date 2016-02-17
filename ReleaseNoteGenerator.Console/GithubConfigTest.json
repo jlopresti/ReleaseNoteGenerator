@@ -6,5 +6,4 @@
   "project": "XXX",
   "prodBranch": "master",
   "releaseBranchPattern": "release/.*"
-
 }
