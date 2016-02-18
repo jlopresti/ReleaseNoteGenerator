@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Atlassian.Jira;
 using log4net;
 using Newtonsoft.Json;
@@ -41,19 +43,10 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
             _client = Jira.CreateRestClient(_config.Host, _config.Login, _config.Password);
         }
 
-        public List<Issue> GetIssues(string release)
+        public async Task<List<Issue>> GetIssues(string release)
         {
-            // use LINQ syntax to retrieve issues
-            var issues = from i in _client.Issues
-                        from j in i.FixVersions
-                        where j.Name == release
-                        orderby i.Created
-                        select new Issue
-                        {
-                            Title = i.Summary,
-                            Id = i.Key.Value
-                        };
-            return issues.ToList();
+            var issues = await _client.GetIssuesFromJqlAsync($"project = {_config.Project} AND fixVersion = ${release}", null, 0, new CancellationToken());
+            return issues.Select(x => new Issue { Id = x.Key.Value, Title = x.Summary}).ToList();
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ReleaseNoteGenerator.Console.Models;
@@ -27,7 +28,7 @@ namespace ReleaseNoteGenerator.Console.Common
         private List<ReleaseNoteEntry> GetCommitedAndAttachedItems()
         {
             var entries = from i in _issues
-                join c in _commits on i.Id equals c.Id
+                join c in _commits on i.Id.ToLowerInvariant() equals c.Id.ToLowerInvariant()
                 select new ReleaseNoteEntry()
                 {
                     Id = i.Id,
@@ -42,9 +43,9 @@ namespace ReleaseNoteGenerator.Console.Common
 
         private List<ReleaseNoteEntry> GetOnlyInIssuesTracker()
         {
-            var issueKeys = _commits.Select(x => x.Id).ToList();
+            var commitKeys = _commits.Select(x => x.Id).ToList();
 
-            return _commits.Where(x => !issueKeys.Contains(x.Id)).Select(x => new ReleaseNoteEntry
+            return _commits.Where(x => !commitKeys.Contains(x.Id, StringComparer.InvariantCultureIgnoreCase)).Select(x => new ReleaseNoteEntry
             {
                 Id = x.Id,
                 Title = x.Title,
@@ -56,9 +57,9 @@ namespace ReleaseNoteGenerator.Console.Common
 
         private List<ReleaseNoteEntry> GetOnlyCommitedItems()
         {
-            var commitKeys = _issues.Select(x => x.Id).ToList();
+            var issueKeys = _issues.Select(x => x.Id).ToList();
 
-            return _issues.Where(x => !commitKeys.Contains(x.Id)).Select(x => new ReleaseNoteEntry
+            return _issues.Where(x => !issueKeys.Contains(x.Id, StringComparer.InvariantCultureIgnoreCase)).Select(x => new ReleaseNoteEntry
             {
                 Id = x.Id,
                 Title = x.Title,

@@ -30,7 +30,7 @@ namespace ReleaseNoteGenerator.Console.Common
                 var sourceControl = _sourceControlProvider.GetProvider(settings);
                 var issueTracker = _issueTrackerFactory.GetProvider(settings);
 
-                var issues = issueTracker.GetIssues(settings.RelNumber);
+                var issues = await issueTracker.GetIssues(settings.RelNumber);
                 var commits = await sourceControl.GetCommits(settings.RelNumber);
                 ApplyKeyExtractionFromMessage(commits, settings.IssueCommitPattern);
                 issues = issues.Distinct(new ReleaseNoteKeyComparer()).Cast<Issue>().ToList();

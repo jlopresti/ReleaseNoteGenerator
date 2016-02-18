@@ -43,9 +43,9 @@ namespace ReleaseNoteGenerator.Console.SourceControl
 
         public async Task<List<Commit>> GetCommits(string releaseNumber)
         {
-            var compare = await _client.Repository.Commit.Compare(_config.Owner, _config.Project, "master", releaseNumber);
+            var compare = await _client.Repository.Commit.Compare(_config.Owner, _config.Project, "master", string.Format(_config.ReleaseBranchPattern, releaseNumber));
             return compare.Commits.Where(x => !x.Commit.Message.StartsWith("Merge", StringComparison.InvariantCultureIgnoreCase))
-                .Select(x => new Commit { Title = x.Commit.Message, Author = x.Author.Login, Url = x.HtmlUrl}).ToList();
+                .Select(x => new Commit { Title = x.Commit.Message, Author = x.Author!= null ? x.Author.Login : "Unknown", Url = x.HtmlUrl}).ToList();
         }
     }
 }
