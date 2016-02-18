@@ -75,8 +75,10 @@
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\IReleaseNoteKey.cs" />
     <Compile Include="Common\IVerbose.cs" />
+    <Compile Include="Common\ReleaseNoteEntry.cs" />
     <Compile Include="Common\ReleaseNoteKeyComparer.cs" />
     <Compile Include="Common\SettingsWrapper.cs" />
+    <Compile Include="Common\Status.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Models\Commit.cs" />
     <Compile Include="Models\Issue.cs" />
