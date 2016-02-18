@@ -22,7 +22,20 @@ namespace ReleaseNoteGenerator.Console.Common
             entries.AddRange(GetOnlyCommitedItems());
             entries.AddRange(GetOnlyInIssuesTracker());
             entries.AddRange(GetCommitedAndAttachedItems());
+            entries.AddRange(GetUnknownCommits());
             return entries;
+        }
+
+        private List<ReleaseNoteEntry> GetUnknownCommits()
+        {
+            return _commits.Where(x => !x.HasExtractedKey).Select(x => new ReleaseNoteEntry
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Author = x.Author,
+                CommitUrl = x.Url,
+                Status = Status.OnlyCommited
+            }).ToList();
         }
 
         private List<ReleaseNoteEntry> GetCommitedAndAttachedItems()
@@ -41,25 +54,26 @@ namespace ReleaseNoteGenerator.Console.Common
             return entries.ToList();
         }
 
-        private List<ReleaseNoteEntry> GetOnlyInIssuesTracker()
-        {
-            var commitKeys = _commits.Select(x => x.Id).ToList();
-
-            return _commits.Where(x => !commitKeys.Contains(x.Id, StringComparer.InvariantCultureIgnoreCase)).Select(x => new ReleaseNoteEntry
-            {
-                Id = x.Id,
-                Title = x.Title,
-                Author = x.Author,
-                CommitUrl = x.Url,
-                Status = Status.OnlyCommited
-            }).ToList();
-        }
 
         private List<ReleaseNoteEntry> GetOnlyCommitedItems()
         {
             var issueKeys = _issues.Select(x => x.Id).ToList();
 
-            return _issues.Where(x => !issueKeys.Contains(x.Id, StringComparer.InvariantCultureIgnoreCase)).Select(x => new ReleaseNoteEntry
+            return _commits.Where(x => !issueKeys.Contains(x.Id, StringComparer.InvariantCultureIgnoreCase) && x.HasExtractedKey).Select(x => new ReleaseNoteEntry
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Author = x.Author,
+                CommitUrl = x.Url,
+                Status = Status.OnlyCommited,
+            }).ToList();
+        }
+
+        private List<ReleaseNoteEntry> GetOnlyInIssuesTracker()
+        {
+            var commitKeys = _commits.Select(x => x.Id).ToList();
+
+            return _issues.Where(x => !commitKeys.Contains(x.Id, StringComparer.InvariantCultureIgnoreCase)).Select(x => new ReleaseNoteEntry
             {
                 Id = x.Id,
                 Title = x.Title,

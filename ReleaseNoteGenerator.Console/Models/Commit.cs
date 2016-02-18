@@ -14,6 +14,7 @@ namespace ReleaseNoteGenerator.Console.Models
         public string Author { get; set; }
         public string Url { get; set; }
         public string Id { get; set; }
+        public bool HasExtractedKey { get; set; }
 
         public void ExtractKeyFromTitle(string pattern)
         {
@@ -22,6 +23,7 @@ namespace ReleaseNoteGenerator.Console.Models
             if (match.Success)
             {
                 Id = match.Value;
+                HasExtractedKey = true;
             }
         }
     }
