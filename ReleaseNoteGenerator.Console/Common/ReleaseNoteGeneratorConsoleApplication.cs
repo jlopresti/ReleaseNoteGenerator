@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using CommandLine;
 using log4net;
 using ReleaseNoteGenerator.Console.IssueTracker;
@@ -19,16 +21,30 @@ namespace ReleaseNoteGenerator.Console.Common
             _issueTrackerFactory = issueTrackerFactory;
         }
 
-        public Task<int> Run(string[] args)
+        public async Task<int> Run(string[] args)
         {
             var settings = new Settings();
             if (Parser.Default.ParseArguments(args, settings))
             {
                 _logger.Info("SUCCESS");
                 var sourceControl = _sourceControlProvider.GetProvider(settings);
-                var issueTracker = _issueTrackerFactory.GetProvider(settings);              
+                var issueTracker = _issueTrackerFactory.GetProvider(settings);
+
+                var issues = issueTracker.GetIssues(settings.RelNumber);
+                var commits = await sourceControl.GetCommits(settings.RelNumber);
+                ApplyKeyExtractionFromMessage(commits, settings.IssueCommitPattern);
+                issues = issues.Distinct(new ReleaseNoteKeyComparer()).Cast<Issue>().ToList();
+                commits = commits.Distinct(new ReleaseNoteKeyComparer()).Cast<Commit>().ToList();
             }
-            return Task.FromResult(Constants.FAIL_EXIT_CODE);
+            return Constants.FAIL_EXIT_CODE;
+        }
+
+        private void ApplyKeyExtractionFromMessage(List<Commit> commits, string pattern)
+        {
+            foreach (var commit in commits)
+            {
+                commit.ExtractKeyFromTitle(pattern);
+            }
         }
     }
 }

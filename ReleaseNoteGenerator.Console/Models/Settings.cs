@@ -15,7 +15,7 @@ namespace ReleaseNoteGenerator.Console.Models
         public bool Publish { get; set; }
 
         [Option('r', "release", Required = true, HelpText = "Release number")]
-        public bool RelNumber { get; set; }
+        public string RelNumber { get; set; }
 
         [Option('c', "issue-commit-pattern", Required = true, HelpText = "Release number")]
         public string IssueCommitPattern { get; set; }

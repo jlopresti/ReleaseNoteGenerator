@@ -1,11 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Atlassian.Jira;
 using log4net;
 using Newtonsoft.Json;
 using Octokit;
 using ReleaseNoteGenerator.Console.Common;
 using ReleaseNoteGenerator.Console.Models;
 using ReleaseNoteGenerator.Console.SourceControl;
+using Issue = ReleaseNoteGenerator.Console.Models.Issue;
 
 namespace ReleaseNoteGenerator.Console.IssueTracker
 {
@@ -13,6 +17,7 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(JiraIssueTracker));
         private readonly JiraConfig _config;
+        private Jira _client;
 
         public JiraIssueTracker(string configPath)
         {
@@ -33,8 +38,22 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
                 return;
             }
 
-            _client = new GitHubClient(new Connection(new ProductHeaderValue("ReleaseNote"), new Uri(new Uri(_config.Host, UriKind.Absolute), new Uri("/api/v3/", UriKind.Relative))))
-            { Credentials = new Octokit.Credentials(_config.Login, _config.Apikey) };
+            _client = Jira.CreateRestClient(_config.Host, _config.Login, _config.Password);
+        }
+
+        public List<Issue> GetIssues(string release)
+        {
+            // use LINQ syntax to retrieve issues
+            var issues = from i in _client.Issues
+                        from j in i.FixVersions
+                        where j.Name == release
+                        orderby i.Created
+                        select new Issue
+                        {
+                            Title = i.Summary,
+                            Id = i.Key.Value
+                        };
+            return issues.ToList();
         }
     }
 }
