@@ -7,5 +7,6 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
     internal interface IIssueTrackerProvider
     {
         Task<List<Issue>> GetIssues(string release);
+        Issue GetIssue(string id);
     }
 }

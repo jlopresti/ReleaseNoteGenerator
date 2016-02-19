@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CommandLine;
@@ -13,12 +14,17 @@ namespace ReleaseNoteGenerator.Console.Common
     {
         private readonly ISourceControlFactory _sourceControlProvider;
         private readonly IIssueTrackerFactory _issueTrackerFactory;
+        private readonly ITemplateProviderFactory _templateProviderFactory;
+        private readonly IPublisherFactory _publisherFactory;
         readonly ILog _logger = LogManager.GetLogger(typeof(ReleaseNoteGeneratorConsoleApplication));
 
-        public ReleaseNoteGeneratorConsoleApplication(ISourceControlFactory sourceControlFactory, IIssueTrackerFactory issueTrackerFactory)
+        public ReleaseNoteGeneratorConsoleApplication(ISourceControlFactory sourceControlFactory, IIssueTrackerFactory issueTrackerFactory,
+            ITemplateProviderFactory templateProviderFactory, IPublisherFactory publisherFactory)
         {
             _sourceControlProvider = sourceControlFactory;
             _issueTrackerFactory = issueTrackerFactory;
+            _templateProviderFactory = templateProviderFactory;
+            _publisherFactory = publisherFactory;
         }
 
         public async Task<int> Run(string[] args)
@@ -29,23 +35,41 @@ namespace ReleaseNoteGenerator.Console.Common
                 _logger.Info("SUCCESS");
                 var sourceControl = _sourceControlProvider.GetProvider(settings);
                 var issueTracker = _issueTrackerFactory.GetProvider(settings);
-
+                var templateProvider = _templateProviderFactory.GetProvider(settings);
+                var publisher = _publisherFactory.GetProvider(settings);
                 var issues = await issueTracker.GetIssues(settings.RelNumber);
                 var commits = await sourceControl.GetCommits(settings.RelNumber);
-                ApplyKeyExtractionFromMessage(commits, settings.IssueCommitPattern);
+                ApplyKeyExtractionFromMessage(issueTracker, commits, settings.IssueCommitPattern);
                 issues = issues.Distinct(new ReleaseNoteKeyComparer()).Cast<Issue>().ToList();
                 commits = commits.Distinct(new ReleaseNoteKeyComparer()).Cast<Commit>().ToList();
                 var binder = new ReleaseNoteBinder(commits,issues);
                 var releaseNoteModel = binder.Bind();
+                var output = templateProvider.Build(releaseNoteModel);
+                var result = publisher.Publish(output);
+                return result ? Constants.SUCCESS_EXIT_CODE : Constants.FAIL_EXIT_CODE;
             }
             return Constants.FAIL_EXIT_CODE;
         }
 
-        private void ApplyKeyExtractionFromMessage(List<Commit> commits, string pattern)
+        private void ApplyKeyExtractionFromMessage(IIssueTrackerProvider issueTracker, List<Commit> commits, string pattern)
         {
-            foreach (var commit in commits)
+            for (int index = 0; index < commits.Count; index++)
             {
+                var commit = commits[index];
                 commit.ExtractKeyFromTitle(pattern);
+                if (commit.HasExtractedKey)
+                {
+                    var issue = issueTracker.GetIssue(commit.Id);
+                    if (issue != null && !issue.Type.Equals("defect", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        commit.Id = issue.Id;
+                        commit.Title = issue.Title;
+                    }
+                    else if (issue != null && issue.Type.Equals("defect", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        commits.Remove(commit);
+                    }
+                }
             }
         }
     }

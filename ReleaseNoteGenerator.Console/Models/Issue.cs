@@ -6,5 +6,6 @@ namespace ReleaseNoteGenerator.Console.Models
     {
         public string Title { get; set; }
         public string Id { get; set; }
+        public string Type { get; set; }
     }
 }

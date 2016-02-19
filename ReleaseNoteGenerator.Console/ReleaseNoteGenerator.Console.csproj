@@ -57,12 +57,20 @@
       <HintPath>..\packages\Octokit.0.18.0\lib\net45\Octokit.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="RazorEngine, Version=3.7.7.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorEngine.3.7.7\lib\net45\RazorEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="RestSharp, Version=105.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.105.1.0\lib\net452\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -73,13 +81,23 @@
   <ItemGroup>
     <Compile Include="Common\ApplicationBootstrapper.cs" />
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\IPublisher.cs" />
+    <Compile Include="Common\IPublisherFactory.cs" />
     <Compile Include="Common\IReleaseNoteKey.cs" />
+    <Compile Include="Common\ITemplateProvider.cs" />
+    <Compile Include="Common\ITemplateProviderFactory.cs" />
     <Compile Include="Common\IVerbose.cs" />
+    <Compile Include="Common\LocalPublishConfig.cs" />
+    <Compile Include="Common\LocalPublisher.cs" />
+    <Compile Include="Common\NoOpPublisher.cs" />
+    <Compile Include="Common\PublisherFactory.cs" />
     <Compile Include="Common\ReleaseNoteBinder.cs" />
     <Compile Include="Common\ReleaseNoteEntry.cs" />
     <Compile Include="Common\ReleaseNoteKeyComparer.cs" />
     <Compile Include="Common\SettingsWrapper.cs" />
     <Compile Include="Common\Status.cs" />
+    <Compile Include="Common\TemplateConfig.cs" />
+    <Compile Include="Common\TemplateProviderFactory.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Models\Commit.cs" />
     <Compile Include="Models\Issue.cs" />
@@ -111,6 +129,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TemplateProvider\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

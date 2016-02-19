@@ -11,8 +11,6 @@ namespace ReleaseNoteGenerator.Console.Models
         [Option('i', "it-config", Required = true, HelpText = "Issue Tracker config path for creating release note")]
         public string IssueTrackerConfigPath { get; set; }
 
-        [Option('p', "publish", Required = false, DefaultValue = false, HelpText = "Jira config path for creating release note")]
-        public bool Publish { get; set; }
 
         [Option('r', "release", Required = true, HelpText = "Release number")]
         public string RelNumber { get; set; }
@@ -22,6 +20,12 @@ namespace ReleaseNoteGenerator.Console.Models
 
         [ParserState]
         public IParserState LastParserState { get; set; }
+
+        [Option('t', "template-config", Required = true, HelpText = "Release number")]
+        public string TemplateConfig { get; set; }
+
+        [Option('p', "publish-config", Required = false, DefaultValue = false, HelpText = "Jira config path for creating release note")]
+        public string PublishConfig { get; set; }
 
         [HelpOption('h', "help")]
         public string GetUsage()
