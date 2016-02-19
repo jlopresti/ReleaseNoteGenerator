@@ -23,13 +23,6 @@ namespace ReleaseNoteGenerator.Console.Common
 
         public bool Publish(string output)
         {
-            var directory = Path.GetDirectoryName(_config.OutputFile);
-            if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
-            {
-                _logger.Error($"{_config.OutputFile} doesn't exist.");
-                return false;
-            }
-
             File.WriteAllText(_config.OutputFile, output);
             return true;
         }
