@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ApplicationBootstrapper.cs" />
+    <Compile Include="Common\Config.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\IPublisher.cs" />
     <Compile Include="Common\IPublisherFactory.cs" />
@@ -122,10 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="JiraConfigTest.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="GithubConfigTest.json">
+    <None Include="config.test.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

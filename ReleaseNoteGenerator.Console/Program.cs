@@ -17,6 +17,8 @@ namespace ReleaseNoteGenerator.Console
             return new ApplicationBootstrapper<ReleaseNoteGeneratorConsoleApplication, Settings>()
                 .AddDependency<ISourceControlFactory, GithubSourceControlFactory>()
                 .AddDependency<IIssueTrackerFactory, JiraIssueTrackerFactory>()
+                .AddDependency<ITemplateProviderFactory, TemplateProviderFactory>()
+                .AddDependency<IPublisherFactory, PublisherFactory>()
                 .ConfigureLogging()
                 .ExitOn(ConsoleKey.Enter)
                 .Start(args);

@@ -45,7 +45,7 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
 
         public async Task<List<Issue>> GetIssues(string release)
         {
-            var issues = await _client.GetIssuesFromJqlAsync($"project = {_config.Project} AND fixVersion = ${release}", null, 0, new CancellationToken());
+            var issues = await _client.GetIssuesFromJqlAsync($"project = {_config.Project} AND fixVersion = {release}", null, 0, new CancellationToken());
             return issues.Select(x => new Issue { Id = x.Key.Value, Title = x.Summary, Type = x.Type.Name }).ToList();
         }
 

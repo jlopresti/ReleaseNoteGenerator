@@ -1,0 +1,25 @@
+﻿{
+  "sourceControl": {
+    "host": "XXX",
+    "login": "XXX",
+    "apikey": "XXX",
+    "owner": "XXX",
+    "project": "XXX",
+    "prodBranch": "master",
+    "releaseBranchPattern": "release/.*"
+  },
+  "issueTracker": {
+    "host": "XXX",
+    "login": "XXX",
+    "password": "XXX",
+    "project": "XXX"
+  },
+  "template": {
+    "type": "html",
+    "html": "<b>@Model.Commits[0].Title</b>"
+  },
+  "publish": {
+    "type": "local",
+    "outputFile": "toto.html"
+  }
+}

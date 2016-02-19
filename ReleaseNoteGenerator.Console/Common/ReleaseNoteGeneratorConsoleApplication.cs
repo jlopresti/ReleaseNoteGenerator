@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using CommandLine;
@@ -33,13 +34,14 @@ namespace ReleaseNoteGenerator.Console.Common
             if (Parser.Default.ParseArguments(args, settings))
             {
                 _logger.Info("SUCCESS");
-                var sourceControl = _sourceControlProvider.GetProvider(settings);
-                var issueTracker = _issueTrackerFactory.GetProvider(settings);
-                var templateProvider = _templateProviderFactory.GetProvider(settings);
-                var publisher = _publisherFactory.GetProvider(settings);
-                var issues = await issueTracker.GetIssues(settings.RelNumber);
-                var commits = await sourceControl.GetCommits(settings.RelNumber);
-                ApplyKeyExtractionFromMessage(issueTracker, commits, settings.IssueCommitPattern);
+                var config = File.ReadAllText(settings.ConfigPath).ToObject<Config>();
+                var sourceControl = _sourceControlProvider.GetProvider(config.SourceControl);
+                var issueTracker = _issueTrackerFactory.GetProvider(config.IssueTracker);
+                var templateProvider = _templateProviderFactory.GetProvider(config.Template);
+                var publisher = _publisherFactory.GetProvider(config.Publish);
+                var issues = await issueTracker.GetIssues(settings.ReleaseNumber);
+                var commits = await sourceControl.GetCommits(settings.ReleaseNumber);
+                ApplyKeyExtractionFromMessage(issueTracker, commits, settings.IssueIdPattern);
                 issues = issues.Distinct(new ReleaseNoteKeyComparer()).Cast<Issue>().ToList();
                 commits = commits.Distinct(new ReleaseNoteKeyComparer()).Cast<Commit>().ToList();
                 var binder = new ReleaseNoteBinder(commits,issues);
