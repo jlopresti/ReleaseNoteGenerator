@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Atlassian.Jira;
 using log4net;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Octokit;
 using ReleaseNoteGenerator.Console.Common;
 using ReleaseNoteGenerator.Console.Models;
@@ -21,19 +22,9 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
         private readonly JiraConfig _config;
         private Jira _client;
 
-        public JiraIssueTracker(string configPath)
+        public JiraIssueTracker(JObject configPath)
         {
-            if (string.IsNullOrEmpty(configPath))
-            {
-                _logger.Error("Jira config must be provided", new NullReferenceException("configPath"));
-                return;
-            }
-            if (!File.Exists(configPath))
-            {
-                _logger.Error("Jira config not found, please check config path", new FileNotFoundException($"{configPath} doesn't exist."));
-                return;
-            }
-            _config = File.ReadAllText(configPath).ToObject<JiraConfig>();
+            _config = configPath.ToObject<JiraConfig>();
             if (_config == null)
             {
                 _logger.Error("Invalid jira config", new JsonException("Json is invalid"));

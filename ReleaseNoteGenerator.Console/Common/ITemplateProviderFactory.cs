@@ -5,6 +5,6 @@ namespace ReleaseNoteGenerator.Console.Common
 {
     internal interface ITemplateProviderFactory
     {
-        ITemplateProvider GetProvider(JObject settings);
+        ITemplateProvider GetProvider(Config settings);
     }
 }

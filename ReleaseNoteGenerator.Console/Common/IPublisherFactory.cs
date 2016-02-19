@@ -6,6 +6,6 @@ namespace ReleaseNoteGenerator.Console.Common
 {
     internal interface IPublisherFactory
     {
-        IPublisher GetProvider(JObject settings);
+        IPublisher GetProvider(Config settings);
     }
 }

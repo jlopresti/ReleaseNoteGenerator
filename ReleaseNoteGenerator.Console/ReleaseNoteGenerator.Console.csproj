@@ -82,6 +82,9 @@
     <Compile Include="Common\ApplicationBootstrapper.cs" />
     <Compile Include="Common\Config.cs" />
     <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\HtmlFileTemplateConfig.cs" />
+    <Compile Include="Common\HtmlFileTemplateProvider.cs" />
+    <Compile Include="Common\HtmlTemplateProvider.cs" />
     <Compile Include="Common\IPublisher.cs" />
     <Compile Include="Common\IPublisherFactory.cs" />
     <Compile Include="Common\IReleaseNoteKey.cs" />
@@ -97,7 +100,7 @@
     <Compile Include="Common\ReleaseNoteKeyComparer.cs" />
     <Compile Include="Common\SettingsWrapper.cs" />
     <Compile Include="Common\Status.cs" />
-    <Compile Include="Common\TemplateConfig.cs" />
+    <Compile Include="Common\HtmlTemplateConfig.cs" />
     <Compile Include="Common\TemplateProviderFactory.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Models\Commit.cs" />

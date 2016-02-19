@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using log4net;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Octokit;
 using ReleaseNoteGenerator.Console.Common;
 using ReleaseNoteGenerator.Console.Models;
@@ -18,19 +19,9 @@ namespace ReleaseNoteGenerator.Console.SourceControl
         private readonly GithubConfig _config;
         private GitHubClient _client;
 
-        public GithubSourceControl(string configPath)
+        public GithubSourceControl(JObject configPath)
         {
-            if (string.IsNullOrEmpty(configPath))
-            {
-                _logger.Error("Github config must be provided", new NullReferenceException("configPath"));
-                return;
-            }
-            if (!File.Exists(configPath))
-            {
-                _logger.Error("Github config not found, please check config path", new FileNotFoundException($"{configPath} doesn't exist."));
-                return;
-            }
-            _config = File.ReadAllText(configPath).ToObject<GithubConfig>();
+            _config = configPath.ToObject<GithubConfig>();
             if (_config == null)
             {
                 _logger.Error("Invalid github config", new JsonException("Json is invalid"));

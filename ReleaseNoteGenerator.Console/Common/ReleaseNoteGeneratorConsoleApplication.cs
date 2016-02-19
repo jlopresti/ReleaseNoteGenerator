@@ -35,10 +35,10 @@ namespace ReleaseNoteGenerator.Console.Common
             {
                 _logger.Info("SUCCESS");
                 var config = File.ReadAllText(settings.ConfigPath).ToObject<Config>();
-                var sourceControl = _sourceControlProvider.GetProvider(config.SourceControl);
-                var issueTracker = _issueTrackerFactory.GetProvider(config.IssueTracker);
-                var templateProvider = _templateProviderFactory.GetProvider(config.Template);
-                var publisher = _publisherFactory.GetProvider(config.Publish);
+                var sourceControl = _sourceControlProvider.GetProvider(config);
+                var issueTracker = _issueTrackerFactory.GetProvider(config);
+                var templateProvider = _templateProviderFactory.GetProvider(config);
+                var publisher = _publisherFactory.GetProvider(config);
                 var issues = await issueTracker.GetIssues(settings.ReleaseNumber);
                 var commits = await sourceControl.GetCommits(settings.ReleaseNumber);
                 ApplyKeyExtractionFromMessage(issueTracker, commits, settings.IssueIdPattern);

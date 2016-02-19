@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 
 namespace ReleaseNoteGenerator.Console.Common
 {
-    internal class Config
+    public class Config
     {
         public JObject SourceControl { get; set; }
         public JObject IssueTracker { get; set; }
@@ -16,14 +16,44 @@ namespace ReleaseNoteGenerator.Console.Common
             {
 
                 Common.SourceControl enu;
-                var result = Enum.TryParse(SourceControl.Value<string>("provider"), out enu);
+                var result = Enum.TryParse(SourceControl.Value<string>("provider"),true, out enu);
                 return enu;
             }
         }
 
-        public IssueTracker IssueTrackerType { get; set; }
-        public Template TemplateType { get; set; }
-        public Publish PublishType { get; set; }
+        public IssueTracker IssueTrackerType
+        {
+            get
+            {
+
+                Common.IssueTracker enu;
+                var result = Enum.TryParse(IssueTracker.Value<string>("provider"), true, out enu);
+                return enu;
+            }
+        }
+
+        public Template TemplateType
+        {
+            get
+            {
+
+                Common.Template enu;
+                var result = Enum.TryParse(Template.Value<string>("provider"), true, out enu);
+                return enu;
+            }
+        }
+
+        public Publish PublishType
+        {
+            get
+            {
+
+                Common.Publish enu;
+                var result = Enum.TryParse(Publish.Value<string>("provider"), true, out enu);
+                return enu;
+            }
+        }
+
     }
 
     public enum SourceControl
@@ -36,7 +66,7 @@ namespace ReleaseNoteGenerator.Console.Common
     }
     public enum Template
     {
-        Html, Unknown
+        Html, File, Unknown
     }
     public enum Publish
     {

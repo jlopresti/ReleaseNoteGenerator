@@ -2,6 +2,7 @@
 using System.IO;
 using log4net;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ReleaseNoteGenerator.Console.Common
 {
@@ -10,19 +11,9 @@ namespace ReleaseNoteGenerator.Console.Common
         readonly ILog _logger = LogManager.GetLogger(typeof(LocalPublisher));
         private LocalPublishConfig _config;
 
-        public LocalPublisher(string configPath)
+        public LocalPublisher(JObject configPath)
         {
-            if (string.IsNullOrEmpty(configPath))
-            {
-                _logger.Error("Jira config must be provided", new NullReferenceException("configPath"));
-                return;
-            }
-            if (!File.Exists(configPath))
-            {
-                _logger.Error("Jira config not found, please check config path", new FileNotFoundException($"{configPath} doesn't exist."));
-                return;
-            }
-            _config = File.ReadAllText(configPath).ToObject<LocalPublishConfig>();
+            _config = configPath.ToObject<LocalPublishConfig>();
             if (_config == null)
             {
                 _logger.Error("Invalid jira config", new JsonException("Json is invalid"));

@@ -6,6 +6,6 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
 {
     internal interface IIssueTrackerFactory
     {
-        IIssueTrackerProvider GetProvider(JObject settings);
+        IIssueTrackerProvider GetProvider(Config settings);
     }
 }

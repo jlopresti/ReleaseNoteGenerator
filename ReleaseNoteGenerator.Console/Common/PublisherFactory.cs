@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json.Linq;
 using ReleaseNoteGenerator.Console.Models;
 
@@ -5,11 +6,15 @@ namespace ReleaseNoteGenerator.Console.Common
 {
     class PublisherFactory : IPublisherFactory
     {
-        public IPublisher GetProvider(JObject settings)
+        public IPublisher GetProvider(Config settings)
         {
-            if (string.IsNullOrEmpty(settings.ConfigPath))
-                return new NoOpPublisher();
-            return new LocalPublisher(settings.ConfigPath);
+            switch (settings.PublishType)
+            {
+                case Publish.Local:
+                    return new LocalPublisher(settings.Publish);
+                default:
+                    return new NoOpPublisher();
+            }                       
         }
     }
 }
