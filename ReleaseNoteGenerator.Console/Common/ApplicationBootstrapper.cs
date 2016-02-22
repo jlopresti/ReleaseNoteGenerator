@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using CommandLine;
 using log4net;
 using log4net.Appender;
@@ -22,6 +24,7 @@ namespace ReleaseNoteGenerator.Console.Common
         {
             _kernel = new StandardKernel();
             _kernel.Bind<SettingsWrapper<TParam>>().ToSelf().InTransientScope();
+
             AddDependency<IConsoleApplication, TApp>();
             AddDependency<TParam, TParam>();
         }
@@ -34,7 +37,7 @@ namespace ReleaseNoteGenerator.Console.Common
 
         public IApplicationBootstrapper<TApp, TParam> ConfigureLogging()
         {
-            var appender = new ColoredConsoleAppender() { Layout = new PatternLayout("%level [%thread] %d{HH:mm:ss} - %message%newline") };
+            var appender = new ColoredConsoleAppender() { Layout = new PatternLayout("%level %d{HH:mm:ss} - %message%newline") };
             appender.AddMapping(new ColoredConsoleAppender.LevelColors { Level = Level.Debug, ForeColor = ColoredConsoleAppender.Colors.Cyan | ColoredConsoleAppender.Colors.HighIntensity });
             appender.AddMapping(new ColoredConsoleAppender.LevelColors { Level = Level.Info, ForeColor = ColoredConsoleAppender.Colors.Green | ColoredConsoleAppender.Colors.HighIntensity });
             appender.AddMapping(new ColoredConsoleAppender.LevelColors { Level = Level.Warn, ForeColor = ColoredConsoleAppender.Colors.Purple | ColoredConsoleAppender.Colors.HighIntensity });
@@ -54,23 +57,35 @@ namespace ReleaseNoteGenerator.Console.Common
 
         public int Start(string[] args)
         {
-            var settings = _kernel.Get<SettingsWrapper<TParam>>();
-            if (Parser.Default.ParseArguments(args, settings.Value))
+            try
             {
-                SetupLoggingLevel(settings);
-                var task = _kernel.Get<IConsoleApplication>().Run(args);
-                task.Wait();
-                if (task.Result == Constants.SUCCESS_EXIT_CODE)
-                    _exitOnAction();
-                return task.Result;
+                var settings = _kernel.Get<SettingsWrapper<TParam>>();
+                if (Parser.Default.ParseArguments(args, settings.Value))
+                {
+                    SetupLoggingLevel(settings);
+                    var task = _kernel.Get<IConsoleApplication>().Run(args);
+                    task.Wait();
+                    if (task.Result == Constants.SUCCESS_EXIT_CODE)
+                        _exitOnAction();
+                    return task.Result;
+                }
             }
+            catch (Exception ex)
+            {
+                _logger.Error("An unexpected error occurred",ex);
+            }
+
             return Constants.FAIL_EXIT_CODE;
         }
 
         private void SetupLoggingLevel(SettingsWrapper<TParam> settings)
         {
             if (_hierarchy == null) return;
-            if (settings.Verbose) _hierarchy.Root.Level = Level.Verbose;
+            if (settings.Verbose)
+            {
+                _hierarchy.Root.Level = Level.Verbose;
+                _logger.Debug("Enable debug mode");
+            }
         }
 
         public IApplicationBootstrapper<TApp, TParam> ExitOn(ConsoleKey key)

@@ -1,25 +1,28 @@
 ﻿{
   "sourceControl": {
-    "host": "XXX",
-    "login": "XXX",
-    "apikey": "XXX",
-    "owner": "XXX",
-    "project": "XXX",
+    "provider": "stubs",
+    "host": "http://toto",
+    "login": "julien",
+    "apikey": "123",
+    "owner": "JiLo",
+    "project": "JLO",
     "prodBranch": "master",
-    "releaseBranchPattern": "release/.*"
+    "releaseBranchPattern": "release/.*",
+    "messageCommitPattern" : "sgr-\\w*"
   },
   "issueTracker": {
-    "host": "XXX",
-    "login": "XXX",
-    "password": "XXX",
-    "project": "XXX"
+    "provider": "stub",
+    "host": "Jira",
+    "login": "julien",
+    "password": "toto",
+    "project": "JLO"
   },
   "template": {
-    "type": "html",
-    "html": "<b>@Model.Commits[0].Title</b>"
+    "provider": "htmlFile",
+    "htmlFile": "C:\\Users\\Julien\\Documents\\Source\\Poc\\ReleaseNoteGenerator\\ReleaseNoteGenerator.Console\\bin\\Debug\\template.html"
   },
   "publish": {
-    "type": "local",
+    "provider": "local",
     "outputFile": "toto.html"
   }
 }

@@ -4,7 +4,7 @@ using ReleaseNoteGenerator.Console.Models;
 
 namespace ReleaseNoteGenerator.Console.IssueTracker
 {
-    internal interface IIssueTrackerFactory
+    public interface IIssueTrackerFactory
     {
         IIssueTrackerProvider GetProvider(Config settings);
     }

@@ -79,32 +79,43 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\ProviderNotFoundException.cs" />
+    <Compile Include="Linker\IReleaseNoteLinker.cs" />
     <Compile Include="Common\ApplicationBootstrapper.cs" />
-    <Compile Include="Common\Config.cs" />
+    <Compile Include="IssueTracker\DistinctIssueProvider.cs" />
+    <Compile Include="IssueTracker\StubIssueTracker.cs" />
+    <Compile Include="Models\Config.cs" />
     <Compile Include="Common\Constants.cs" />
-    <Compile Include="Common\HtmlFileTemplateConfig.cs" />
-    <Compile Include="Common\HtmlFileTemplateProvider.cs" />
-    <Compile Include="Common\HtmlTemplateProvider.cs" />
-    <Compile Include="Common\IPublisher.cs" />
-    <Compile Include="Common\IPublisherFactory.cs" />
-    <Compile Include="Common\IReleaseNoteKey.cs" />
-    <Compile Include="Common\ITemplateProvider.cs" />
-    <Compile Include="Common\ITemplateProviderFactory.cs" />
+    <Compile Include="Helpers\JObjectExtensions.cs" />
+    <Compile Include="Models\Publisher\EmailPublishConfig.cs" />
+    <Compile Include="Models\Template\HtmlFileTemplateConfig.cs" />
+    <Compile Include="Publlsher\EmailPublisher.cs" />
+    <Compile Include="SourceControl\DistinctCommitSourceControl.cs" />
+    <Compile Include="SourceControl\EnrichCommitWithIssueTrackeProvider.cs" />
+    <Compile Include="SourceControl\ProviderAttribute.cs" />
+    <Compile Include="SourceControl\StubSourceControl.cs" />
+    <Compile Include="TemplateProvider\HtmlFileTemplateProvider.cs" />
+    <Compile Include="TemplateProvider\HtmlTemplateProvider.cs" />
+    <Compile Include="Publlsher\IPublisher.cs" />
+    <Compile Include="Publlsher\IPublisherFactory.cs" />
+    <Compile Include="Models\IReleaseNoteKey.cs" />
+    <Compile Include="TemplateProvider\ITemplateProvider.cs" />
+    <Compile Include="TemplateProvider\ITemplateProviderFactory.cs" />
     <Compile Include="Common\IVerbose.cs" />
-    <Compile Include="Common\LocalPublishConfig.cs" />
-    <Compile Include="Common\LocalPublisher.cs" />
-    <Compile Include="Common\NoOpPublisher.cs" />
-    <Compile Include="Common\PublisherFactory.cs" />
-    <Compile Include="Common\ReleaseNoteBinder.cs" />
-    <Compile Include="Common\ReleaseNoteEntry.cs" />
-    <Compile Include="Common\ReleaseNoteKeyComparer.cs" />
+    <Compile Include="Models\Publisher\LocalPublishConfig.cs" />
+    <Compile Include="Publlsher\LocalPublisher.cs" />
+    <Compile Include="Publlsher\NoOpPublisher.cs" />
+    <Compile Include="Publlsher\PublisherFactory.cs" />
+    <Compile Include="Linker\ReleaseNoteLinker.cs" />
+    <Compile Include="Models\Binder\ReleaseNoteEntry.cs" />
+    <Compile Include="Helpers\ReleaseNoteKeyComparer.cs" />
     <Compile Include="Common\SettingsWrapper.cs" />
-    <Compile Include="Common\Status.cs" />
-    <Compile Include="Common\HtmlTemplateConfig.cs" />
-    <Compile Include="Common\TemplateProviderFactory.cs" />
-    <Compile Include="Common\Utils.cs" />
-    <Compile Include="Models\Commit.cs" />
-    <Compile Include="Models\Issue.cs" />
+    <Compile Include="Models\Status.cs" />
+    <Compile Include="Models\Template\HtmlTemplateConfig.cs" />
+    <Compile Include="TemplateProvider\TemplateProviderFactory.cs" />
+    <Compile Include="Helpers\Utils.cs" />
+    <Compile Include="Models\SourceControl\Commit.cs" />
+    <Compile Include="Models\IssueTracker\Issue.cs" />
     <Compile Include="SourceControl\GithubSourceControl.cs" />
     <Compile Include="IssueTracker\IIssueTrackerFactory.cs" />
     <Compile Include="IssueTracker\IIssueTrackerProvider.cs" />
@@ -116,12 +127,11 @@
     <Compile Include="Helpers\LogExtensions.cs" />
     <Compile Include="Common\IConsoleApplication.cs" />
     <Compile Include="Common\IApplicationBootstrapper.cs" />
-    <Compile Include="Models\ApplicationSettings.cs" />
-    <Compile Include="Models\JiraConfig.cs" />
-    <Compile Include="Models\GithubConfig.cs" />
+    <Compile Include="Models\IssueTracker\JiraConfig.cs" />
+    <Compile Include="Models\SourceControl\GithubConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Common\ReleaseNoteGeneratorConsoleApplication.cs" />
+    <Compile Include="ReleaseNoteGeneratorConsoleApplication.cs" />
     <Compile Include="Models\Settings.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -131,9 +141,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TemplateProvider\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

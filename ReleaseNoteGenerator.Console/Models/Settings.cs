@@ -1,9 +1,10 @@
 ﻿using CommandLine;
 using CommandLine.Text;
+using ReleaseNoteGenerator.Console.Common;
 
 namespace ReleaseNoteGenerator.Console.Models
 {
-    public class Settings : ApplicationSettings
+    public class Settings : IVerbose
     {
         [Option('c', "config", Required = true, HelpText = "Config path used to generate release note")]
         public string ConfigPath { get; set; }
@@ -11,8 +12,8 @@ namespace ReleaseNoteGenerator.Console.Models
         [Option('r', "release", Required = true, HelpText = "Release number")]
         public string ReleaseNumber { get; set; }
 
-        [Option('p', "issue-id-pattern", Required = true, HelpText = "Pattern to extract issue id from commit message")]
-        public string IssueIdPattern { get; set; }
+        [Option('v', "verbose", Required = false, HelpText = "Enable verbose mode.")]
+        public bool Verbose { get; set; }
 
         [ParserState]
         public IParserState LastParserState { get; set; }
