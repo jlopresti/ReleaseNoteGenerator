@@ -8,6 +8,7 @@ using log4net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Octokit;
+using ReleaseNoteGenerator.Console.Common;
 using ReleaseNoteGenerator.Console.SourceControl;
 using IT = ReleaseNoteGenerator.Console.Models.IssueTracker;
 

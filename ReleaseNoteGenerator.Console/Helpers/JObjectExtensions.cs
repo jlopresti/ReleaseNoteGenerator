@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
+using ReleaseNoteGenerator.Console.Common;
 using ReleaseNoteGenerator.Console.SourceControl;
 
 namespace ReleaseNoteGenerator.Console.Helpers

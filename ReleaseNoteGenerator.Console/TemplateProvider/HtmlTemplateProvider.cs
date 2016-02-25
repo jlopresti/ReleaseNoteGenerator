@@ -1,10 +1,11 @@
-using System.Collections.Generic;
+    using System.Collections.Generic;
 using System.IO;
 using log4net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RazorEngine;
 using RazorEngine.Templating;
+using ReleaseNoteGenerator.Console.Common;
 using ReleaseNoteGenerator.Console.Models.Binder;
 using ReleaseNoteGenerator.Console.Models.Template;
 using ReleaseNoteGenerator.Console.SourceControl;

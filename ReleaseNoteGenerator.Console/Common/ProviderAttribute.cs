@@ -1,6 +1,6 @@
 using System;
 
-namespace ReleaseNoteGenerator.Console.SourceControl
+namespace ReleaseNoteGenerator.Console.Common
 {
     public class ProviderAttribute : Attribute
     {

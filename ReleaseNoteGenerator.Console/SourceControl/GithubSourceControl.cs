@@ -6,6 +6,7 @@ using log4net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Octokit;
+using ReleaseNoteGenerator.Console.Common;
 using SC = ReleaseNoteGenerator.Console.Models.SourceControl;
 
 namespace ReleaseNoteGenerator.Console.SourceControl

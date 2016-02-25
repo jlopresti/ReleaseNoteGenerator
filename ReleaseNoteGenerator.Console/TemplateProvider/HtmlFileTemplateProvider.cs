@@ -6,6 +6,7 @@ using Newtonsoft.Json.Linq;
 using RazorEngine;
 using RazorEngine.Configuration;
 using RazorEngine.Templating;
+using ReleaseNoteGenerator.Console.Common;
 using ReleaseNoteGenerator.Console.Models.Binder;
 using ReleaseNoteGenerator.Console.Models.Template;
 using ReleaseNoteGenerator.Console.SourceControl;

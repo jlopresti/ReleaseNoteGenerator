@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using log4net;
 using Newtonsoft.Json.Linq;
 using ReleaseNoteGenerator.Console.Helpers;
 using ReleaseNoteGenerator.Console.IssueTracker;
@@ -10,6 +11,7 @@ namespace ReleaseNoteGenerator.Console.SourceControl
 {
     public class EnrichCommitWithIssueTrackeProvider : ISourceControlProvider
     {
+        readonly ILog _logger = LogManager.GetLogger(typeof(EnrichCommitWithIssueTrackeProvider));
         private readonly ISourceControlProvider _innerSourceControlProvider;
         private readonly IIssueTrackerProvider _issueTrackerProvider;
         private string _pattern;
@@ -18,6 +20,8 @@ namespace ReleaseNoteGenerator.Console.SourceControl
             IIssueTrackerProvider issueTrackerProvider, 
             JObject config)
         {
+            Guard.IsNotNull(innerSourceControlProvider, issueTrackerProvider, config);
+
             _innerSourceControlProvider = innerSourceControlProvider;
             _issueTrackerProvider = issueTrackerProvider;
             _pattern = config.GetCommitMessagePattern();
@@ -25,6 +29,8 @@ namespace ReleaseNoteGenerator.Console.SourceControl
 
         public async Task<List<Commit>> GetCommits(string releaseNumber)
         {
+            Guard.IsNotNullOrEmpty(releaseNumber);
+
             var result = await _innerSourceControlProvider.GetCommits(releaseNumber);
             if (!string.IsNullOrWhiteSpace(_pattern))
             {
@@ -35,6 +41,7 @@ namespace ReleaseNoteGenerator.Console.SourceControl
 
         private void ApplyKeyExtractionFromMessage(List<Commit> commits, string pattern)
         {
+            _logger.Debug("[SC] Try extracting issue tracker key from commit message");
             for (int index = 0; index < commits.Count; index++)
             {
                 var commit = commits[index];
@@ -49,6 +56,7 @@ namespace ReleaseNoteGenerator.Console.SourceControl
                     }
                     else if (issue != null && issue.Type.Equals("defect", StringComparison.InvariantCultureIgnoreCase))
                     {
+                        _logger.Debug($"[SC] Removing commit with key : {issue.Id} from list, because it's a defect");
                         commits.Remove(commit);
                     }
                 }

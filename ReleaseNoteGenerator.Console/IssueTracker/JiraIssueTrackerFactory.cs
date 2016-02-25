@@ -14,11 +14,13 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
         readonly ILog _logger = LogManager.GetLogger(typeof(JiraIssueTrackerFactory));
         public IIssueTrackerProvider GetProvider(Config settings)
         {
-            _logger.Debug("Try getting issue tracker provider from config");
+            Guard.IsNotNull(settings);
+
+            _logger.Debug("[IT] Try getting issue tracker provider from config");
             var provider = settings.IssueTracker.GetTypeProvider<IIssueTrackerProvider>();
             if (provider != null)
             {
-                _logger.DebugFormat("Issue tracker provider found : {0}", provider.Name);
+                _logger.DebugFormat("[IT] Issue tracker provider found : {0}", provider.Name);
                 var it = (IIssueTrackerProvider)Activator.CreateInstance(provider, settings.IssueTracker);
                 return new DistinctIssueProvider(it);
             }

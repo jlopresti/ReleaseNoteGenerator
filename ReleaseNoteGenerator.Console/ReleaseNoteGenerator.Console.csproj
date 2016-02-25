@@ -79,7 +79,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ProviderAttribute.cs" />
     <Compile Include="Exceptions\ProviderNotFoundException.cs" />
+    <Compile Include="Helpers\Guard.cs" />
     <Compile Include="Linker\IReleaseNoteLinker.cs" />
     <Compile Include="Common\ApplicationBootstrapper.cs" />
     <Compile Include="IssueTracker\DistinctIssueProvider.cs" />
@@ -92,7 +94,6 @@
     <Compile Include="Publlsher\EmailPublisher.cs" />
     <Compile Include="SourceControl\DistinctCommitSourceControl.cs" />
     <Compile Include="SourceControl\EnrichCommitWithIssueTrackeProvider.cs" />
-    <Compile Include="SourceControl\ProviderAttribute.cs" />
     <Compile Include="SourceControl\StubSourceControl.cs" />
     <Compile Include="TemplateProvider\HtmlFileTemplateProvider.cs" />
     <Compile Include="TemplateProvider\HtmlTemplateProvider.cs" />

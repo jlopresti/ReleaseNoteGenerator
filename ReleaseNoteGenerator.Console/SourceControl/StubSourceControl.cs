@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using ReleaseNoteGenerator.Console.Common;
 using ReleaseNoteGenerator.Console.Models.SourceControl;
 
 namespace ReleaseNoteGenerator.Console.SourceControl

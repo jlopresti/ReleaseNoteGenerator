@@ -4,6 +4,7 @@ using System.Net.Mail;
 using log4net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ReleaseNoteGenerator.Console.Common;
 using ReleaseNoteGenerator.Console.Models.Publisher;
 using ReleaseNoteGenerator.Console.SourceControl;
 using RestSharp.Contrib;

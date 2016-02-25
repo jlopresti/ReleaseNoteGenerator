@@ -12,11 +12,13 @@ namespace ReleaseNoteGenerator.Console.Publlsher
         readonly ILog _logger = LogManager.GetLogger(typeof(GithubSourceControlFactory));
         public IPublisher GetProvider(Config settings)
         {
-            _logger.Debug("Try getting publisher provider from config");
+            Guard.IsNotNull(settings);
+
+            _logger.Debug("[PBS] Try getting publisher provider from config");
             var provider = settings.Publish.GetTypeProvider<IPublisher>();
             if (provider != null)
             {
-                _logger.DebugFormat("Publisher provider found : {0}", provider.Name);
+                _logger.DebugFormat("[PBS] Publisher provider found : {0}", provider.Name);
                 return (IPublisher)Activator.CreateInstance(provider, settings.Publish);
             }
             throw new ProviderNotFoundException(settings.Publish.GetProvider());

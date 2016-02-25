@@ -1,4 +1,5 @@
-﻿using ReleaseNoteGenerator.Console.SourceControl;
+﻿using ReleaseNoteGenerator.Console.Common;
+using ReleaseNoteGenerator.Console.SourceControl;
 
 namespace ReleaseNoteGenerator.Console.Publlsher
 {

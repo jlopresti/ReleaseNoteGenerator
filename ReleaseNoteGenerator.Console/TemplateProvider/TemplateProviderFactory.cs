@@ -12,11 +12,13 @@ namespace ReleaseNoteGenerator.Console.TemplateProvider
         readonly ILog _logger = LogManager.GetLogger(typeof(GithubSourceControlFactory));
         public ITemplateProvider GetProvider(Config settings)
         {
-            _logger.Debug("Try getting template provider from config");
+            Guard.IsNotNull(settings);
+
+            _logger.Debug("[TMP] Try getting template provider from config");
             var provider = settings.Template.GetTypeProvider<ITemplateProvider>();
             if (provider != null)
             {
-                _logger.DebugFormat("Template provider found : {0}", provider.Name);
+                _logger.DebugFormat("[TMP] Template provider found : {0}", provider.Name);
                 return (ITemplateProvider)Activator.CreateInstance(provider, settings.Template);
             }
             throw new ProviderNotFoundException(settings.Template.GetProvider());

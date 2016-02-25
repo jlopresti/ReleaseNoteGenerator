@@ -22,11 +22,11 @@ namespace ReleaseNoteGenerator.Console.SourceControl
 
         public ISourceControlProvider GetProvider(Config settings)
         {
-            _logger.Debug("Try getting source control provider from config");
+            _logger.Debug("[SC] Try getting source control provider from config");
             var provider = settings.SourceControl.GetTypeProvider<ISourceControlProvider>();
             if (provider != null)
             {
-                _logger.DebugFormat("Source control provider found : {0}", provider.Name);
+                _logger.DebugFormat("[SC] Source control provider found : {0}", provider.Name);
                 var sc = (ISourceControlProvider)Activator.CreateInstance(provider, settings.SourceControl);
                 return new DistinctCommitSourceControl(new EnrichCommitWithIssueTrackeProvider(sc, _issueTrackerFactory.GetProvider(settings), settings.SourceControl));
             }

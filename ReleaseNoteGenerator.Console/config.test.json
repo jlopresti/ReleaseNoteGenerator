@@ -1,6 +1,6 @@
 ﻿{
   "sourceControl": {
-    "provider": "stubs",
+    "provider": "stub",
     "host": "http://toto",
     "login": "julien",
     "apikey": "123",
