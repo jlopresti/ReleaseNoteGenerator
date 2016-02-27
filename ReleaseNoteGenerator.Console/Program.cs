@@ -19,7 +19,7 @@ namespace ReleaseNoteGenerator.Console
         {
             return new ApplicationBootstrapper<ReleaseNoteGeneratorConsoleApplication, Settings>()
                 .AddDependency<IReleaseNoteLinker, ReleaseNoteLinker>()
-                .AddDependency<ISourceControlFactory, GithubSourceControlFactory>()
+                .AddDependency<ISourceControlFactory, SourceControlFactory>()
                 .AddDependency<IIssueTrackerFactory, JiraIssueTrackerFactory>()
                 .AddDependency<ITemplateProviderFactory, TemplateProviderFactory>()
                 .AddDependency<IPublisherFactory, PublisherFactory>()

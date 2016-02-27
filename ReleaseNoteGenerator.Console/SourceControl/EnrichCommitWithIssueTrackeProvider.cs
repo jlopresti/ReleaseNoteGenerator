@@ -20,7 +20,7 @@ namespace ReleaseNoteGenerator.Console.SourceControl
             IIssueTrackerProvider issueTrackerProvider, 
             JObject config)
         {
-            Guard.IsNotNull(innerSourceControlProvider, issueTrackerProvider, config);
+            Guard.IsNotNull(() => innerSourceControlProvider, () => issueTrackerProvider,() => config);
 
             _innerSourceControlProvider = innerSourceControlProvider;
             _issueTrackerProvider = issueTrackerProvider;
@@ -29,7 +29,7 @@ namespace ReleaseNoteGenerator.Console.SourceControl
 
         public async Task<List<Commit>> GetCommits(string releaseNumber)
         {
-            Guard.IsNotNullOrEmpty(releaseNumber);
+            Guard.IsNotNullOrEmpty(() => releaseNumber);
 
             var result = await _innerSourceControlProvider.GetCommits(releaseNumber);
             if (!string.IsNullOrWhiteSpace(_pattern))

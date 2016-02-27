@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using CommandLine;
 using log4net;
 using log4net.Appender;
@@ -9,7 +7,6 @@ using log4net.Core;
 using log4net.Layout;
 using log4net.Repository.Hierarchy;
 using Ninject;
-using ReleaseNoteGenerator.Console.Models;
 
 namespace ReleaseNoteGenerator.Console.Common
 {
@@ -64,11 +61,15 @@ namespace ReleaseNoteGenerator.Console.Common
                 {
                     SetupLoggingLevel(settings);
                     var task = _kernel.Get<IConsoleApplication>().Run(args);
-                    task.Wait();
-                    if (task.Result == Constants.SUCCESS_EXIT_CODE)
+                    task.ConfigureAwait(false).GetAwaiter().GetResult();
+                    if (task.Result == Constants.SUCCESS_EXIT_CODE && !settings.Silent)
                         _exitOnAction();
                     return task.Result;
                 }
+            }
+            catch (ApplicationException ex)
+            {
+                _logger.Error(ex.Message);   
             }
             catch (Exception ex)
             {

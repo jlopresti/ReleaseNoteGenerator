@@ -12,7 +12,7 @@ namespace ReleaseNoteGenerator.Console.Helpers
         public static string GetProvider(this JObject obj)
         {
             JToken token;
-            if (obj.TryGetValue("provider", out token))
+            if (obj != null && obj.TryGetValue("provider", out token))
             {
                 return token.ToString();
             }
@@ -21,7 +21,7 @@ namespace ReleaseNoteGenerator.Console.Helpers
         public static string GetCommitMessagePattern(this JObject obj)
         {
             JToken token;
-            if (obj.TryGetValue("messageCommitPattern", out token))
+            if (obj != null && obj.TryGetValue("messageCommitPattern", out token))
             {
                 return token.ToString();
             }

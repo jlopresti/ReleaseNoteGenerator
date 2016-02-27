@@ -1,6 +1,6 @@
 namespace ReleaseNoteGenerator.Console.Common
 {
-    public class SettingsWrapper<T> : IVerbose
+    public class SettingsWrapper<T> : IVerboseParameter, ISilentParameter
     {
         private readonly T _settings;
 
@@ -13,11 +13,21 @@ namespace ReleaseNoteGenerator.Console.Common
         {
             get
             {
-                var v = _settings as IVerbose;
+                var v = _settings as IVerboseParameter;
                 return v != null && v.Verbose;
             }
         }
 
+        public bool Silent
+        {
+            get
+            {
+                var v = _settings as ISilentParameter;
+                return v != null && v.Silent;
+            }
+        }
+
         public T Value { get { return _settings; } }
+
     }
 }

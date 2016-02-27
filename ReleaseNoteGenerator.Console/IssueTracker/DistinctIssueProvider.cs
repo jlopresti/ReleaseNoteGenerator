@@ -15,7 +15,7 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
 
         public DistinctIssueProvider(IIssueTrackerProvider innerSourceControlProvider)
         {
-            Guard.IsNotNull(innerSourceControlProvider);
+            Guard.IsNotNull(() => innerSourceControlProvider);
 
             _innerSourceControlProvider = innerSourceControlProvider;
         }
@@ -23,7 +23,7 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
 
         public async Task<List<Issue>> GetIssues(string release)
         {
-            Guard.IsNotNullOrEmpty(release);
+            Guard.IsNotNullOrEmpty(() => release);
 
             var result = await _innerSourceControlProvider.GetIssues(release);
             _logger.Debug($"[IT] Getting {result.Count} items from issue tracker");
@@ -34,7 +34,7 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
 
         public Issue GetIssue(string id)
         {
-            Guard.IsNotNullOrEmpty(id);
+            Guard.IsNotNullOrEmpty(() => id);
 
             _logger.Debug($"[IT] Getting issue {id} from issue tracker");
             return _innerSourceControlProvider.GetIssue(id);

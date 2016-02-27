@@ -6,7 +6,7 @@ namespace ReleaseNoteGenerator.Console.Publlsher
     [Provider("noop")]
     internal class NoOpPublisher : IPublisher
     {
-        public bool Publish(string output)
+        public bool Publish(string releaseNumber, string output)
         {
             return true;
         }

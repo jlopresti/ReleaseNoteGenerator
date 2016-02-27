@@ -25,7 +25,7 @@ namespace ReleaseNoteGenerator.Console.Linker
         {
             return commits.Where(x => !x.HasExtractedKey).Select(x => new ReleaseNoteEntry
             {
-                Id = x.Id,
+                Id = "Unknown",
                 Title = x.Title,
                 Author = x.Author,
                 CommitUrl = x.Url,

@@ -1,9 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using log4net;
+using Newtonsoft.Json;
+using ReleaseNoteGenerator.Console.IssueTracker;
 
 namespace ReleaseNoteGenerator.Console.Helpers
 {
     public static class JsonExtentensions
     {
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(DistinctIssueProvider));
         public static T ToObject<T>(this string json)
         {
             if (string.IsNullOrEmpty(json)) return default(T);
@@ -14,6 +17,7 @@ namespace ReleaseNoteGenerator.Console.Helpers
             }
             catch (JsonException ex)
             {
+                _logger.Debug("Invalid json", ex);
                 return default(T);
             }   
         }

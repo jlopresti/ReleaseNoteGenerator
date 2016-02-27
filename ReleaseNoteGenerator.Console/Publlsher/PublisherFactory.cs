@@ -9,19 +9,21 @@ namespace ReleaseNoteGenerator.Console.Publlsher
 {
     class PublisherFactory : IPublisherFactory
     {
-        readonly ILog _logger = LogManager.GetLogger(typeof(GithubSourceControlFactory));
+        readonly ILog _logger = LogManager.GetLogger(typeof(SourceControlFactory));
         public IPublisher GetProvider(Config settings)
         {
-            Guard.IsNotNull(settings);
+            Guard.IsValidConfig(() => settings);
+            Guard.ProviderRequired(() => settings.Publish);
 
             _logger.Debug("[PBS] Try getting publisher provider from config");
             var provider = settings.Publish.GetTypeProvider<IPublisher>();
             if (provider != null)
             {
+                Guard.ValidateConfigParameter(provider, () => settings.Publish);
                 _logger.DebugFormat("[PBS] Publisher provider found : {0}", provider.Name);
                 return (IPublisher)Activator.CreateInstance(provider, settings.Publish);
             }
-            throw new ProviderNotFoundException(settings.Publish.GetProvider());
+            throw new ApplicationException($"No provider found with id : {settings.Publish.GetProvider()}");
         }
     }
 }

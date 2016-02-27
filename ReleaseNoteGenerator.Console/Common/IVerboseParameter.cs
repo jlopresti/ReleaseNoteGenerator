@@ -1,6 +1,6 @@
 namespace ReleaseNoteGenerator.Console.Common
 {
-    public interface IVerbose
+    public interface IVerboseParameter
     {
         bool Verbose { get; }
     }

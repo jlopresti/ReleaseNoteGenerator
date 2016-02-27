@@ -1,0 +1,16 @@
+﻿{
+  "sourceControl": {
+    "provider": "stub"
+  },
+  "issueTracker": {
+    "provider": "stub"
+  },
+  "template": {
+    "provider": "htmlFile",
+    "file": "template.html"
+  },
+  "publish": {
+    "provider": "local",
+    "outputfile": "note.html"
+  }
+}

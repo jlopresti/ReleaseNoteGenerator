@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,15 +15,16 @@ namespace ReleaseNoteGenerator.Console.SourceControl
         {
             
         }
-        public Task<List<Commit>> GetCommits(string releaseNumber)
+        public async Task<List<Commit>> GetCommits(string releaseNumber)
         {
             var commits = new List<Commit>();
-            commits.Add(new Commit() { Author = "Jilo", Title = "SGR-1 : Hello world 1" });
+            commits.Add(new Commit() { Author = "Jilo", Title = "CLOUD-8679 : Hello world 1" });
             commits.Add(new Commit() { Author = "Jilo", Title = "SGR-2 : Hello world 2" });
             commits.Add(new Commit() { Author = "Jilo", Title = "SGR-2 : Hello world 2bis" });
             commits.Add(new Commit() { Author = "Jilo", Title = "SGR-3 : Hello world 3" });
             commits.Add(new Commit() { Author = "Jilo", Title = "Hello world" });
-            return Task.FromResult(commits);
+            await Task.Delay(5000);
+            return commits;
         }
     }
 }

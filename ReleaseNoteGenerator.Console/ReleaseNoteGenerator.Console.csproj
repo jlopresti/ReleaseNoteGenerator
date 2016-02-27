@@ -79,9 +79,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ConfigurationParameterValidationAttribute.cs" />
+    <Compile Include="Common\IConfigurationValidationAttribute.cs" />
+    <Compile Include="Common\ISilentParameter.cs" />
     <Compile Include="Common\ProviderAttribute.cs" />
     <Compile Include="Exceptions\ProviderNotFoundException.cs" />
     <Compile Include="Helpers\Guard.cs" />
+    <Compile Include="Helpers\RazorEngineWrapper.cs" />
     <Compile Include="Linker\IReleaseNoteLinker.cs" />
     <Compile Include="Common\ApplicationBootstrapper.cs" />
     <Compile Include="IssueTracker\DistinctIssueProvider.cs" />
@@ -90,6 +94,7 @@
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Helpers\JObjectExtensions.cs" />
     <Compile Include="Models\Publisher\EmailPublishConfig.cs" />
+    <Compile Include="Models\ReleaseNoteViewModel.cs" />
     <Compile Include="Models\Template\HtmlFileTemplateConfig.cs" />
     <Compile Include="Publlsher\EmailPublisher.cs" />
     <Compile Include="SourceControl\DistinctCommitSourceControl.cs" />
@@ -102,7 +107,7 @@
     <Compile Include="Models\IReleaseNoteKey.cs" />
     <Compile Include="TemplateProvider\ITemplateProvider.cs" />
     <Compile Include="TemplateProvider\ITemplateProviderFactory.cs" />
-    <Compile Include="Common\IVerbose.cs" />
+    <Compile Include="Common\IVerboseParameter.cs" />
     <Compile Include="Models\Publisher\LocalPublishConfig.cs" />
     <Compile Include="Publlsher\LocalPublisher.cs" />
     <Compile Include="Publlsher\NoOpPublisher.cs" />
@@ -125,7 +130,6 @@
     <Compile Include="IssueTracker\JiraIssueTracker.cs" />
     <Compile Include="IssueTracker\JiraIssueTrackerFactory.cs" />
     <Compile Include="SourceControl\SourceControlFactory.cs" />
-    <Compile Include="Helpers\LogExtensions.cs" />
     <Compile Include="Common\IConsoleApplication.cs" />
     <Compile Include="Common\IApplicationBootstrapper.cs" />
     <Compile Include="Models\IssueTracker\JiraConfig.cs" />
@@ -137,12 +141,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="config.stub.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="config.test.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="template.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

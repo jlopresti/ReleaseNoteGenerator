@@ -15,14 +15,14 @@ namespace ReleaseNoteGenerator.Console.SourceControl
 
         public DistinctCommitSourceControl(ISourceControlProvider innerSourceControlProvider)
         {
-            Guard.IsNotNull(innerSourceControlProvider);
+            Guard.IsNotNull(() => innerSourceControlProvider);
 
             _innerSourceControlProvider = innerSourceControlProvider;
         }
 
         public async Task<List<Commit>> GetCommits(string releaseNumber)
         {
-            Guard.IsNotNullOrEmpty(releaseNumber);
+            Guard.IsNotNullOrEmpty(() => releaseNumber);
 
             var result = await _innerSourceControlProvider.GetCommits(releaseNumber);
             _logger.Debug($"[SC] Getting {result.Count} items from source control");

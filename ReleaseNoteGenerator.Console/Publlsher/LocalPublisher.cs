@@ -3,12 +3,14 @@ using log4net;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ReleaseNoteGenerator.Console.Common;
+using ReleaseNoteGenerator.Console.Helpers;
 using ReleaseNoteGenerator.Console.Models.Publisher;
 using ReleaseNoteGenerator.Console.SourceControl;
 
 namespace ReleaseNoteGenerator.Console.Publlsher
 {
     [Provider("local")]
+    [ConfigurationParameterValidation("outputfile")]
     internal class LocalPublisher : IPublisher
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(LocalPublisher));
@@ -17,14 +19,10 @@ namespace ReleaseNoteGenerator.Console.Publlsher
         public LocalPublisher(JObject configPath)
         {
             _config = configPath.ToObject<LocalPublishConfig>();
-            if (_config == null)
-            {
-                _logger.Error("Invalid jira config", new JsonException("Json is invalid"));
-                return;
-            }
+            Guard.IsNotNull(() => _config);
         }
 
-        public bool Publish(string output)
+        public bool Publish(string releaseNumber, string output)
         {
             File.WriteAllText(_config.OutputFile, output);
             return true;

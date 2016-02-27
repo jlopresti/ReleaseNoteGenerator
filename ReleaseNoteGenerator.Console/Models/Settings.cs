@@ -4,7 +4,7 @@ using ReleaseNoteGenerator.Console.Common;
 
 namespace ReleaseNoteGenerator.Console.Models
 {
-    public class Settings : IVerbose
+    public class Settings : IVerboseParameter, ISilentParameter
     {
         [Option('c', "config", Required = true, HelpText = "Config path used to generate release note")]
         public string ConfigPath { get; set; }
@@ -14,6 +14,9 @@ namespace ReleaseNoteGenerator.Console.Models
 
         [Option('v', "verbose", Required = false, HelpText = "Enable verbose mode.")]
         public bool Verbose { get; set; }
+
+        [Option('s', "silent", Required = false, HelpText = "Execute in silent mode.")]
+        public bool Silent { get; set; }
 
         [ParserState]
         public IParserState LastParserState { get; set; }

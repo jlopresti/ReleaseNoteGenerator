@@ -12,6 +12,7 @@ using SC = ReleaseNoteGenerator.Console.Models.SourceControl;
 namespace ReleaseNoteGenerator.Console.SourceControl
 {
     [Provider("github")]
+    [ConfigurationParameterValidation("host", "login", "apikey","owner","project", "prodBranch", "releaseBranchPattern")]
     public class GithubSourceControl : ISourceControlProvider
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(GithubSourceControl));
