@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using log4net;
 using Newtonsoft.Json.Linq;
@@ -15,6 +17,7 @@ namespace ReleaseNoteGenerator.Console.SourceControl
         private readonly ISourceControlProvider _innerSourceControlProvider;
         private readonly IIssueTrackerProvider _issueTrackerProvider;
         private string _pattern;
+        private string _excludePattern;
 
         public EnrichCommitWithIssueTrackeProvider(ISourceControlProvider innerSourceControlProvider, 
             IIssueTrackerProvider issueTrackerProvider, 
@@ -25,6 +28,7 @@ namespace ReleaseNoteGenerator.Console.SourceControl
             _innerSourceControlProvider = innerSourceControlProvider;
             _issueTrackerProvider = issueTrackerProvider;
             _pattern = config.GetCommitMessagePattern();
+            _excludePattern = config.GetExcludeCommitPattern();
         }
 
         public async Task<List<Commit>> GetCommits(string releaseNumber)
@@ -32,6 +36,11 @@ namespace ReleaseNoteGenerator.Console.SourceControl
             Guard.IsNotNullOrEmpty(() => releaseNumber);
 
             var result = await _innerSourceControlProvider.GetCommits(releaseNumber);
+            if (!string.IsNullOrEmpty(_excludePattern))
+            {
+                result = result.Where(x => !Regex.IsMatch(x.Title, _excludePattern, RegexOptions.IgnoreCase)).ToList();
+            }
+
             if (!string.IsNullOrWhiteSpace(_pattern))
             {
                 ApplyKeyExtractionFromMessage(result, _pattern);
@@ -58,6 +67,10 @@ namespace ReleaseNoteGenerator.Console.SourceControl
                     {
                         _logger.Debug($"[SC] Removing commit with key : {issue.Id} from list, because it's a defect");
                         commits.Remove(commit);
+                    }
+                    else
+                    {
+                        _logger.Debug($"[SC] {commit.Id} not found");
                     }
                 }
             }

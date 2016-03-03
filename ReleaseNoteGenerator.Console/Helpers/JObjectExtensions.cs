@@ -28,6 +28,16 @@ namespace ReleaseNoteGenerator.Console.Helpers
             return null;
         }
 
+        public static string GetExcludeCommitPattern(this JObject obj)
+        {
+            JToken token;
+            if (obj != null && obj.TryGetValue("excludeCommitPattern", out token))
+            {
+                return token.ToString();
+            }
+            return null;
+        }
+
         public static Type GetTypeProvider<T>(this JObject obj)
         {
             var provider = obj.GetProvider();
