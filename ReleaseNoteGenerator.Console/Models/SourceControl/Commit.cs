@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace ReleaseNoteGenerator.Console.Models.SourceControl
@@ -10,7 +11,7 @@ namespace ReleaseNoteGenerator.Console.Models.SourceControl
             Id = Guid.NewGuid().ToString();
         }
         public string Title { get; set; }
-        public string Author { get; set; }
+        public string Authors { get; set; }
         public string Url { get; set; }
         public string Id { get; set; }
         public bool HasExtractedKey { get; set; }

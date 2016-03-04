@@ -24,10 +24,10 @@ namespace ReleaseNoteGenerator.Console.TemplateProvider
             Guard.IsNotNull(() => _config);
         }
 
-        public string Build(List<ReleaseNoteEntry> entries)
+        public string Build(string releaseNumber, List<ReleaseNoteEntry> entries)
         {
             if (_config.Html == null) return string.Empty;
-            return _razor.Run(_config.Html, new ReleaseNoteViewModel { Tickets = entries });
+            return _razor.Run(_config.Html, new ReleaseNoteViewModel { Tickets = entries, Release = releaseNumber });
         }
     }
 }

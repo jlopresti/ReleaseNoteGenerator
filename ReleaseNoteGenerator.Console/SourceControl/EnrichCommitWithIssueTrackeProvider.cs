@@ -51,7 +51,7 @@ namespace ReleaseNoteGenerator.Console.SourceControl
         private void ApplyKeyExtractionFromMessage(List<Commit> commits, string pattern)
         {
             _logger.Debug("[SC] Try extracting issue tracker key from commit message");
-            for (int index = 0; index < commits.Count; index++)
+            for (int index = commits.Count-1; index >= 0; index--)
             {
                 var commit = commits[index];
                 commit.ExtractKeyFromTitle(pattern);

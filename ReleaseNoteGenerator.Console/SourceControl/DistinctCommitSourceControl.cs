@@ -26,7 +26,12 @@ namespace ReleaseNoteGenerator.Console.SourceControl
 
             var result = await _innerSourceControlProvider.GetCommits(releaseNumber);
             _logger.Debug($"[SC] Getting {result.Count} items from source control");
-            result = result.Distinct(new ReleaseNoteKeyComparer()).Cast<Commit>().ToList();
+            result = result.GroupBy(x => x.Id).Select(x =>
+            {
+                var c = x.First();
+                c.Authors = x.Aggregate(string.Empty, (a, b) => a + b.Authors + ";");
+                return c;
+            }).ToList();
             _logger.Debug($"[SC] Getting {result.Count} distincts items from source control after reducing");
             return result;
         }

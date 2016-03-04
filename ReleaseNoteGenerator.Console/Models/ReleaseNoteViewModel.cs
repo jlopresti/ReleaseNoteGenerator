@@ -6,5 +6,6 @@ namespace ReleaseNoteGenerator.Console.Models
     public class ReleaseNoteViewModel
     {
         public List<ReleaseNoteEntry> Tickets { get; set; }
+        public string Release { get; set; }
     }
 }

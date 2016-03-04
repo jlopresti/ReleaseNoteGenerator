@@ -66,7 +66,7 @@ namespace ReleaseNoteGenerator.Console
                 _logger.Info($"[APP] Start generating model for release {settings.ReleaseNumber}");
                 var releaseNoteModel = _releaseNoteLinker.Link(commits, issues);
                 _logger.Info($"[APP] Start generating release note for release {settings.ReleaseNumber}");
-                var output = templateProvider.Build(releaseNoteModel);
+                var output = templateProvider.Build(settings.ReleaseNumber, releaseNoteModel);
                 _logger.Debug($"[APP] Release note generated : \n{output}");
                 _logger.Info($"[APP] Start publishing for release {settings.ReleaseNumber}");
                 var result = publisher.Publish(settings.ReleaseNumber, output);

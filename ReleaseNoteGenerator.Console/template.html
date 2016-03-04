@@ -6,7 +6,7 @@
     <body>
         @foreach(var entry in Model.Tickets)
         {
-            <b>[@entry.Id] @entry.Title : @entry.Status</b> <br />
+            <b>[@entry.Id] @entry.Title : @entry.Status || @entry.Author</b> <br />
         }
     </body>
 </html>

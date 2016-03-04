@@ -1,6 +1,7 @@
 ﻿{
   "sourceControl": {
-    "provider": "stub"
+    "provider": "stub",
+    "messageCommitPattern": "sgr-\\w*"
   },
   "issueTracker": {
     "provider": "stub"

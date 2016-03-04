@@ -27,7 +27,7 @@ namespace ReleaseNoteGenerator.Console.Linker
             {
                 Id = "Unknown",
                 Title = x.Title,
-                Author = x.Author,
+                Authors = x.Authors,
                 CommitUrl = x.Url,
                 Status = Status.OnlyCommited
             }).ToList();
@@ -41,7 +41,7 @@ namespace ReleaseNoteGenerator.Console.Linker
                 {
                     Id = i.Id,
                     Title = i.Title,
-                    Author = c.Author,
+                    Authors = c.Authors,
                     CommitUrl = c.Url,
                     Status = Status.Ok
                 };
@@ -58,7 +58,7 @@ namespace ReleaseNoteGenerator.Console.Linker
             {
                 Id = x.Id,
                 Title = x.Title,
-                Author = x.Author,
+                Authors = x.Authors,
                 CommitUrl = x.Url,
                 Status = Status.OnlyCommited,
             }).ToList();
@@ -72,7 +72,7 @@ namespace ReleaseNoteGenerator.Console.Linker
             {
                 Id = x.Id,
                 Title = x.Title,
-                Author = string.Empty,
+                Authors = string.Empty,
                 Status = Status.OnlyAttachedInIssueTracker
             }).ToList();
         }

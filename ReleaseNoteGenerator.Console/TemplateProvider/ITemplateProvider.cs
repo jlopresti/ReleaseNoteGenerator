@@ -5,6 +5,6 @@ namespace ReleaseNoteGenerator.Console.TemplateProvider
 {
     public interface ITemplateProvider
     {
-        string Build(List<ReleaseNoteEntry> releaseNoteModel);
+        string Build(string releaseNumber, List<ReleaseNoteEntry> releaseNoteModel);
     }
 }

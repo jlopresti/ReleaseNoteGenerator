@@ -35,7 +35,7 @@ namespace ReleaseNoteGenerator.Console.SourceControl
         public async Task<List<SC.Commit>> GetCommits(string releaseNumber)
         {
             var compare = await _client.Repository.Commit.Compare(_config.Owner, _config.Project, "master", string.Format(_config.ReleaseBranchPattern, releaseNumber));
-            return compare.Commits.Select(x => new SC.Commit { Title = x.Commit.Message, Author = x.Author!= null ? x.Author.Login : "Unknown", Url = x.HtmlUrl}).ToList();
+            return compare.Commits.Select(x => new SC.Commit { Title = x.Commit.Message, Authors = x.Author!= null ? x.Author.Login : "Unknown", Url = x.HtmlUrl}).ToList();
         }
     }
 }
