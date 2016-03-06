@@ -62,6 +62,7 @@ namespace ReleaseNoteGenerator.Console.SourceControl
                     {
                         commit.Id = issue.Id;
                         commit.Title = issue.Title;
+                        commit.AdditionalData = issue.AdditionalData;
                     }
                     else if (issue != null && issue.Type.Equals("defect", StringComparison.InvariantCultureIgnoreCase))
                     {

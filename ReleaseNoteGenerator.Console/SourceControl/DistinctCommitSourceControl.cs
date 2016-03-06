@@ -29,7 +29,7 @@ namespace ReleaseNoteGenerator.Console.SourceControl
             result = result.GroupBy(x => x.Id).Select(x =>
             {
                 var c = x.First();
-                c.Authors = x.Aggregate(string.Empty, (a, b) => a + b.Authors + ";");
+                c.Authors = x.SelectMany(_ => _.Authors).Distinct().ToList();
                 return c;
             }).ToList();
             _logger.Debug($"[SC] Getting {result.Count} distincts items from source control after reducing");

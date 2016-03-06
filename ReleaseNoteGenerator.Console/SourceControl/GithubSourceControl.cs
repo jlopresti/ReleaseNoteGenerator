@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Threading.Tasks;
 using log4net;
 using Newtonsoft.Json;
@@ -12,7 +13,7 @@ using SC = ReleaseNoteGenerator.Console.Models.SourceControl;
 namespace ReleaseNoteGenerator.Console.SourceControl
 {
     [Provider("github")]
-    [ConfigurationParameterValidation("host", "login", "apikey","owner","project", "prodBranch", "releaseBranchPattern")]
+    [ConfigurationParameterValidation("host", "login", "apikey","owner","projects", "prodBranch", "releaseBranchPattern")]
     public class GithubSourceControl : ISourceControlProvider
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(GithubSourceControl));
@@ -34,8 +35,23 @@ namespace ReleaseNoteGenerator.Console.SourceControl
 
         public async Task<List<SC.Commit>> GetCommits(string releaseNumber)
         {
-            var compare = await _client.Repository.Commit.Compare(_config.Owner, _config.Project, "master", string.Format(_config.ReleaseBranchPattern, releaseNumber));
-            return compare.Commits.Select(x => new SC.Commit { Title = x.Commit.Message, Authors = x.Author!= null ? x.Author.Login : "Unknown", Url = x.HtmlUrl}).ToList();
+            var commits = new List<SC.Commit>();
+            foreach (var project in _config.Projects)
+            {
+                var compare = await _client.Repository.Commit.Compare(_config.Owner, project, _config.ProdBranch, string.Format(_config.ReleaseBranchPattern, releaseNumber));
+                var result = compare.Commits.Select(x =>
+                {
+                    var c = new SC.Commit
+                    {
+                        Title = x.Commit.Message,
+                        Url = x.HtmlUrl,
+                    };
+                    c.Authors.Add(x.Author?.Login);
+                    return c;
+                }).ToList();
+                commits.AddRange(result);
+            }
+            return commits;
         }
     }
 }

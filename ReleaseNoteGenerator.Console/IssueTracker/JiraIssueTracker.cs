@@ -37,7 +37,13 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
             Guard.IsNotNullOrEmpty(() => release);
 
             var issues = await _client.GetIssuesFromJqlAsync($"project = {_config.Project} AND fixVersion = {release}", null, 0, new CancellationToken());
-            return issues.Select(x => new IT.Issue { Id = x.Key.Value, Title = x.Summary, Type = x.Type.Name }).ToList();
+            var result = issues.Select(x =>
+            {
+                var issue = new IT.Issue {Id = x.Key.Value, Title = x.Summary, Type = x.Type.Name};
+                issue.AdditionalData.Add("Components", x.Components.Select(_=>_.Name).ToList());
+                return issue;
+            }).ToList();
+            return result;
         }
 
         public IT.Issue GetIssue(string id)
@@ -45,7 +51,9 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
             Guard.IsNotNullOrEmpty(() => id);
 
             var issue = _client.GetIssue(id);
-            return new IT.Issue { Id = issue.Key.Value, Title = issue.Summary, Type = issue.Type.Name };
+            var result = new IT.Issue { Id = issue.Key.Value, Title = issue.Summary, Type = issue.Type.Name };
+            result.AdditionalData.Add("Components", issue.Components.Select(_ => _.Name).ToList());
+            return result;
         }
     }
 }

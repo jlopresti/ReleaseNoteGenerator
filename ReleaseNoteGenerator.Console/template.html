@@ -3,12 +3,26 @@
     <head>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     </head>
-    <body>
-        @foreach(var entry in Model.Tickets)
-        {
-            <b>[@entry.Id] @entry.Title : @entry.Status || @entry.Author</b> <br />
-        }
-    </body>
+<body>
+
+    Version : @Model.Release<br />
+Components : @Model.Tickets.Where(x => x.AdditionalData.ContainsKey("Components")).SelectMany(x => (List<string>)x.AdditionalData["Components"]).Distinct().Aggregate("", (a,b) => a+b+";") <br/>
+
+@foreach(var c in Model.Tickets.Where(x => x.AdditionalData.ContainsKey("Components")).SelectMany(x => (List<string>)x.AdditionalData["Components"]).Distinct())
+    {
+    <h2>@c</h2>
+    foreach(var entry in Model.Tickets.Where(x => x.AdditionalData.ContainsKey("Components") && ((List<string>)x.AdditionalData["Components"]).Contains(c)))
+    {
+    <b>[@entry.Id] @entry.Title : @entry.Status || ( @entry.Authors.Aggregate("", (a,b) => a+b+";") )</b> <br />
+    }
+    }
+
+    <h2>Unknown</h2>
+    @foreach(var entry in Model.Tickets.Where(x => x.Id == "Unknown"))
+    {
+    <b>[@entry.Id] @entry.Title : @entry.Status || ( @entry.Authors.Aggregate("", (a,b) => a+b+";") )</b> <br />
+    }
+</body>
 </html>
 
 

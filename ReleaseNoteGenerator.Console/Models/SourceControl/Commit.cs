@@ -9,12 +9,14 @@ namespace ReleaseNoteGenerator.Console.Models.SourceControl
         public Commit()
         {
             Id = Guid.NewGuid().ToString();
+            Authors = new List<string>();
         }
         public string Title { get; set; }
-        public string Authors { get; set; }
+        public List<string> Authors { get; set; }
         public string Url { get; set; }
         public string Id { get; set; }
         public bool HasExtractedKey { get; set; }
+        public IDictionary<string, object> AdditionalData { get; set; }
 
         public void ExtractKeyFromTitle(string pattern)
         {
