@@ -29,6 +29,7 @@ namespace ReleaseNoteGenerator.Console.Linker
                 Title = x.Title,
                 Authors = x.Authors,
                 CommitUrl = x.Url,
+                Project = x.Project,
                 Status = Status.OnlyCommited
             }).ToList();
         }
@@ -43,6 +44,7 @@ namespace ReleaseNoteGenerator.Console.Linker
                     Title = i.Title,
                     Authors = c.Authors,
                     CommitUrl = c.Url,
+                    Project = c.Project,
                     Status = Status.Ok,
                     AdditionalData = i.AdditionalData
                 };
@@ -61,6 +63,7 @@ namespace ReleaseNoteGenerator.Console.Linker
                 Title = x.Title,
                 Authors = x.Authors,
                 CommitUrl = x.Url,
+                Project = x.Project,
                 Status = Status.OnlyCommited,
                 AdditionalData = x.AdditionalData
             }).ToList();

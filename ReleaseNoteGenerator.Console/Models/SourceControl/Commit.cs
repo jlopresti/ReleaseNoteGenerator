@@ -17,6 +17,7 @@ namespace ReleaseNoteGenerator.Console.Models.SourceControl
         public string Id { get; set; }
         public bool HasExtractedKey { get; set; }
         public IDictionary<string, object> AdditionalData { get; set; }
+        public string Project { get; set; }
 
         public void ExtractKeyFromTitle(string pattern)
         {

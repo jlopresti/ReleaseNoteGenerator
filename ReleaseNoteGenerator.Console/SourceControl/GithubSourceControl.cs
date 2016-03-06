@@ -45,6 +45,7 @@ namespace ReleaseNoteGenerator.Console.SourceControl
                     {
                         Title = x.Commit.Message,
                         Url = x.HtmlUrl,
+                        Project = project
                     };
                     c.Authors.Add(x.Author?.Login);
                     return c;

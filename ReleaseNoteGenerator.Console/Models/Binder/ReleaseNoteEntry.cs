@@ -16,5 +16,6 @@ namespace ReleaseNoteGenerator.Console.Models.Binder
         public string IssueUrl { get; set; }
         public Status Status { get; set; }
         public IDictionary<string, object> AdditionalData { get; set; }
+        public string Project { get; set; }
     }
 }
