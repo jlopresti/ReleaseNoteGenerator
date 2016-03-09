@@ -1,4 +1,4 @@
-namespace ReleaseNoteGenerator.Console.Common
+namespace Ranger.Console.Common
 {
     internal class Constants
     {

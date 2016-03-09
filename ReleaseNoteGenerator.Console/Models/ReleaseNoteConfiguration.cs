@@ -1,9 +1,9 @@
 using System.IO;
 using log4net;
-using ReleaseNoteGenerator.Console.Common;
-using ReleaseNoteGenerator.Console.Helpers;
+using Ranger.Console.Common;
+using Ranger.Console.Helpers;
 
-namespace ReleaseNoteGenerator.Console.Models
+namespace Ranger.Console.Models
 {
     public class ReleaseNoteConfiguration : BaseConfiguration<Settings>
     {

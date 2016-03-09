@@ -1,7 +1,7 @@
 ﻿using System;
 using Ninject.Modules;
 
-namespace ReleaseNoteGenerator.Console.Common
+namespace Ranger.Console.Common
 {
     internal interface IApplicationBootstrapper<TApp, TConfig> where TApp : IConsoleApplication 
         where TConfig : IConsoleApplicationConfiguration, new()

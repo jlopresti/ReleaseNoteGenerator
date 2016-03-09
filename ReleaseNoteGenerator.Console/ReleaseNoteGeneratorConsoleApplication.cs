@@ -1,17 +1,15 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using CommandLine;
+﻿using System.Threading.Tasks;
 using log4net;
-using ReleaseNoteGenerator.Console.Common;
-using ReleaseNoteGenerator.Console.Helpers;
-using ReleaseNoteGenerator.Console.IssueTracker;
-using ReleaseNoteGenerator.Console.Linker;
-using ReleaseNoteGenerator.Console.Models;
-using ReleaseNoteGenerator.Console.Publisher;
-using ReleaseNoteGenerator.Console.SourceControl;
-using ReleaseNoteGenerator.Console.TemplateProvider;
+using Ranger.Console.Common;
+using Ranger.Console.Helpers;
+using Ranger.Console.IssueTracker;
+using Ranger.Console.Linker;
+using Ranger.Console.Models;
+using Ranger.Console.Publisher;
+using Ranger.Console.SourceControl;
+using Ranger.Console.TemplateProvider;
 
-namespace ReleaseNoteGenerator.Console
+namespace Ranger.Console
 {
     internal class ReleaseNoteGeneratorConsoleApplication : IConsoleApplication
     {

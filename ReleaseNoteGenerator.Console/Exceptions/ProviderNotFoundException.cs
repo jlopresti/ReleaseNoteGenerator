@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ReleaseNoteGenerator.Console.Exceptions
+namespace Ranger.Console.Exceptions
 {
     public class ProviderNotFoundException : Exception
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace ReleaseNoteGenerator.Console.Models.IssueTracker
+namespace Ranger.Console.Models.IssueTracker
 {
     public class JiraConfig
     {

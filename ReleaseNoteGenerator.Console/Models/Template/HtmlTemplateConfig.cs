@@ -1,4 +1,4 @@
-namespace ReleaseNoteGenerator.Console.Models.Template
+namespace Ranger.Console.Models.Template
 {
     internal class HtmlTemplateConfig
     {

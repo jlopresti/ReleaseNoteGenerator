@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 
-namespace ReleaseNoteGenerator.Console.Common
+namespace Ranger.Console.Common
 {
     public abstract class BaseConfiguration<T> : IConsoleApplicationConfiguration where T : new()
     {

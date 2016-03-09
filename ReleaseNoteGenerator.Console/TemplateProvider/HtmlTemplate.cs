@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using log4net;
 using Newtonsoft.Json.Linq;
-using ReleaseNoteGenerator.Console.Common;
-using ReleaseNoteGenerator.Console.Helpers;
-using ReleaseNoteGenerator.Console.IssueTracker;
-using ReleaseNoteGenerator.Console.Models;
-using ReleaseNoteGenerator.Console.Models.Binder;
-using ReleaseNoteGenerator.Console.Models.Template;
+using Ranger.Console.Common;
+using Ranger.Console.Helpers;
+using Ranger.Console.Models;
+using Ranger.Console.Models.Binder;
+using Ranger.Console.Models.Template;
 
-namespace ReleaseNoteGenerator.Console.TemplateProvider
+namespace Ranger.Console.TemplateProvider
 {
     [Provider("html")]
     [ConfigurationParameterValidation("html")]

@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using ReleaseNoteGenerator.Console.Models;
-using ReleaseNoteGenerator.Console.Models.SourceControl;
+using Ranger.Console.Models.SourceControl;
 
-namespace ReleaseNoteGenerator.Console.SourceControl
+namespace Ranger.Console.SourceControl
 {
     public interface ISourceControl
     {

@@ -1,4 +1,4 @@
-﻿namespace ReleaseNoteGenerator.Console.Models.Publisher
+﻿namespace Ranger.Console.Models.Publisher
 {
     internal class LocalPublishConfig
     {

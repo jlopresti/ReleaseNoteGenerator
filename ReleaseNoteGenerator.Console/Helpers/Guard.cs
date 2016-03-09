@@ -3,12 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using Newtonsoft.Json.Linq;
-using ReleaseNoteGenerator.Console.Common;
-using ReleaseNoteGenerator.Console.IssueTracker;
-using ReleaseNoteGenerator.Console.Models;
-using ReleaseNoteGenerator.Console.SourceControl;
+using Ranger.Console.Common;
+using Ranger.Console.Models;
 
-namespace ReleaseNoteGenerator.Console.Helpers
+namespace Ranger.Console.Helpers
 {
     public static class Guard
     {

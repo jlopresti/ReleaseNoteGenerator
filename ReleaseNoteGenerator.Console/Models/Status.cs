@@ -1,4 +1,4 @@
-namespace ReleaseNoteGenerator.Console.Models
+namespace Ranger.Console.Models
 {
     public enum Status
     {

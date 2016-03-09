@@ -2,10 +2,9 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
-using ReleaseNoteGenerator.Console.Common;
-using ReleaseNoteGenerator.Console.SourceControl;
+using Ranger.Console.Common;
 
-namespace ReleaseNoteGenerator.Console.Helpers
+namespace Ranger.Console.Helpers
 {
     public static class JObjectExtensions
     {

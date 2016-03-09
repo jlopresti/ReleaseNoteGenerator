@@ -2,11 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using log4net;
-using ReleaseNoteGenerator.Console.Helpers;
-using ReleaseNoteGenerator.Console.Models;
-using ReleaseNoteGenerator.Console.Models.SourceControl;
+using Ranger.Console.Helpers;
+using Ranger.Console.Models.SourceControl;
 
-namespace ReleaseNoteGenerator.Console.SourceControl
+namespace Ranger.Console.SourceControl
 {
     public class DistinctCommitSourceControl : ISourceControl
     {

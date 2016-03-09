@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using log4net;
-using ReleaseNoteGenerator.Console.Helpers;
-using ReleaseNoteGenerator.Console.IssueTracker;
-using ReleaseNoteGenerator.Console.Models;
-using ReleaseNoteGenerator.Console.Models.SourceControl;
+using Ranger.Console.Helpers;
+using Ranger.Console.IssueTracker;
+using Ranger.Console.Models;
+using Ranger.Console.Models.SourceControl;
 
-namespace ReleaseNoteGenerator.Console.SourceControl
+namespace Ranger.Console.SourceControl
 {
     public class EnrichCommitWithIssueTracker : ISourceControl
     {

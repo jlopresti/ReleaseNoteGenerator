@@ -1,4 +1,4 @@
-namespace ReleaseNoteGenerator.Console.Common
+namespace Ranger.Console.Common
 {
     public class SettingsWrapper<T> : IVerboseParameter, ISilentParameter
     {

@@ -1,8 +1,8 @@
 ﻿using CommandLine;
 using CommandLine.Text;
-using ReleaseNoteGenerator.Console.Common;
+using Ranger.Console.Common;
 
-namespace ReleaseNoteGenerator.Console.Models
+namespace Ranger.Console.Models
 {
     public class Settings : IVerboseParameter, ISilentParameter
     {

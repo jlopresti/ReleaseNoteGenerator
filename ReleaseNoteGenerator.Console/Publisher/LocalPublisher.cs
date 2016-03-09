@@ -1,11 +1,11 @@
 ﻿using System.IO;
 using log4net;
 using Newtonsoft.Json.Linq;
-using ReleaseNoteGenerator.Console.Common;
-using ReleaseNoteGenerator.Console.Helpers;
-using ReleaseNoteGenerator.Console.Models.Publisher;
+using Ranger.Console.Common;
+using Ranger.Console.Helpers;
+using Ranger.Console.Models.Publisher;
 
-namespace ReleaseNoteGenerator.Console.Publisher
+namespace Ranger.Console.Publisher
 {
     [Provider("local")]
     [ConfigurationParameterValidation("outputfile")]

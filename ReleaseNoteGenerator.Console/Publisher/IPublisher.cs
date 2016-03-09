@@ -1,4 +1,4 @@
-namespace ReleaseNoteGenerator.Console.Publisher
+namespace Ranger.Console.Publisher
 {
     public interface IPublisher
     {

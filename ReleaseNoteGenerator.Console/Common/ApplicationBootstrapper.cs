@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using CommandLine;
 using log4net;
 using log4net.Appender;
 using log4net.Config;
@@ -11,9 +9,8 @@ using log4net.Layout;
 using log4net.Repository.Hierarchy;
 using Ninject;
 using Ninject.Modules;
-using ReleaseNoteGenerator.Console.Models;
 
-namespace ReleaseNoteGenerator.Console.Common
+namespace Ranger.Console.Common
 {
     internal class ApplicationBootstrapper<TApp, TConfig> : IApplicationBootstrapper<TApp, TConfig> where TApp : IConsoleApplication
         where TConfig : IConsoleApplicationConfiguration, new()

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ReleaseNoteGenerator.Console.Models.Binder
+namespace Ranger.Console.Models.Binder
 {
     public class ReleaseNoteEntry
     {

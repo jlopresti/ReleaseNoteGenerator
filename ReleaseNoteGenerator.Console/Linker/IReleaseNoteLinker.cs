@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using ReleaseNoteGenerator.Console.Models.Binder;
-using ReleaseNoteGenerator.Console.Models.IssueTracker;
-using ReleaseNoteGenerator.Console.Models.SourceControl;
+using Ranger.Console.Models.Binder;
+using Ranger.Console.Models.IssueTracker;
+using Ranger.Console.Models.SourceControl;
 
-namespace ReleaseNoteGenerator.Console.Linker
+namespace Ranger.Console.Linker
 {
     public interface IReleaseNoteLinker
     {

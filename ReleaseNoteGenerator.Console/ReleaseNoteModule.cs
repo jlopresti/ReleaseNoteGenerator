@@ -4,15 +4,15 @@ using System.Reflection;
 using Newtonsoft.Json.Linq;
 using Ninject;
 using Ninject.Modules;
-using ReleaseNoteGenerator.Console.Common;
-using ReleaseNoteGenerator.Console.IssueTracker;
-using ReleaseNoteGenerator.Console.Linker;
-using ReleaseNoteGenerator.Console.Models;
-using ReleaseNoteGenerator.Console.Publisher;
-using ReleaseNoteGenerator.Console.SourceControl;
-using ReleaseNoteGenerator.Console.TemplateProvider;
+using Ranger.Console.Common;
+using Ranger.Console.IssueTracker;
+using Ranger.Console.Linker;
+using Ranger.Console.Models;
+using Ranger.Console.Publisher;
+using Ranger.Console.SourceControl;
+using Ranger.Console.TemplateProvider;
 
-namespace ReleaseNoteGenerator.Console
+namespace Ranger.Console
 {
     public class ReleaseNoteModule : NinjectModule
     {

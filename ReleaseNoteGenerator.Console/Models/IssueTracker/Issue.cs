@@ -1,7 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 
-namespace ReleaseNoteGenerator.Console.Models.IssueTracker
+namespace Ranger.Console.Models.IssueTracker
 {
     public class Issue : IReleaseNoteKey
     {

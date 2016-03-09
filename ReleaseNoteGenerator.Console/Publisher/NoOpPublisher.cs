@@ -1,6 +1,6 @@
-﻿using ReleaseNoteGenerator.Console.Common;
+﻿using Ranger.Console.Common;
 
-namespace ReleaseNoteGenerator.Console.Publisher
+namespace Ranger.Console.Publisher
 {
     [Provider("noop")]
     internal class NoOpPublisher : IPublisher

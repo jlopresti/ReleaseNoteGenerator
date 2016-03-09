@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ReleaseNoteGenerator.Console.Common;
-using ReleaseNoteGenerator.Console.Models;
+using Ranger.Console.Common;
+using Ranger.Console.Models;
 
-namespace ReleaseNoteGenerator.Console
+namespace Ranger.Console
 {
     class Program
     {

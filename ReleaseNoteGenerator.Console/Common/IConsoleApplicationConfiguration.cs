@@ -1,4 +1,4 @@
-﻿namespace ReleaseNoteGenerator.Console.Common
+﻿namespace Ranger.Console.Common
 {
     public interface IConsoleApplicationConfiguration :IVerboseParameter,ISilentParameter
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace ReleaseNoteGenerator.Console.Common
+namespace Ranger.Console.Common
 {
     public class ProviderAttribute : Attribute
     {

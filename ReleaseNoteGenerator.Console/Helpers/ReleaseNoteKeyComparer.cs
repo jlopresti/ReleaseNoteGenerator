@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using ReleaseNoteGenerator.Console.Models;
+using Ranger.Console.Models;
 
-namespace ReleaseNoteGenerator.Console.Helpers
+namespace Ranger.Console.Helpers
 {
     public class ReleaseNoteKeyComparer : IEqualityComparer<IReleaseNoteKey>
     {

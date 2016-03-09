@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace ReleaseNoteGenerator.Console.Models.SourceControl
+namespace Ranger.Console.Models.SourceControl
 {
     public class Commit : IReleaseNoteKey
     {

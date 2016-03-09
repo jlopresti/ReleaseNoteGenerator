@@ -1,7 +1,6 @@
-using System;
 using Newtonsoft.Json.Linq;
 
-namespace ReleaseNoteGenerator.Console.Models
+namespace Ranger.Console.Models
 {
     public class Config
     {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ReleaseNoteGenerator.Console.Common
+namespace Ranger.Console.Common
 {
     internal interface IConsoleApplication
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ReleaseNoteGenerator.Console.Models.SourceControl
+namespace Ranger.Console.Models.SourceControl
 {
     public class GithubConfig
     {

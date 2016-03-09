@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using log4net;
-using ReleaseNoteGenerator.Console.Helpers;
-using ReleaseNoteGenerator.Console.Models;
-using ReleaseNoteGenerator.Console.Models.IssueTracker;
+using Ranger.Console.Helpers;
+using Ranger.Console.Models;
+using Ranger.Console.Models.IssueTracker;
 
-namespace ReleaseNoteGenerator.Console.IssueTracker
+namespace Ranger.Console.IssueTracker
 {
     public class DistinctIssue : IIssueTracker
     {

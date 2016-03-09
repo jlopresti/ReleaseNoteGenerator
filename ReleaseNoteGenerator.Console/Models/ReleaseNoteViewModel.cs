@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using ReleaseNoteGenerator.Console.Models.Binder;
+using Ranger.Console.Models.Binder;
 
-namespace ReleaseNoteGenerator.Console.Models
+namespace Ranger.Console.Models
 {
     public class ReleaseNoteViewModel
     {

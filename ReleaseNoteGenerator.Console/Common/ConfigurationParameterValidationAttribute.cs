@@ -2,9 +2,8 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using Newtonsoft.Json.Linq;
-using ReleaseNoteGenerator.Console.SourceControl;
 
-namespace ReleaseNoteGenerator.Console.Common
+namespace Ranger.Console.Common
 {
     public class ConfigurationParameterValidationAttribute : Attribute, IConfigurationValidationAttribute
     {

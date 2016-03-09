@@ -1,8 +1,8 @@
+using Ranger.Console.Models;
 using RazorEngine.Configuration;
 using RazorEngine.Templating;
-using ReleaseNoteGenerator.Console.Models;
 
-namespace ReleaseNoteGenerator.Console.Helpers
+namespace Ranger.Console.Helpers
 {
     public class RazorEngineWrapper
     {

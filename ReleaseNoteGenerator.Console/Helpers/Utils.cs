@@ -1,8 +1,8 @@
 ﻿using log4net;
 using Newtonsoft.Json;
-using ReleaseNoteGenerator.Console.IssueTracker;
+using Ranger.Console.IssueTracker;
 
-namespace ReleaseNoteGenerator.Console.Helpers
+namespace Ranger.Console.Helpers
 {
     public static class JsonExtentensions
     {

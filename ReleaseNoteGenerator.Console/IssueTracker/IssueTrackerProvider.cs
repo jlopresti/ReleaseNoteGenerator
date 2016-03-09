@@ -2,10 +2,10 @@ using System;
 using log4net;
 using Ninject;
 using Ninject.Activation;
-using ReleaseNoteGenerator.Console.Helpers;
-using ReleaseNoteGenerator.Console.Models;
+using Ranger.Console.Helpers;
+using Ranger.Console.Models;
 
-namespace ReleaseNoteGenerator.Console.IssueTracker
+namespace Ranger.Console.IssueTracker
 {
     public class IssueTrackerProvider : Provider<IIssueTracker>
     {
