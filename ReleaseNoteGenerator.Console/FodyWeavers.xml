@@ -3,7 +3,7 @@
   <Costura>
     <ExcludeAssemblies>
       RazorEngine
-    </ExcludeAssemblies>    
+    </ExcludeAssemblies>
   </Costura>
   
 </Weavers>
