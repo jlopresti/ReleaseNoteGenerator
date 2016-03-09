@@ -6,7 +6,7 @@ using ReleaseNoteGenerator.Console.SourceControl;
 
 namespace ReleaseNoteGenerator.Console.IssueTracker
 {
-    public interface IIssueTrackerProvider
+    public interface IIssueTracker
     {
         Task<List<Issue>> GetIssues(string release);
         Issue GetIssue(string id);

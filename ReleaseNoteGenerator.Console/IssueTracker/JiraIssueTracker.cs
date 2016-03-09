@@ -16,7 +16,7 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
 {
     [Provider("jira")]
     [ConfigurationParameterValidation("host", "login", "password", "project")]
-    internal class JiraIssueTracker : IIssueTrackerProvider
+    internal class JiraIssueTracker : IIssueTracker
     {
         private readonly IT.JiraConfig _config;
         private readonly Jira _client;

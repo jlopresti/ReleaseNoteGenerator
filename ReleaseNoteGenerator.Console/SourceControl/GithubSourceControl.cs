@@ -14,7 +14,7 @@ namespace ReleaseNoteGenerator.Console.SourceControl
 {
     [Provider("github")]
     [ConfigurationParameterValidation("host", "login", "apikey","owner","projects", "prodBranch", "releaseBranchPattern")]
-    public class GithubSourceControl : ISourceControlProvider
+    public class GithubSourceControl : ISourceControl
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(GithubSourceControl));
         private readonly SC.GithubConfig _config;

@@ -4,38 +4,38 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using log4net;
-using Newtonsoft.Json.Linq;
 using ReleaseNoteGenerator.Console.Helpers;
 using ReleaseNoteGenerator.Console.IssueTracker;
+using ReleaseNoteGenerator.Console.Models;
 using ReleaseNoteGenerator.Console.Models.SourceControl;
 
 namespace ReleaseNoteGenerator.Console.SourceControl
 {
-    public class EnrichCommitWithIssueTrackeProvider : ISourceControlProvider
+    public class EnrichCommitWithIssueTracker : ISourceControl
     {
-        readonly ILog _logger = LogManager.GetLogger(typeof(EnrichCommitWithIssueTrackeProvider));
-        private readonly ISourceControlProvider _innerSourceControlProvider;
-        private readonly IIssueTrackerProvider _issueTrackerProvider;
+        readonly ILog _logger = LogManager.GetLogger(typeof(EnrichCommitWithIssueTracker));
+        private readonly ISourceControl _innerSourceControl;
+        private readonly IIssueTracker _issueTracker;
         private string _pattern;
         private string _excludePattern;
 
-        public EnrichCommitWithIssueTrackeProvider(ISourceControlProvider innerSourceControlProvider, 
-            IIssueTrackerProvider issueTrackerProvider, 
-            JObject config)
+        public EnrichCommitWithIssueTracker(ISourceControl innerSourceControl, 
+            IIssueTracker issueTracker, 
+            ReleaseNoteConfiguration config)
         {
-            Guard.IsNotNull(() => innerSourceControlProvider, () => issueTrackerProvider,() => config);
+            Guard.IsNotNull(() => innerSourceControl, () => issueTracker,() => config);
 
-            _innerSourceControlProvider = innerSourceControlProvider;
-            _issueTrackerProvider = issueTrackerProvider;
-            _pattern = config.GetCommitMessagePattern();
-            _excludePattern = config.GetExcludeCommitPattern();
+            _innerSourceControl = innerSourceControl;
+            _issueTracker = issueTracker;
+            _pattern = config.Config.SourceControl.GetCommitMessagePattern();
+            _excludePattern = config.Config.SourceControl.GetExcludeCommitPattern();
         }
 
         public async Task<List<Commit>> GetCommits(string releaseNumber)
         {
             Guard.IsNotNullOrEmpty(() => releaseNumber);
 
-            var result = await _innerSourceControlProvider.GetCommits(releaseNumber);
+            var result = await _innerSourceControl.GetCommits(releaseNumber);
             if (!string.IsNullOrEmpty(_excludePattern))
             {
                 result = result.Where(x => !Regex.IsMatch(x.Title, _excludePattern, RegexOptions.IgnoreCase)).ToList();
@@ -57,7 +57,7 @@ namespace ReleaseNoteGenerator.Console.SourceControl
                 commit.ExtractKeyFromTitle(pattern);
                 if (commit.HasExtractedKey)
                 {
-                    var issue = _issueTrackerProvider.GetIssue(commit.Id);
+                    var issue = _issueTracker.GetIssue(commit.Id);
                     if (issue != null && !issue.Type.Equals("defect", StringComparison.InvariantCultureIgnoreCase))
                     {
                         commit.Id = issue.Id;

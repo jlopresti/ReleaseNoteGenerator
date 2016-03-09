@@ -3,6 +3,7 @@ using log4net;
 using Newtonsoft.Json.Linq;
 using ReleaseNoteGenerator.Console.Common;
 using ReleaseNoteGenerator.Console.Helpers;
+using ReleaseNoteGenerator.Console.IssueTracker;
 using ReleaseNoteGenerator.Console.Models;
 using ReleaseNoteGenerator.Console.Models.Binder;
 using ReleaseNoteGenerator.Console.Models.Template;
@@ -11,13 +12,13 @@ namespace ReleaseNoteGenerator.Console.TemplateProvider
 {
     [Provider("html")]
     [ConfigurationParameterValidation("html")]
-    class HtmlTemplateProvider : ITemplateProvider
+    class HtmlTemplate : ITemplate
     {
-        readonly ILog _logger = LogManager.GetLogger(typeof(HtmlTemplateProvider));
+        readonly ILog _logger = LogManager.GetLogger(typeof(HtmlTemplate));
         private HtmlTemplateConfig _config;
         private RazorEngineWrapper _razor;
 
-        public HtmlTemplateProvider(JObject templateConfigPath)
+        public HtmlTemplate(JObject templateConfigPath)
         {
             _config = templateConfigPath.ToObject<HtmlTemplateConfig>();
             _razor = new RazorEngineWrapper();

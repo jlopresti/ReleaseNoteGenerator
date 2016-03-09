@@ -14,6 +14,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -55,6 +56,10 @@
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Ninject.Extensions.Conventions, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Extensions.Conventions.3.2.0.0\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Octokit, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Octokit.0.18.0\lib\net45\Octokit.dll</HintPath>
       <Private>True</Private>
@@ -81,57 +86,56 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\BaseConfiguration.cs" />
     <Compile Include="Common\ConfigurationParameterValidationAttribute.cs" />
     <Compile Include="Common\IConfigurationValidationAttribute.cs" />
+    <Compile Include="Common\IConsoleApplicationConfiguration.cs" />
     <Compile Include="Common\ISilentParameter.cs" />
     <Compile Include="Common\ProviderAttribute.cs" />
     <Compile Include="Exceptions\ProviderNotFoundException.cs" />
     <Compile Include="Helpers\Guard.cs" />
     <Compile Include="Helpers\RazorEngineWrapper.cs" />
+    <Compile Include="IssueTracker\IssueTrackerProvider.cs" />
     <Compile Include="Linker\IReleaseNoteLinker.cs" />
     <Compile Include="Common\ApplicationBootstrapper.cs" />
-    <Compile Include="IssueTracker\DistinctIssueProvider.cs" />
+    <Compile Include="IssueTracker\DistinctIssue.cs" />
     <Compile Include="IssueTracker\StubIssueTracker.cs" />
     <Compile Include="Models\Config.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Helpers\JObjectExtensions.cs" />
     <Compile Include="Models\Publisher\EmailPublishConfig.cs" />
+    <Compile Include="Models\ReleaseNoteConfiguration.cs" />
     <Compile Include="Models\ReleaseNoteViewModel.cs" />
     <Compile Include="Models\Template\HtmlFileTemplateConfig.cs" />
-    <Compile Include="Publlsher\EmailPublisher.cs" />
+    <Compile Include="Publisher\EmailPublisher.cs" />
+    <Compile Include="Publisher\PublishProvider.cs" />
+    <Compile Include="ReleaseNoteModule.cs" />
     <Compile Include="SourceControl\DistinctCommitSourceControl.cs" />
-    <Compile Include="SourceControl\EnrichCommitWithIssueTrackeProvider.cs" />
+    <Compile Include="SourceControl\EnrichCommitWithIssueTracker.cs" />
+    <Compile Include="SourceControl\SourceControlProvider.cs" />
     <Compile Include="SourceControl\StubSourceControl.cs" />
-    <Compile Include="TemplateProvider\HtmlFileTemplateProvider.cs" />
-    <Compile Include="TemplateProvider\HtmlTemplateProvider.cs" />
-    <Compile Include="Publlsher\IPublisher.cs" />
-    <Compile Include="Publlsher\IPublisherFactory.cs" />
+    <Compile Include="TemplateProvider\HtmlFileTemplate.cs" />
+    <Compile Include="TemplateProvider\HtmlTemplate.cs" />
+    <Compile Include="Publisher\IPublisher.cs" />
     <Compile Include="Models\IReleaseNoteKey.cs" />
-    <Compile Include="TemplateProvider\ITemplateProvider.cs" />
-    <Compile Include="TemplateProvider\ITemplateProviderFactory.cs" />
+    <Compile Include="TemplateProvider\ITemplate.cs" />
     <Compile Include="Common\IVerboseParameter.cs" />
     <Compile Include="Models\Publisher\LocalPublishConfig.cs" />
-    <Compile Include="Publlsher\LocalPublisher.cs" />
-    <Compile Include="Publlsher\NoOpPublisher.cs" />
-    <Compile Include="Publlsher\PublisherFactory.cs" />
+    <Compile Include="Publisher\LocalPublisher.cs" />
+    <Compile Include="Publisher\NoOpPublisher.cs" />
     <Compile Include="Linker\ReleaseNoteLinker.cs" />
     <Compile Include="Models\Binder\ReleaseNoteEntry.cs" />
     <Compile Include="Helpers\ReleaseNoteKeyComparer.cs" />
     <Compile Include="Common\SettingsWrapper.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Models\Template\HtmlTemplateConfig.cs" />
-    <Compile Include="TemplateProvider\TemplateProviderFactory.cs" />
     <Compile Include="Helpers\Utils.cs" />
     <Compile Include="Models\SourceControl\Commit.cs" />
     <Compile Include="Models\IssueTracker\Issue.cs" />
     <Compile Include="SourceControl\GithubSourceControl.cs" />
-    <Compile Include="IssueTracker\IIssueTrackerFactory.cs" />
-    <Compile Include="IssueTracker\IIssueTrackerProvider.cs" />
-    <Compile Include="SourceControl\ISourceControlFactory.cs" />
-    <Compile Include="SourceControl\ISourceControlProvider.cs" />
+    <Compile Include="IssueTracker\IIssueTracker.cs" />
+    <Compile Include="SourceControl\ISourceControl.cs" />
     <Compile Include="IssueTracker\JiraIssueTracker.cs" />
-    <Compile Include="IssueTracker\JiraIssueTrackerFactory.cs" />
-    <Compile Include="SourceControl\SourceControlFactory.cs" />
     <Compile Include="Common\IConsoleApplication.cs" />
     <Compile Include="Common\IApplicationBootstrapper.cs" />
     <Compile Include="Models\IssueTracker\JiraConfig.cs" />
@@ -140,6 +144,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReleaseNoteGeneratorConsoleApplication.cs" />
     <Compile Include="Models\Settings.cs" />
+    <Compile Include="TemplateProvider\TemplatesProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -176,8 +181,7 @@
       <Using xmlns="http://schemas.microsoft.com/developer/msbuild/2003" Namespace="System" />
       <Using xmlns="http://schemas.microsoft.com/developer/msbuild/2003" Namespace="System.IO" />
       <Using xmlns="http://schemas.microsoft.com/developer/msbuild/2003" Namespace="System.Xml.Linq" />
-      <Code xmlns="http://schemas.microsoft.com/developer/msbuild/2003" Type="Fragment" Language="cs">
-<![CDATA[
+      <Code xmlns="http://schemas.microsoft.com/developer/msbuild/2003" Type="Fragment" Language="cs"><![CDATA[
 var config = XElement.Load(Config.ItemSpec).Elements("Costura").FirstOrDefault();
 
 if (config == null) return true;
@@ -196,8 +200,8 @@ var filesToCleanup = Files.Select(f => f.ItemSpec).Where(f => !excludedAssemblie
 
 foreach (var item in filesToCleanup)
   File.Delete(item);
-]]>
-      </Code></Task>
+]]></Code>
+    </Task>
   </UsingTask>
   <Target Name="CleanReferenceCopyLocalPaths" AfterTargets="AfterBuild;NonWinFodyTarget">
     <CosturaCleanup Config="FodyWeavers.xml" Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />

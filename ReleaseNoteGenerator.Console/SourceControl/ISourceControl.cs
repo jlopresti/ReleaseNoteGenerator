@@ -5,7 +5,7 @@ using ReleaseNoteGenerator.Console.Models.SourceControl;
 
 namespace ReleaseNoteGenerator.Console.SourceControl
 {
-    public interface ISourceControlProvider
+    public interface ISourceControl
     {
         Task<List<Commit>> GetCommits(string releaseNumber);
     }

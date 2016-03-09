@@ -6,7 +6,7 @@ namespace ReleaseNoteGenerator.Console.Helpers
 {
     public static class JsonExtentensions
     {
-        private static readonly ILog _logger = LogManager.GetLogger(typeof(DistinctIssueProvider));
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(DistinctIssue));
         public static T ToObject<T>(this string json)
         {
             if (string.IsNullOrEmpty(json)) return default(T);

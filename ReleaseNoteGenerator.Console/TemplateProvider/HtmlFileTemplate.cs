@@ -14,13 +14,13 @@ namespace ReleaseNoteGenerator.Console.TemplateProvider
 {
     [Provider("htmlFile")]
     [ConfigurationParameterValidation("file")]
-    public class HtmlFileTemplateProvider : ITemplateProvider
+    public class HtmlFileTemplate : ITemplate
     {
-        readonly ILog _logger = LogManager.GetLogger(typeof(HtmlFileTemplateProvider));
+        readonly ILog _logger = LogManager.GetLogger(typeof(HtmlFileTemplate));
         private HtmlFileTemplateConfig _config;
         private RazorEngineWrapper _razor;
 
-        public HtmlFileTemplateProvider(JObject templateConfigPath)
+        public HtmlFileTemplate(JObject templateConfigPath)
         {
             _config = templateConfigPath.ToObject<HtmlFileTemplateConfig>();
             _razor = new RazorEngineWrapper();

@@ -8,23 +8,23 @@ using ReleaseNoteGenerator.Console.Models.SourceControl;
 
 namespace ReleaseNoteGenerator.Console.SourceControl
 {
-    public class DistinctCommitSourceControl : ISourceControlProvider
+    public class DistinctCommitSourceControl : ISourceControl
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(DistinctCommitSourceControl));
-        private readonly ISourceControlProvider _innerSourceControlProvider;
+        private readonly ISourceControl _innerSourceControl;
 
-        public DistinctCommitSourceControl(ISourceControlProvider innerSourceControlProvider)
+        public DistinctCommitSourceControl(ISourceControl innerSourceControl)
         {
-            Guard.IsNotNull(() => innerSourceControlProvider);
+            Guard.IsNotNull(() => innerSourceControl);
 
-            _innerSourceControlProvider = innerSourceControlProvider;
+            _innerSourceControl = innerSourceControl;
         }
 
         public async Task<List<Commit>> GetCommits(string releaseNumber)
         {
             Guard.IsNotNullOrEmpty(() => releaseNumber);
 
-            var result = await _innerSourceControlProvider.GetCommits(releaseNumber);
+            var result = await _innerSourceControl.GetCommits(releaseNumber);
             _logger.Debug($"[SC] Getting {result.Count} items from source control");
             result = result.GroupBy(x => x.Id).Select(x =>
             {

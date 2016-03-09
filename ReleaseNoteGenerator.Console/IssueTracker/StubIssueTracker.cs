@@ -15,7 +15,7 @@ using IT = ReleaseNoteGenerator.Console.Models.IssueTracker;
 namespace ReleaseNoteGenerator.Console.IssueTracker
 {
     [Provider("stub")]
-    internal class StubIssueTracker : IIssueTrackerProvider
+    internal class StubIssueTracker : IIssueTracker
     {
         private List<IT.Issue> issues;
 

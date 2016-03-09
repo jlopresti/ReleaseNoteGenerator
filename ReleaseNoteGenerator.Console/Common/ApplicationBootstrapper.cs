@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
 using CommandLine;
 using log4net;
 using log4net.Appender;
@@ -7,32 +10,28 @@ using log4net.Core;
 using log4net.Layout;
 using log4net.Repository.Hierarchy;
 using Ninject;
+using Ninject.Modules;
+using ReleaseNoteGenerator.Console.Models;
 
 namespace ReleaseNoteGenerator.Console.Common
 {
-    internal class ApplicationBootstrapper<TApp, TParam> : IApplicationBootstrapper<TApp, TParam> where TApp : IConsoleApplication
+    internal class ApplicationBootstrapper<TApp, TConfig> : IApplicationBootstrapper<TApp, TConfig> where TApp : IConsoleApplication
+        where TConfig : IConsoleApplicationConfiguration, new()
     {
-        readonly ILog _logger = LogManager.GetLogger(typeof(ApplicationBootstrapper<TApp, TParam>));
+        readonly ILog _logger = LogManager.GetLogger(typeof(ApplicationBootstrapper<TApp, TConfig>));
         private Action _exitOnAction = () => { };
         private Hierarchy _hierarchy;
         private readonly IKernel _kernel;
+        private List<INinjectModule> _modules;
 
         public ApplicationBootstrapper()
         {
+            _modules = new List<INinjectModule>();
             _kernel = new StandardKernel();
-            _kernel.Bind<SettingsWrapper<TParam>>().ToSelf().InTransientScope();
-
-            AddDependency<IConsoleApplication, TApp>();
-            AddDependency<TParam, TParam>();
+            _kernel.Bind(typeof(IConsoleApplication)).To(typeof(TApp));
         }
 
-        public IApplicationBootstrapper<TApp, TParam> AddDependency<T, U>()
-        {
-            _kernel.Bind(typeof(T)).To(typeof(U));
-            return this;
-        }
-
-        public IApplicationBootstrapper<TApp, TParam> ConfigureLogging()
+        public IApplicationBootstrapper<TApp, TConfig> ConfigureLogging()
         {
             var appender = new ColoredConsoleAppender() { Layout = new PatternLayout("%level %d{HH:mm:ss} - %message%newline") };
             appender.AddMapping(new ColoredConsoleAppender.LevelColors { Level = Level.Debug, ForeColor = ColoredConsoleAppender.Colors.Cyan | ColoredConsoleAppender.Colors.HighIntensity });
@@ -56,13 +55,20 @@ namespace ReleaseNoteGenerator.Console.Common
         {
             try
             {
-                var settings = _kernel.Get<SettingsWrapper<TParam>>();
-                if (Parser.Default.ParseArguments(args, settings.Value))
+                var configurationManager = new TConfig();
+                if (configurationManager.LoadConfig(args))
                 {
-                    SetupLoggingLevel(settings);
+                    SetupLoggingLevel(configurationManager);
+
+                    _kernel.Bind<TConfig>().ToMethod(x => configurationManager);
+                    if (_modules.Any())
+                    {
+                        _kernel.Load(_modules);
+                    }
+
                     var task = _kernel.Get<IConsoleApplication>().Run(args);
                     task.ConfigureAwait(false).GetAwaiter().GetResult();
-                    if (task.Result == Constants.SUCCESS_EXIT_CODE && !settings.Silent)
+                    if (task.Result == Constants.SUCCESS_EXIT_CODE && !configurationManager.Silent)
                         _exitOnAction();
                     return task.Result;
                 }
@@ -79,7 +85,7 @@ namespace ReleaseNoteGenerator.Console.Common
             return Constants.FAIL_EXIT_CODE;
         }
 
-        private void SetupLoggingLevel(SettingsWrapper<TParam> settings)
+        private void SetupLoggingLevel(TConfig settings)
         {
             if (_hierarchy == null) return;
             if (settings.Verbose)
@@ -89,7 +95,7 @@ namespace ReleaseNoteGenerator.Console.Common
             }
         }
 
-        public IApplicationBootstrapper<TApp, TParam> ExitOn(ConsoleKey key)
+        public IApplicationBootstrapper<TApp, TConfig> ExitOn(ConsoleKey key)
         {
             _exitOnAction = () =>
             {
@@ -98,6 +104,12 @@ namespace ReleaseNoteGenerator.Console.Common
                 {
                 }
             };
+            return this;
+        }
+
+        public ApplicationBootstrapper<TApp, TConfig> WithModule<TModule>() where TModule : INinjectModule, new()
+        {
+            _modules.Add(new TModule());
             return this;
         }
     }

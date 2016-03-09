@@ -9,7 +9,7 @@ using ReleaseNoteGenerator.Console.Models.SourceControl;
 namespace ReleaseNoteGenerator.Console.SourceControl
 {
     [Provider("stub")]
-    public class StubSourceControl : ISourceControlProvider
+    public class StubSourceControl : ISourceControl
     {
         public StubSourceControl(JObject config)
         {

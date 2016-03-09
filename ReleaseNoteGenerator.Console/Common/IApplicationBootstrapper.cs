@@ -1,12 +1,14 @@
 ﻿using System;
+using Ninject.Modules;
 
 namespace ReleaseNoteGenerator.Console.Common
 {
-    internal interface IApplicationBootstrapper<TApp, TParam> where TApp : IConsoleApplication
+    internal interface IApplicationBootstrapper<TApp, TConfig> where TApp : IConsoleApplication 
+        where TConfig : IConsoleApplicationConfiguration, new()
     {
-        IApplicationBootstrapper<TApp, TParam> ConfigureLogging();
+        IApplicationBootstrapper<TApp, TConfig> ConfigureLogging();
         int Start(string[] args);
-        IApplicationBootstrapper<TApp, TParam> ExitOn(ConsoleKey key);
-        IApplicationBootstrapper<TApp, TParam> AddDependency<T, U>();
+        IApplicationBootstrapper<TApp, TConfig> ExitOn(ConsoleKey key);
+        ApplicationBootstrapper<TApp, TConfig> WithModule<TModule>() where TModule : INinjectModule, new();
     }
 }

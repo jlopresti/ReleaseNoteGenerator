@@ -1,7 +1,6 @@
 ﻿using ReleaseNoteGenerator.Console.Common;
-using ReleaseNoteGenerator.Console.SourceControl;
 
-namespace ReleaseNoteGenerator.Console.Publlsher
+namespace ReleaseNoteGenerator.Console.Publisher
 {
     [Provider("noop")]
     internal class NoOpPublisher : IPublisher

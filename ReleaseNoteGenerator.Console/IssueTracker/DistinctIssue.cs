@@ -8,16 +8,16 @@ using ReleaseNoteGenerator.Console.Models.IssueTracker;
 
 namespace ReleaseNoteGenerator.Console.IssueTracker
 {
-    public class DistinctIssueProvider : IIssueTrackerProvider
+    public class DistinctIssue : IIssueTracker
     {
-        readonly ILog _logger = LogManager.GetLogger(typeof(DistinctIssueProvider));
-        private readonly IIssueTrackerProvider _innerSourceControlProvider;
+        readonly ILog _logger = LogManager.GetLogger(typeof(DistinctIssue));
+        private readonly IIssueTracker _innerSourceControl;
 
-        public DistinctIssueProvider(IIssueTrackerProvider innerSourceControlProvider)
+        public DistinctIssue(IIssueTracker innerSourceControl)
         {
-            Guard.IsNotNull(() => innerSourceControlProvider);
+            Guard.IsNotNull(() => innerSourceControl);
 
-            _innerSourceControlProvider = innerSourceControlProvider;
+            _innerSourceControl = innerSourceControl;
         }
 
 
@@ -25,7 +25,7 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
         {
             Guard.IsNotNullOrEmpty(() => release);
 
-            var result = await _innerSourceControlProvider.GetIssues(release);
+            var result = await _innerSourceControl.GetIssues(release);
             _logger.Debug($"[IT] Getting {result.Count} items from issue tracker");
             result = result.Distinct<IReleaseNoteKey>(new ReleaseNoteKeyComparer()).Cast<Issue>().ToList();
             _logger.Debug($"[IT] Getting {result.Count} distincts items from issue tracker after reducing");
@@ -37,7 +37,7 @@ namespace ReleaseNoteGenerator.Console.IssueTracker
             Guard.IsNotNullOrEmpty(() => id);
 
             _logger.Debug($"[IT] Getting issue {id} from issue tracker");
-            return _innerSourceControlProvider.GetIssue(id);
+            return _innerSourceControl.GetIssue(id);
         }
     }
 }
