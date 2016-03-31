@@ -4,13 +4,18 @@ using System.Reflection;
 using Newtonsoft.Json.Linq;
 using Ninject;
 using Ninject.Modules;
-using Ranger.Console.Common;
 using Ranger.Console.IssueTracker;
-using Ranger.Console.Linker;
 using Ranger.Console.Models;
 using Ranger.Console.Publisher;
 using Ranger.Console.SourceControl;
 using Ranger.Console.TemplateProvider;
+using Ranger.Core.Common;
+using Ranger.Core.IssueTracker;
+using Ranger.Core.Linker;
+using Ranger.Core.Models;
+using Ranger.Core.Publisher;
+using Ranger.Core.SourceControl;
+using Ranger.Core.TemplateProvider;
 
 namespace Ranger.Console
 {
@@ -19,6 +24,9 @@ namespace Ranger.Console
         public override void Load()
         {
             var config = this.Kernel.Get<ReleaseNoteConfiguration>();
+
+            this.Kernel.Bind<IReleaseNoteConfiguration>().ToMethod(x => config);
+
             RegisterProviders<IIssueTracker>(config.Config.IssueTracker);
             RegisterProviders<ISourceControl>(config.Config.SourceControl);
             RegisterProviders<ITemplate>(config.Config.Template);

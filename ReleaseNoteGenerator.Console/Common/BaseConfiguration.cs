@@ -18,14 +18,7 @@ namespace Ranger.Console.Common
 
         public bool LoadConfig(string[] args)
         {
-            if (Parser.Default.ParseArguments(args, Settings.Value,
-                (verb, subOptions) =>
-                {
-                    // if parsing succeeds the verb name and correct instance
-                    // will be passed to onVerbCommand delegate (string,object)
-                    InvokedVerb = verb;
-                    SubOptions = subOptions;
-                }))
+            if (Parser.Default.ParseArguments(args, Settings.Value))
             {
                 return ValidateConfig(args);
             }

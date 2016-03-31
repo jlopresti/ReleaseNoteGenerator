@@ -3,6 +3,7 @@
   <Costura>
     <ExcludeAssemblies>
       RazorEngine
+      Ranger.Core
     </ExcludeAssemblies>
   </Costura>
   

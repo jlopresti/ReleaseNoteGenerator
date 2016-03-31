@@ -2,8 +2,9 @@ using System;
 using log4net;
 using Ninject;
 using Ninject.Activation;
-using Ranger.Console.Helpers;
 using Ranger.Console.Models;
+using Ranger.Core.Helpers;
+using Ranger.Core.SourceControl;
 
 namespace Ranger.Console.SourceControl
 {

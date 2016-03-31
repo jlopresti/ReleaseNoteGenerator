@@ -163,69 +163,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ApplicationBootstrapper.cs" />
     <Compile Include="Common\BaseConfiguration.cs" />
-    <Compile Include="Common\ConfigurationParameterValidationAttribute.cs" />
-    <Compile Include="Common\IConfigurationValidationAttribute.cs" />
+    <Compile Include="Common\Constants.cs" />
+    <Compile Include="Common\IApplicationBootstrapper.cs" />
+    <Compile Include="Common\IConsoleApplication.cs" />
     <Compile Include="Common\IConsoleApplicationConfiguration.cs" />
     <Compile Include="Common\ISilentParameter.cs" />
+    <Compile Include="Common\IVerboseParameter.cs" />
     <Compile Include="Common\NinjectKernel.cs" />
-    <Compile Include="Common\ProviderAttribute.cs" />
+    <Compile Include="Common\SettingsWrapper.cs" />
     <Compile Include="Exceptions\ProviderNotFoundException.cs" />
-    <Compile Include="Helpers\Guard.cs" />
-    <Compile Include="Helpers\RazorEngineWrapper.cs" />
     <Compile Include="IssueTracker\IssueTrackerProvider.cs" />
-    <Compile Include="Linker\IReleaseNoteLinker.cs" />
-    <Compile Include="Common\ApplicationBootstrapper.cs" />
-    <Compile Include="IssueTracker\DistinctIssue.cs" />
-    <Compile Include="IssueTracker\StubIssueTracker.cs" />
-    <Compile Include="Models\Config.cs" />
-    <Compile Include="Common\Constants.cs" />
-    <Compile Include="Helpers\JObjectExtensions.cs" />
-    <Compile Include="Models\Publisher\EmailPublishConfig.cs" />
     <Compile Include="Models\ReleaseNoteConfiguration.cs" />
-    <Compile Include="Models\ReleaseNoteViewModel.cs" />
-    <Compile Include="Models\Template\HtmlFileTemplateConfig.cs" />
-    <Compile Include="Publisher\EmailPublisher.cs" />
+    <Compile Include="Models\Settings.cs" />
     <Compile Include="Publisher\PublishProvider.cs" />
     <Compile Include="ReleaseNoteModule.cs" />
-    <Compile Include="SourceControl\DistinctCommitSourceControl.cs" />
-    <Compile Include="SourceControl\EnrichCommitWithIssueTracker.cs" />
-    <Compile Include="SourceControl\SourceControlProvider.cs" />
-    <Compile Include="SourceControl\StubSourceControl.cs" />
-    <Compile Include="TemplateProvider\HtmlFileTemplate.cs" />
-    <Compile Include="TemplateProvider\HtmlTemplate.cs" />
-    <Compile Include="Publisher\IPublisher.cs" />
-    <Compile Include="Models\IReleaseNoteKey.cs" />
-    <Compile Include="TemplateProvider\ITemplate.cs" />
-    <Compile Include="Common\IVerboseParameter.cs" />
-    <Compile Include="Models\Publisher\LocalPublishConfig.cs" />
-    <Compile Include="Publisher\LocalPublisher.cs" />
-    <Compile Include="Publisher\NoOpPublisher.cs" />
-    <Compile Include="Linker\ReleaseNoteLinker.cs" />
-    <Compile Include="Models\Binder\ReleaseNoteEntry.cs" />
-    <Compile Include="Helpers\ReleaseNoteKeyComparer.cs" />
-    <Compile Include="Common\SettingsWrapper.cs" />
-    <Compile Include="Models\Status.cs" />
-    <Compile Include="Models\Template\HtmlTemplateConfig.cs" />
-    <Compile Include="Helpers\Utils.cs" />
-    <Compile Include="Models\SourceControl\Commit.cs" />
-    <Compile Include="Models\IssueTracker\Issue.cs" />
-    <Compile Include="SourceControl\GithubSourceControl.cs" />
-    <Compile Include="IssueTracker\IIssueTracker.cs" />
-    <Compile Include="SourceControl\ISourceControl.cs" />
-    <Compile Include="IssueTracker\JiraIssueTracker.cs" />
-    <Compile Include="Common\IConsoleApplication.cs" />
-    <Compile Include="Common\IApplicationBootstrapper.cs" />
-    <Compile Include="Models\IssueTracker\JiraConfig.cs" />
-    <Compile Include="Models\SourceControl\GithubConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReleaseNoteGeneratorConsoleApplication.cs" />
-    <Compile Include="Models\Settings.cs" />
+    <Compile Include="SourceControl\SourceControlProvider.cs" />
     <Compile Include="TemplateProvider\TemplatesProvider.cs" />
-    <Compile Include="Web\Controllers\ValuesController.cs" />
-    <Compile Include="Web\ReleaseNoteServer.cs" />
-    <Compile Include="Web\Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -235,9 +193,7 @@
     <None Include="config.test.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="FodyWeavers.xml" />
@@ -245,7 +201,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Ranger.Core\Ranger.Core.csproj">
+      <Project>{8e7daeb0-6432-4db5-8a39-14f7f996483e}</Project>
+      <Name>Ranger.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <UsingTask TaskName="CosturaCleanup" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" TaskFactory="CodeTaskFactory">
     <ParameterGroup>
