@@ -18,13 +18,13 @@ namespace Ranger.Console.Common
         readonly ILog _logger = LogManager.GetLogger(typeof(ApplicationBootstrapper<TApp, TConfig>));
         private Action _exitOnAction = () => { };
         private Hierarchy _hierarchy;
-        private readonly IKernel _kernel;
+        public static  IKernel _kernel;
         private List<INinjectModule> _modules;
 
         public ApplicationBootstrapper()
         {
             _modules = new List<INinjectModule>();
-            _kernel = new StandardKernel();
+            _kernel = NinjectKernel.Instance;
             _kernel.Bind(typeof(IConsoleApplication)).To(typeof(TApp));
         }
 
@@ -63,10 +63,12 @@ namespace Ranger.Console.Common
                         _kernel.Load(_modules);
                     }
 
-                    var task = _kernel.Get<IConsoleApplication>().Run(args);
+                    var application = _kernel.Get<IConsoleApplication>();
+                    var task = application.Run(args);
                     task.ConfigureAwait(false).GetAwaiter().GetResult();
                     if (task.Result == Constants.SUCCESS_EXIT_CODE && !configurationManager.Silent)
                         _exitOnAction();
+                    application.Dispose();
                     return task.Result;
                 }
             }

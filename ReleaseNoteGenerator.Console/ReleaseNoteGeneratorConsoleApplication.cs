@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using log4net;
 using Ranger.Console.Common;
 using Ranger.Console.Helpers;
@@ -8,6 +9,7 @@ using Ranger.Console.Models;
 using Ranger.Console.Publisher;
 using Ranger.Console.SourceControl;
 using Ranger.Console.TemplateProvider;
+using Ranger.Console.Web;
 
 namespace Ranger.Console
 {
@@ -20,6 +22,7 @@ namespace Ranger.Console
         private readonly IReleaseNoteLinker _releaseNoteLinker;
         private readonly ReleaseNoteConfiguration _configuration;
         readonly ILog _logger = LogManager.GetLogger(typeof(ReleaseNoteGeneratorConsoleApplication));
+        private IDisposable _server;
 
         public ReleaseNoteGeneratorConsoleApplication(ISourceControl sourceControl, IIssueTracker issueTracker,
             ITemplate template, IPublisher publisher, IReleaseNoteLinker releaseNoteLinker, ReleaseNoteConfiguration configuration)
@@ -38,27 +41,45 @@ namespace Ranger.Console
         {
             _logger.Debug("[APP] Start running application ...");
 
-            _logger.Info($"[APP] Retrieving issues for release {_configuration.ReleaseNumber}");
-            var issues = await _issueTracker.GetIssues(_configuration.ReleaseNumber);
+            if (_configuration.StartWebServer)
+            {
+                _logger.Debug("[APP] Start web server ...");
+                _server = new ReleaseNoteServer().Start();
+                _logger.Info("[APP] Web server started ...");
+                return Constants.SUCCESS_EXIT_CODE;
+            }
+            else
+            {
+                _logger.Info($"[APP] Retrieving issues for release {_configuration.ReleaseNumber}");
+                var issues = await _issueTracker.GetIssues(_configuration.ReleaseNumber);
 
-            _logger.Info($"[APP] Retrieving commits for release {_configuration.ReleaseNumber}");
-            var commits = await _sourceControl.GetCommits(_configuration.ReleaseNumber);
+                _logger.Info($"[APP] Retrieving commits for release {_configuration.ReleaseNumber}");
+                var commits = await _sourceControl.GetCommits(_configuration.ReleaseNumber);
 
-            _logger.Info($"[APP] Start generating model for release {_configuration.ReleaseNumber}");
-            var releaseNoteModel = _releaseNoteLinker.Link(commits, issues);
+                _logger.Info($"[APP] Start generating model for release {_configuration.ReleaseNumber}");
+                var releaseNoteModel = _releaseNoteLinker.Link(commits, issues);
 
-            _logger.Info($"[APP] Start generating release note for release {_configuration.ReleaseNumber}");
-            var output = _template.Build(_configuration.ReleaseNumber, releaseNoteModel);
-            _logger.Debug($"[APP] Release note generated : \n{output}");
+                _logger.Info($"[APP] Start generating release note for release {_configuration.ReleaseNumber}");
+                var output = _template.Build(_configuration.ReleaseNumber, releaseNoteModel);
+                _logger.Debug($"[APP] Release note generated : \n{output}");
 
-            _logger.Info($"[APP] Start publishing for release {_configuration.ReleaseNumber}");
-            var result = _publisher.Publish(_configuration.ReleaseNumber, output);
+                _logger.Info($"[APP] Start publishing for release {_configuration.ReleaseNumber}");
+                var result = _publisher.Publish(_configuration.ReleaseNumber, output);
 
-            var resultCode = result ? Constants.SUCCESS_EXIT_CODE : Constants.FAIL_EXIT_CODE;
-            _logger.Debug($"[APP] Process terminated with exit code {resultCode} ...");
+                var resultCode = result ? Constants.SUCCESS_EXIT_CODE : Constants.FAIL_EXIT_CODE;
+                _logger.Debug($"[APP] Process terminated with exit code {resultCode} ...");
 
-            return resultCode;
+                return resultCode;
+            }
+        }
 
+        public void Dispose()
+        {
+            if (_server != null)
+            {
+                _server.Dispose();
+                _logger.Debug("[APP] Web server stopped ...");
+            }
         }
     }
 }

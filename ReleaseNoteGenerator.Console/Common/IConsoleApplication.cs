@@ -1,8 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Ranger.Console.Common
 {
-    internal interface IConsoleApplication
+    internal interface IConsoleApplication : IDisposable
     {
         Task<int> Run(string[] args);
     }
