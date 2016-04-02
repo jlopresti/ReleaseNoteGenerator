@@ -174,16 +174,12 @@
     <Compile Include="Common\NinjectKernel.cs" />
     <Compile Include="Common\SettingsWrapper.cs" />
     <Compile Include="Exceptions\ProviderNotFoundException.cs" />
-    <Compile Include="IssueTracker\IssueTrackerProvider.cs" />
     <Compile Include="Models\ReleaseNoteConfiguration.cs" />
     <Compile Include="Models\Settings.cs" />
-    <Compile Include="Publisher\PublishProvider.cs" />
     <Compile Include="ReleaseNoteModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReleaseNoteGeneratorConsoleApplication.cs" />
-    <Compile Include="SourceControl\SourceControlProvider.cs" />
-    <Compile Include="TemplateProvider\TemplatesProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -206,6 +202,12 @@
       <Project>{8e7daeb0-6432-4db5-8a39-14f7f996483e}</Project>
       <Name>Ranger.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="IssueTracker\" />
+    <Folder Include="Publisher\" />
+    <Folder Include="SourceControl\" />
+    <Folder Include="TemplateProvider\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <UsingTask TaskName="CosturaCleanup" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.v4.0.dll" TaskFactory="CodeTaskFactory">

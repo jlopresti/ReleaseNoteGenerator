@@ -4,7 +4,6 @@ using System.Reflection;
 using Newtonsoft.Json.Linq;
 using Ninject;
 using Ninject.Modules;
-using Ranger.Console.Models;
 using Ranger.Core.Common;
 using Ranger.Core.IssueTracker;
 using Ranger.Core.Linker;
@@ -12,8 +11,9 @@ using Ranger.Core.Models;
 using Ranger.Core.Publisher;
 using Ranger.Core.SourceControl;
 using Ranger.Core.TemplateProvider;
+using Ranger.Web.Models;
 
-namespace Ranger.Console
+namespace Ranger.Web
 {
     public class ReleaseNoteModule : NinjectModule
     {
