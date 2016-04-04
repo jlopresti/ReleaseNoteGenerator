@@ -7,16 +7,16 @@ using Ranger.Core.Models.Publisher;
 
 namespace Ranger.Core.Publisher
 {
-    [Provider("local")]
+    [Provider("local", ConfigurationType = typeof(LocalPublishConfig))]
     [ConfigurationParameterValidation("outputfile")]
     internal class LocalPublisher : IPublisher
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(LocalPublisher));
         private LocalPublishConfig _config;
 
-        public LocalPublisher(JObject configPath)
+        public LocalPublisher(LocalPublishConfig config)
         {
-            _config = configPath.ToObject<LocalPublishConfig>();
+            _config = config;
             Guard.IsNotNull(() => _config);
         }
 

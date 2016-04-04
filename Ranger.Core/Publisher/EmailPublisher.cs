@@ -9,16 +9,16 @@ using Ranger.Core.Models.Publisher;
 
 namespace Ranger.Core.Publisher
 {
-    [Provider("email")]
+    [Provider("email", ConfigurationType = typeof(EmailPublishConfig))]
     [ConfigurationParameterValidation("server", "port", "from", "to")]
     internal class EmailPublisher : IPublisher
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(EmailPublisher));
         private EmailPublishConfig _config;
 
-        public EmailPublisher(JObject configPath)
+        public EmailPublisher(EmailPublishConfig config)
         {
-            _config = configPath.ToObject<EmailPublishConfig>();
+            _config = config;
             Guard.IsNotNull(() => _config);
         }
 

@@ -11,18 +11,18 @@ using Issue = Ranger.Core.Models.IssueTracker.Issue;
 
 namespace Ranger.Core.IssueTracker
 {
-    [Provider("jira")]
+    [Provider("jira", ConfigurationType = typeof(JiraConfig))]
     [ConfigurationParameterValidation("host", "login", "password", "project")]
     internal class JiraIssueTracker : IIssueTracker
     {
         private readonly JiraConfig _config;
         private readonly Jira _client;
 
-        public JiraIssueTracker(JObject config)
+        public JiraIssueTracker(JiraConfig config)
         {
             Guard.IsNotNull(() => config);
 
-            _config = config.ToObject<JiraConfig>();
+            _config = config;
 
             Guard.IsNotNull(() => _config);
 

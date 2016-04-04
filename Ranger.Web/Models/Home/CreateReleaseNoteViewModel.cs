@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Ranger.Web.Models
+namespace Ranger.Web.Models.Home
 {
     public class CreateReleaseNoteViewModel
     {

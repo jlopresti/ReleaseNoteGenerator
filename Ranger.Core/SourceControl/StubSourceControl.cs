@@ -6,12 +6,14 @@ using Ranger.Core.Models.SourceControl;
 
 namespace Ranger.Core.SourceControl
 {
-    [Provider("stub")]
+    [Provider("stub", ConfigurationType = typeof(GithubConfig))]
     public class StubSourceControl : ISourceControl
     {
-        public StubSourceControl(JObject config)
+        private GithubConfig _config;
+
+        public StubSourceControl(GithubConfig config)
         {
-            
+            _config = config;
         }
         public async Task<List<Commit>> GetCommits(string releaseNumber)
         {

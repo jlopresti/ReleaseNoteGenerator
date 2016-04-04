@@ -10,7 +10,7 @@ using Ranger.Core.Models.Template;
 
 namespace Ranger.Core.TemplateProvider
 {
-    [Provider("htmlFile")]
+    [Provider("htmlFile", ConfigurationType = typeof(HtmlFileTemplateConfig))]
     [ConfigurationParameterValidation("file")]
     public class HtmlFileTemplate : ITemplate
     {
@@ -18,9 +18,9 @@ namespace Ranger.Core.TemplateProvider
         private HtmlFileTemplateConfig _config;
         private RazorEngineWrapper _razor;
 
-        public HtmlFileTemplate(JObject templateConfigPath)
+        public HtmlFileTemplate(HtmlFileTemplateConfig config)
         {
-            _config = templateConfigPath.ToObject<HtmlFileTemplateConfig>();
+            _config = config;
             _razor = new RazorEngineWrapper();
             Guard.IsNotNull(() => _config);
         }

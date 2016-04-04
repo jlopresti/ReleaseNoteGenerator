@@ -12,7 +12,7 @@ using Commit = Ranger.Core.Models.SourceControl.Commit;
 
 namespace Ranger.Core.SourceControl
 {
-    [Provider("github")]
+    [Provider("github", ConfigurationType = typeof(GithubConfig))]
     [ConfigurationParameterValidation("projectConfigs")]
     public class GithubSourceControl : ISourceControl
     {

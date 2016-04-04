@@ -1,0 +1,36 @@
+﻿@using FluentBootstrap
+@model Ranger.Web.Models.Configurations.ViewConfigurationsViewModel
+@{
+    ViewBag.Title = "Configs";    
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h2>
+                Configurations
+                @using (var dropdown = Html.Bootstrap().Dropdown(Model.SelectedTeam).AddStyle("display", "inline-block").Begin())
+                {
+                    foreach (var team in Model.Teams)
+                    {
+                        @dropdown.DropdownLink(team, Url.Action("Index", "Configurations", new { id = team}))
+                    }
+                }
+            </h2>
+        </div>
+        @if (Model.SelectedTeam != null)
+        {
+            <h3>@Model.SelectedTeam
+                <a class="btn btn-primary" href="@Url.Action("Add", "Configurations", new { id = Model.SelectedTeam})"><span class="glyphicon glyphicon-plus-sign"></span> Add a config</a>
+            </h3>
+            <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                </tr>
+                @foreach (var config in Model.Configs)
+                {
+                    <tr><td>@config.Name</td></tr>
+                }
+            </table>
+        }
+    </div>
+</div>

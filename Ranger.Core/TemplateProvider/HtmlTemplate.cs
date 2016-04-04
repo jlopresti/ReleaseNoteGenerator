@@ -9,7 +9,7 @@ using Ranger.Core.Models.Template;
 
 namespace Ranger.Core.TemplateProvider
 {
-    [Provider("html")]
+    [Provider("html", ConfigurationType = typeof(HtmlTemplateConfig))]
     [ConfigurationParameterValidation("html")]
     class HtmlTemplate : ITemplate
     {
@@ -17,9 +17,9 @@ namespace Ranger.Core.TemplateProvider
         private HtmlTemplateConfig _config;
         private RazorEngineWrapper _razor;
 
-        public HtmlTemplate(JObject templateConfigPath)
+        public HtmlTemplate(HtmlTemplateConfig config)
         {
-            _config = templateConfigPath.ToObject<HtmlTemplateConfig>();
+            _config = config;
             _razor = new RazorEngineWrapper();
             Guard.IsNotNull(() => _config);
         }

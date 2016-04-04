@@ -39,7 +39,7 @@ namespace Ranger.Console
             
         }
 
-        private void RegisterProviders<T>(object config)
+        private void RegisterProviders<T>(JObject config)
         {
             var type = typeof(T);
             var types = AppDomain.CurrentDomain.GetAssemblies()
@@ -49,7 +49,16 @@ namespace Ranger.Console
                 .ToList();
             foreach (var type1 in types)
             {
-                Bind(type1).ToSelf().WithConstructorArgument(typeof(JObject), config);
+                var attr = type1.GetCustomAttribute<ProviderAttribute>();
+                if (attr.ConfigurationType == null)
+                {
+                    Bind(type1).ToSelf().WithConstructorArgument(typeof (JObject), config);
+                }
+                else
+                {
+
+                    Bind(type1).ToSelf().WithConstructorArgument(attr.ConfigurationType, config.ToObject(attr.ConfigurationType));
+                }
             }
         }
     }

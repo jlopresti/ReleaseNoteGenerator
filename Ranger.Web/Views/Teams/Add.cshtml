@@ -1,0 +1,27 @@
+﻿@using FluentBootstrap
+@model Ranger.Web.Models.Teams.CreateTeamViewModel
+
+@{
+    ViewBag.Title = "Add";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h2>Add a Team</h2>
+        </div>
+        @if (!ViewData.ModelState.IsValid)
+        {
+            using (Html.Bootstrap().Alert(AlertState.Danger).Begin())
+             {
+                 <div class="text-danger">
+                     @Html.ValidationSummary(false)
+                 </div>
+             }
+        }
+        @using (var form = Html.Bootstrap().Form().HideValidationSummary().SetHorizontal().Begin())
+        {
+            @form.InputFor(x => x.Name, FormInputType.Text)
+            @form.Submit("Create")
+        }       
+    </div>
+</div>

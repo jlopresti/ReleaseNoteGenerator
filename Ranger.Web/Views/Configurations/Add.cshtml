@@ -1,0 +1,36 @@
+﻿@using FluentBootstrap
+@using Ranger.Core.Models
+@model Ranger.Web.Models.Configurations.CreateConfigViewModel
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h2>Add configuration</h2>
+        </div>
+       @using (var form = Html.Bootstrap().Form().HideValidationSummary().SetHorizontal().Begin())
+       {
+
+           @form.Select("sourceControl", "Source Control Provider", new SelectList(Model.SourceControlProviders))
+        @form.Select("issueTracker", "Issue Tracker Provider", new SelectList(Model.IssueTrackerProviders))
+        @form.Select("template", "Template Provider", new SelectList(Model.TemplateProviders))
+
+            <div class="form-group">
+                <label for="configName" class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(x => x.Configuration.Name, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="configBox" class="col-sm-2 control-label">Config</label>
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(x => x.Configuration.Configuration, new { @class = "form-control", rows = 20, cols=5 })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Save</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>

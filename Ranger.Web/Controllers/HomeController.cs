@@ -14,6 +14,7 @@ using Ranger.Core.Models;
 using Ranger.Core.SourceControl;
 using Ranger.Core.TemplateProvider;
 using Ranger.Web.Models;
+using Ranger.Web.Models.Home;
 
 namespace Ranger.Web.Controllers
 {
@@ -52,34 +53,6 @@ namespace Ranger.Web.Controllers
             var output = template.Build(id, releaseNoteModel);
 
             return View(new ReleaseNoteOutputViewModel() { Html = output});
-        }
-
-        public ActionResult Config()
-        {
-            return View("Config", new AddConfigViewModel());
-        }
-
-        [HttpPost]
-        public ActionResult Config(AddConfigViewModel config)
-        {
-            try
-            {
-                var conf = config.Configuration.ToObject<Config>();
-                Guard.IsValidConfig(() => conf);
-                string path = HttpContext.Server.MapPath("~/App_Data/configs");
-                string fileName = $"{config.Name}.json";
-                string fullpath = Path.Combine(path, fileName);
-                System.IO.File.WriteAllText(fullpath, config.Configuration);
-            }
-            catch (JsonException ex)
-            {
-
-            }
-            catch (ApplicationException ex)
-            {
-
-            }
-            return RedirectToAction("Config");
         }
 
         public ActionResult ReleaseNote(string id, string config)

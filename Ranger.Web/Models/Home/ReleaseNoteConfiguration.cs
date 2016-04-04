@@ -2,7 +2,7 @@ using System.IO;
 using Ranger.Core.Helpers;
 using Ranger.Core.Models;
 
-namespace Ranger.Web.Models
+namespace Ranger.Web.Models.Home
 {
     public class ReleaseNoteConfiguration : IReleaseNoteConfiguration
     {
