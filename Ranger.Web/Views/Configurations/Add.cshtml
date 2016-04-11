@@ -8,11 +8,6 @@
         </div>
        @using (var form = Html.Bootstrap().Form().HideValidationSummary().SetHorizontal().Begin())
        {
-
-           @form.Select("sourceControl", "Source Control Provider", new SelectList(Model.SourceControlProviders))
-        @form.Select("issueTracker", "Issue Tracker Provider", new SelectList(Model.IssueTrackerProviders))
-        @form.Select("template", "Template Provider", new SelectList(Model.TemplateProviders))
-
             <div class="form-group">
                 <label for="configName" class="col-sm-2 control-label">Name</label>
                 <div class="col-sm-10">

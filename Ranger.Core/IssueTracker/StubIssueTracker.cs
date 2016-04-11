@@ -21,10 +21,12 @@ namespace Ranger.Core.IssueTracker
             issues.Add(new Issue() { Id = "SGR-3", Title = "Hello 3", Type = "Defect" });
             issues.Add(new Issue() { Id = "SGR-4", Title = "Hello 4", Type = "Story" });
             issues.Add(new Issue() { Id = "sdfsd", Title = "Hello 4", Type = "Story" });
+            issues.Add(new Issue() { Id = "SGR-54642", Title = "Hello 454654654", Type = "Story" });
 
             issues[0].AdditionalData.Add("Components", new List<string> {"Project1", "Oracle"});
             issues[1].AdditionalData.Add("Components", new List<string> { "Project2" });
             issues[3].AdditionalData.Add("Components", new List<string> { "Project2", "Oracle" });
+            issues[5].AdditionalData.Add("Components", new List<string> { "Project2", "Oracle" });
         }
 
         public Task<List<Issue>> GetIssues(string release)

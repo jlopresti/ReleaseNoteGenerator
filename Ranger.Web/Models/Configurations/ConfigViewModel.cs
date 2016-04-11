@@ -21,5 +21,6 @@ namespace Ranger.Web.Models.Configurations
         public List<string> IssueTrackerProviders { get; set; }
         public List<string> TemplateProviders { get; set; }
         public ConfigViewModel Configuration { get; set; }
+        public Conf TestConfig { get; set; }
     }
 }

@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Newtonsoft.Json.Linq;
 using Ranger.Web.Models.Configurations;
+using Ranger.Web.Models.Home;
 
 namespace Ranger.Web.Services
 {
@@ -49,6 +51,25 @@ namespace Ranger.Web.Services
             {
                 Name = Path.GetFileName(x)
             }).ToList();
+        }
+
+        public void CreateConfig(string team, string name, string config)
+        {
+            if (string.IsNullOrEmpty(team) || !TeamExists(team))
+                return;
+            var configPath = Path.Combine(APP_DATA_PATH.Value, CONFIGS_PATH, team);
+            string fileName = $"{name}.json";
+            string fullpath = Path.Combine(configPath, fileName);
+            System.IO.File.WriteAllText(fullpath, config);
+
+        }
+
+        public IEnumerable<string> GetComponents(string team)
+        {
+            var configPath = Directory.EnumerateFiles(Path.Combine(APP_DATA_PATH.Value, CONFIGS_PATH, team)).FirstOrDefault(x => Path.GetFileName(x) == "config.json");
+            var cfg = new ReleaseNoteConfiguration(configPath);
+            var components = cfg.Config.SourceControl["projectConfigs"] as JArray;
+            return components.Select(x => x["project"].Value<string>()).ToList();
         }
     }
 }

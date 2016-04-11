@@ -8,11 +8,13 @@ using Ranger.Core.Common;
 using Ranger.Core.IssueTracker;
 using Ranger.Core.Linker;
 using Ranger.Core.Models;
+using Ranger.Core.Models.Template;
 using Ranger.Core.Publisher;
 using Ranger.Core.SourceControl;
 using Ranger.Core.TemplateProvider;
 using Ranger.Web.Models;
 using Ranger.Web.Models.Home;
+using Ranger.Web.Models.TemplateProvider;
 
 namespace Ranger.Web
 {
@@ -35,7 +37,7 @@ namespace Ranger.Web
             Bind<ISourceControl>().To<DistinctCommitSourceControl>();
             Bind<IIssueTracker>().ToProvider(new IssueTrackerProvider()).WhenInjectedExactlyInto<DistinctIssue>();
             Bind<IIssueTracker>().To<DistinctIssue>();
-            Bind<ITemplate>().ToProvider(new TemplatesProvider());
+            Bind<ITemplate>().To<WebHtmlFileTemplate>().WithConstructorArgument(typeof(HtmlFileTemplateConfig), config.Config.Template.ToObject<HtmlFileTemplateConfig>());
             Bind<IPublisher>().ToProvider(new PublishProvider());
             
         }

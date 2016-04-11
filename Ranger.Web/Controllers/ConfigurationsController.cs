@@ -34,16 +34,13 @@ namespace Ranger.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Add(string id, ConfigViewModel config)
+        public ActionResult Add(string id, CreateConfigViewModel config)
         {
             try
             {
-                var conf = config.Configuration.ToObject<Config>();
+                var conf = config.Configuration.Configuration.ToObject<Config>();
                 Guard.IsValidConfig(() => conf);
-                string path = HttpContext.Server.MapPath("~/App_Data/configs");
-                string fileName = $"{config.Name}.json";
-                string fullpath = Path.Combine(path, id, fileName);
-                System.IO.File.WriteAllText(fullpath, config.Configuration);
+                _appService.CreateConfig(id, config.Configuration.Name, config.Configuration.Configuration);
             }
             catch (JsonException ex)
             {
@@ -65,12 +62,7 @@ namespace Ranger.Web.Controllers
             vm.IssueTrackerProviders = issueTrackerProviders.Select(x => x.Name).ToList();
             var providerAttributes = Utils.GetProviders<ITemplate>();
             vm.TemplateProviders = providerAttributes.Select(x => x.Name).ToList();
-            vm.TestConfig = new Conf
-            {
-                SourceControl = Activator.CreateInstance(sourceControlProviders.First().ConfigurationType),
-                IssueTracker = Activator.CreateInstance(issueTrackerProviders.First().ConfigurationType),
-                Template = Activator.CreateInstance(providerAttributes.First().ConfigurationType),
-            };
+
             vm.Configuration = new ConfigViewModel();
             return View(vm);
         }

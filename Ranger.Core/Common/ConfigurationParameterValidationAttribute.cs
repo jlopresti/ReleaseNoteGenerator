@@ -25,7 +25,7 @@ namespace Ranger.Core.Common
                     var jToken = value[parameter];
                     if (jToken == null || (!jToken.HasValues && string.IsNullOrEmpty(jToken.Value<string>())))
                         throw new ApplicationException($"{parameter} is missing in {memberExp.Member.Name} configuration");
-                    if (jToken == null || (jToken.HasValues && !jToken.Values<string>().Any()))
+                    if (jToken == null || (jToken.HasValues && !jToken.Values<object>().Any()))
                         throw new ApplicationException($"{parameter} is missing in {memberExp.Member.Name} configuration");
                 }
             }

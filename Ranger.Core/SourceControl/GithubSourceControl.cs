@@ -19,9 +19,9 @@ namespace Ranger.Core.SourceControl
         readonly ILog _logger = LogManager.GetLogger(typeof(GithubSourceControl));
         private readonly GithubConfig _config;
 
-        public GithubSourceControl(JObject configPath)
+        public GithubSourceControl(GithubConfig config)
         {
-            _config = configPath.ToObject<GithubConfig>();
+            _config = config;
             if (_config == null)
             {
                 _logger.Error("Invalid github config", new JsonException("Json is invalid"));
@@ -41,21 +41,32 @@ namespace Ranger.Core.SourceControl
             foreach (var projectConfig in _config.ProjectConfigs)
             {
                 var client = CreateGithubClient(projectConfig);
-                var compare = await client.Repository.Commit.Compare(_config.Owner, projectConfig.Project, _config.ProdBranch, string.Format(_config.ReleaseBranchPattern, releaseNumber));
-                var result = compare.Commits.Select(x =>
+                var branchRef =
+                    await
+                        client.Git.Reference.Get(_config.Owner, _config.Project,
+                            string.Format(_config.ReleaseBranchPattern, releaseNumber));
+                if (branchRef != null)
                 {
-                    var c = new Commit
+                    var compare =
+                        await
+                            client.Repository.Commit.Compare(_config.Owner, projectConfig.Project, _config.ProdBranch,
+                                string.Format(_config.ReleaseBranchPattern, releaseNumber));
+                    var result = compare.Commits.Select(x =>
                     {
-                        Title = x.Commit.Message,
-                        Url = x.HtmlUrl,
-                        Project = projectConfig.Project
-                    };
-                    c.Authors.Add(x.Author?.Login);
-                    return c;
-                }).ToList();
-                commits.AddRange(result);
+                        var c = new Commit
+                        {
+                            Title = x.Commit.Message,
+                            Url = x.HtmlUrl,
+                            Project = projectConfig.Project
+                        };
+                        c.Authors.Add(x.Author?.Login);
+                        return c;
+                    }).ToList();
+                    commits.AddRange(result);
+                }
+                return commits;
             }
-            return commits;
+            return new List<Commit>();
         }
     }
 }
