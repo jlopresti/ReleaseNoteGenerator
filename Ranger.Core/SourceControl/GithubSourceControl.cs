@@ -41,32 +41,35 @@ namespace Ranger.Core.SourceControl
             foreach (var projectConfig in _config.ProjectConfigs)
             {
                 var client = CreateGithubClient(projectConfig);
-                var branchRef =
-                    await
-                        client.Git.Reference.Get(_config.Owner, _config.Project,
-                            string.Format(_config.ReleaseBranchPattern, releaseNumber));
-                if (branchRef != null)
+                try
                 {
-                    var compare =
-                        await
-                            client.Repository.Commit.Compare(_config.Owner, projectConfig.Project, _config.ProdBranch,
-                                string.Format(_config.ReleaseBranchPattern, releaseNumber));
-                    var result = compare.Commits.Select(x =>
+                    var branchRef = await client.Repository.GetBranch(_config.Owner, projectConfig.Project,
+                            string.Format(_config.ReleaseBranchPattern, releaseNumber));
+                    if (branchRef != null)
                     {
-                        var c = new Commit
+                        var compare =
+                            await
+                                client.Repository.Commit.Compare(_config.Owner, projectConfig.Project, _config.ProdBranch,
+                                    string.Format(_config.ReleaseBranchPattern, releaseNumber));
+                        var result = compare.Commits.Select(x =>
                         {
-                            Title = x.Commit.Message,
-                            Url = x.HtmlUrl,
-                            Project = projectConfig.Project
-                        };
-                        c.Authors.Add(x.Author?.Login);
-                        return c;
-                    }).ToList();
-                    commits.AddRange(result);
+                            var c = new Commit
+                            {
+                                Title = x.Commit.Message,
+                                Url = x.HtmlUrl,
+                                Project = projectConfig.Project
+                            };
+                            c.Authors.Add(x.Author?.Login);
+                            return c;
+                        }).ToList();
+                        commits.AddRange(result);
+                    }                
                 }
-                return commits;
-            }
-            return new List<Commit>();
+                catch (NotFoundException ex)
+                {
+                }
+                
+            return commits;
         }
     }
 }
