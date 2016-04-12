@@ -1,36 +1,34 @@
 ﻿@using FluentBootstrap
+@using Ranger.Core.Models
 @model Ranger.Web.Models.Configurations.ViewConfigurationsViewModel
-@{
-    ViewBag.Title = "Configs";    
-}
 <div class="row">
     <div class="col-md-12">
         <div class="page-header">
             <h2>
-                Configurations
+                Save configuration
                 @using (var dropdown = Html.Bootstrap().Dropdown(Model.SelectedTeam).AddStyle("display", "inline-block").Begin())
                 {
                     foreach (var team in Model.Teams)
                     {
-                        @dropdown.DropdownLink(team, Url.Action("Index", "Configurations", new { id = team}))
+                        @dropdown.DropdownLink(team, Url.Action("Index", "Configurations", new { id = team }))
                     }
                 }
             </h2>
         </div>
-        @if (Model.SelectedTeam != null)
+        @using (var form = Html.Bootstrap().Form().HideValidationSummary().SetHorizontal().Begin())
         {
-            <h3>@Model.SelectedTeam
-                <a class="btn btn-primary" href="@Url.Action("Add", "Configurations", new { id = Model.SelectedTeam})"><span class="glyphicon glyphicon-plus-sign"></span> Add a config</a>
-            </h3>
-            <table class="table table-striped">
-                <tr>
-                    <th>Name</th>
-                </tr>
-                @foreach (var config in Model.Configs)
-                {
-                    <tr><td>@config.Name</td></tr>
-                }
-            </table>
+            <div class="form-group">
+                <label for="configBox" class="col-sm-2 control-label">Config</label>
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(x => x.Config, new { @class = "form-control", rows = 20, cols = 5 })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default">Save</button>
+                </div>
+            </div>
         }
     </div>
 </div>

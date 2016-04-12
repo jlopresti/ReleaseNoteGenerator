@@ -301,7 +301,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Release.cshtml" />
     <Content Include="Views\Home\ReleaseNote.cshtml" />
-    <Content Include="Views\Configurations\Add.cshtml" />
     <None Include="Views\Configurations\Index.cshtml" />
     <None Include="Views\Teams\Add.cshtml" />
     <None Include="Views\Teams\Index.cshtml" />

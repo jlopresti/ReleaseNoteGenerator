@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using Ranger.Core.Helpers;
@@ -25,22 +27,26 @@ namespace Ranger.Web.Controllers
 
         public ActionResult Index(string id)
         {
+            var cookie = Request.Cookies["team"];
+            var teamId = cookie != null ? cookie.Value : id;
             var vm = new ViewConfigurationsViewModel();
             vm.Teams = _appService.GetTeams();
-            vm.SelectedTeam = string.IsNullOrEmpty(id) ? vm.Teams.FirstOrDefault() : vm.Teams.FirstOrDefault(x => x.Equals(id, StringComparison.InvariantCultureIgnoreCase));
+            vm.SelectedTeam = string.IsNullOrEmpty(teamId) ? vm.Teams.FirstOrDefault() : vm.Teams.FirstOrDefault(x => x.Equals(id, StringComparison.InvariantCultureIgnoreCase));
             vm.SelectedTeam = vm.SelectedTeam ?? string.Empty;
-            vm.Configs = _appService.GetConfigs(vm.SelectedTeam);
+            vm.Config = _appService.GetConfig(vm.SelectedTeam) ?? string.Empty;
+
+            Response.Cookies.Set(new HttpCookie("team", vm.SelectedTeam));
             return View(vm);
         }
 
         [HttpPost]
-        public ActionResult Add(string id, CreateConfigViewModel config)
+        public ActionResult Index(string id, string config)
         {
             try
             {
-                var conf = config.Configuration.Configuration.ToObject<Config>();
+                var conf = config.ToObject<Config>();
                 Guard.IsValidConfig(() => conf);
-                _appService.CreateConfig(id, config.Configuration.Name, config.Configuration.Configuration);
+                _appService.CreateConfig(id, config);
             }
             catch (JsonException ex)
             {
@@ -51,20 +57,6 @@ namespace Ranger.Web.Controllers
 
             }
             return RedirectToAction("Index", "Configurations", new { id = id});
-        }
-
-        public ActionResult Add(string id)
-        {
-            var vm = new CreateConfigViewModel();
-            var sourceControlProviders = Utils.GetProviders<ISourceControl>();
-            vm.SourceControlProviders = sourceControlProviders.Select(x => x.Name).ToList();
-            var issueTrackerProviders = Utils.GetProviders<IIssueTracker>();
-            vm.IssueTrackerProviders = issueTrackerProviders.Select(x => x.Name).ToList();
-            var providerAttributes = Utils.GetProviders<ITemplate>();
-            vm.TemplateProviders = providerAttributes.Select(x => x.Name).ToList();
-
-            vm.Configuration = new ConfigViewModel();
-            return View(vm);
         }
     }
 }
