@@ -44,12 +44,13 @@ namespace Ranger.Core.SourceControl
                 try
                 {
                     var branchRef = await client.Repository.GetBranch(_config.Owner, projectConfig.Project,
-                            string.Format(_config.ReleaseBranchPattern, releaseNumber));
+                        string.Format(_config.ReleaseBranchPattern, releaseNumber));
                     if (branchRef != null)
                     {
                         var compare =
                             await
-                                client.Repository.Commit.Compare(_config.Owner, projectConfig.Project, _config.ProdBranch,
+                                client.Repository.Commit.Compare(_config.Owner, projectConfig.Project,
+                                    _config.ProdBranch,
                                     string.Format(_config.ReleaseBranchPattern, releaseNumber));
                         var result = compare.Commits.Select(x =>
                         {
@@ -63,12 +64,12 @@ namespace Ranger.Core.SourceControl
                             return c;
                         }).ToList();
                         commits.AddRange(result);
-                    }                
+                    }
                 }
                 catch (NotFoundException ex)
                 {
                 }
-                
+            }
             return commits;
         }
     }
