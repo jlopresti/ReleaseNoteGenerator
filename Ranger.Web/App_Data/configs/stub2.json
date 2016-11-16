@@ -1,0 +1,17 @@
+{
+  "sourceControl": {
+    "provider": "stub",
+    "messageCommitPattern": "sgr-\\w*"
+  },
+  "issueTracker": {
+    "provider": "stub"
+  },
+  "template": {
+    "provider": "htmlFile",
+    "file": "~/App_Data/template/template.html"
+  },
+  "publish": {
+    "provider": "local",
+    "outputfile": "note.html"
+  }
+}

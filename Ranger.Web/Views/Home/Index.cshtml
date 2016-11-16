@@ -1,0 +1,31 @@
+﻿@using FluentBootstrap
+@model Ranger.Web.Models.Home.CreateReleaseNoteViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h2>
+                Release Note
+                @using (var dropdown = Html.Bootstrap().Dropdown(Model.Team).AddStyle("display", "inline-block").Begin())
+                {
+                    foreach (var team in Model.Teams)
+                    {
+                        @dropdown.DropdownLink(team, Url.Action("Index", "Home", new { id = team }))
+                    }
+                }
+            </h2>
+        </div>
+        @using (var form = Html.Bootstrap().Form().HideValidationSummary().SetHorizontal().Begin())
+        {
+            @form.InputFor(x => x.Release)
+            foreach (var component in Model.Components)
+            {
+                @form.CheckBox("components", component.Label).AddAttribute("value", component.Label);
+            }
+            @form.Submit("Generate")
+        }
+    </div>
+</div>

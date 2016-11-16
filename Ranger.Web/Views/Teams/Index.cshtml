@@ -1,0 +1,21 @@
+﻿@model Ranger.Web.Models.Teams.TeamsViewModel
+
+@{
+    ViewBag.Title = "View";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h2>Teams <a class="btn btn-primary" href="@Url.Action("Add")"><span class="glyphicon glyphicon-plus-sign"></span> Add a team</a></h2>
+        </div>
+        <table class="table table-striped">
+            <tr>
+                <th>Name</th>
+            </tr>
+            @foreach (var team in Model.Teams)
+            {
+                <tr><td>@team</td></tr>
+            }
+        </table>
+    </div>
+</div>
