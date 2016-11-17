@@ -27,15 +27,15 @@ namespace Ranger.Web.Controllers
 
         public ActionResult Index(string id)
         {
-            var cookie = Request.Cookies["team"];
-            var teamId = cookie != null ? cookie.Value : id;
             var vm = new ViewConfigurationsViewModel();
             vm.Teams = _appService.GetTeams();
-            vm.SelectedTeam = string.IsNullOrEmpty(teamId) ? vm.Teams.FirstOrDefault() : vm.Teams.FirstOrDefault(x => x.Equals(id, StringComparison.InvariantCultureIgnoreCase));
-            vm.SelectedTeam = vm.SelectedTeam ?? string.Empty;
-            vm.Config = _appService.GetConfig(vm.SelectedTeam) ?? string.Empty;
+            var cookie = Request.Cookies["team"];
+            var teamId = string.IsNullOrEmpty(id) && cookie != null ? cookie.Value : id;
+            teamId = string.IsNullOrEmpty(teamId) ? vm.Teams.FirstOrDefault() : teamId;
+            vm.Team = teamId;
+            vm.Config = _appService.GetConfig(vm.Team) ?? string.Empty;
 
-            Response.Cookies.Set(new HttpCookie("team", vm.SelectedTeam));
+            Response.Cookies.Set(new HttpCookie("team", vm.Team));
             return View(vm);
         }
 

@@ -6,7 +6,7 @@
         <div class="page-header">
             <h2>
                 Save configuration
-                @using (var dropdown = Html.Bootstrap().Dropdown(Model.SelectedTeam).AddStyle("display", "inline-block").Begin())
+                @using (var dropdown = Html.Bootstrap().Dropdown(Model.Team).AddStyle("display", "inline-block").Begin())
                 {
                     foreach (var team in Model.Teams)
                     {
@@ -15,8 +15,8 @@
                 }
             </h2>
         </div>
-        @using (var form = Html.Bootstrap().Form().HideValidationSummary().SetHorizontal().Begin())
-        {
+        @using (var form = Html.Bootstrap().Form("Index", "Configurations", FormMethod.Post, new { id = Model.Team }).HideValidationSummary().SetHorizontal().Begin())
+        {            
             <div class="form-group">
                 <label for="configBox" class="col-sm-2 control-label">Config</label>
                 <div class="col-sm-10">

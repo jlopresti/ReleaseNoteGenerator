@@ -33,14 +33,13 @@ namespace Ranger.Web.Controllers
         {
             var teams = _appservice.GetTeams().ToList();
             var cookie = Request.Cookies["team"];
-            var teamId = cookie != null ? cookie.Value : id;
-            var team = string.IsNullOrEmpty(teamId) ? teams.FirstOrDefault() : teams.FirstOrDefault(x => x.Equals(id, StringComparison.InvariantCultureIgnoreCase));
-            team = team ?? string.Empty;
+            var teamId = string.IsNullOrEmpty(id) && cookie != null ? cookie.Value : id;
+            teamId = string.IsNullOrEmpty(teamId) ? teams.FirstOrDefault() : teamId;
             var vm = new CreateReleaseNoteViewModel();
-            var components = _appservice.GetComponents(team);
+            var components = _appservice.GetComponents(teamId);
             vm.Components = components.Select(x => new Compo() {Label = x}).ToList();
             vm.Teams = teams;
-            vm.Team = team;
+            vm.Team = teamId;
             Response.Cookies.Set(new HttpCookie("team", vm.Team));
             return View(vm);
         }

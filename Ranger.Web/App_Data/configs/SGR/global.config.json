@@ -2,8 +2,8 @@
   "sourceControl": {
     "provider": "stub",
     "projectConfigs": [
-      { "project": "test" },
-      { "project": "toto" }
+      { "project": "teste" },
+      { "project": "ttoto" }
     ],
     "messageCommitPattern": "sgr-\\w*"
   },
