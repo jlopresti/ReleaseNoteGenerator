@@ -29,6 +29,39 @@ namespace Ranger.Web.Controllers
             return View(new CreateTeamViewModel());
         }
 
+        public ActionResult Edit(string id)
+        {
+            if (!_appService.TeamExists(id))
+            {
+                return HttpNotFound();
+            }
+            return View(new CreateTeamViewModel() { Name = id});
+        }
+
+        [HttpPost]
+        public ActionResult Edit(string id, CreateTeamViewModel vm)
+        {
+            if (!_appService.TeamExists(id))
+            {
+                return HttpNotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            if (_appService.TeamExists(vm.Name))
+            {
+                ModelState.AddModelError(string.Empty, $"Directory {vm.Name} already exists");
+                return View(vm);
+            }
+
+            _appService.EditTeam(id, vm.Name);
+
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         public ActionResult Add(CreateTeamViewModel vm)
         {

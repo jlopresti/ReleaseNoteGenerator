@@ -20,10 +20,12 @@ namespace Ranger.Web
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                      "~/Scripts/jsoneditor/jsoneditor-minimalist.min.js",
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Scripts/jsoneditor/jsoneditor.min.css",
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
         }

@@ -70,5 +70,18 @@ namespace Ranger.Web.Services
             var components = cfg.Config.SourceControl["projectConfigs"] as JArray;
             return components.Select(x => x["project"].Value<string>()).ToList();
         }
+
+        public bool EditTeam(string oldName, string newName)
+        {
+            var oldDirectory = Path.Combine(APP_DATA_PATH.Value, CONFIGS_PATH, oldName);
+            var newDirectory = Path.Combine(APP_DATA_PATH.Value, CONFIGS_PATH, newName);
+            if (!string.IsNullOrEmpty(oldName) && !string.IsNullOrEmpty(newName) 
+                && Directory.Exists(oldDirectory) && !Directory.Exists(newDirectory))
+            {
+                Directory.Move(oldDirectory, newDirectory);
+                return true;
+            }
+            return false;
+        }
     }
 }

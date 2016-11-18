@@ -1,9 +1,10 @@
-﻿@model Ranger.Web.Models.Teams.TeamsViewModel
+﻿@using FluentBootstrap
+@model Ranger.Web.Models.Teams.TeamsViewModel
 
 @{
     ViewBag.Title = "View";
 }
-<div class="row">
+<div class="row team">
     <div class="col-md-12">
         <div class="page-header">
             <h2>Teams <a class="btn btn-primary" href="@Url.Action("Add")"><span class="glyphicon glyphicon-plus-sign"></span> Add a team</a></h2>
@@ -11,10 +12,16 @@
         <table class="table table-striped">
             <tr>
                 <th>Name</th>
+                <th></th>
             </tr>
             @foreach (var team in Model.Teams)
             {
-                <tr><td>@team</td></tr>
+                <tr>
+                    <td>@team</td>
+                    <td class="text-right">
+                        <a class="btn btn-primary" href="@Url.Action("Edit", "Teams", new { id=team})"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                    </td>
+                </tr>
             }
         </table>
     </div>

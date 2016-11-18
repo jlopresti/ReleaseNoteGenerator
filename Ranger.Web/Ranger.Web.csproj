@@ -280,6 +280,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jsoneditor\jsoneditor-minimalist.min.js" />
+    <Content Include="Scripts\jsoneditor\jsoneditor.min.css" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -303,10 +305,12 @@
     <Content Include="Views\Home\ReleaseNote.cshtml" />
     <None Include="Views\Configurations\Index.cshtml" />
     <None Include="Views\Teams\Add.cshtml" />
+    <Content Include="Views\Teams\Edit.cshtml" />
     <None Include="Views\Teams\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\configs\" />
+    <Folder Include="Scripts\jsoneditor\img\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

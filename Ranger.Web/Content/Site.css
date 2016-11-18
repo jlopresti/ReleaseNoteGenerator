@@ -21,3 +21,7 @@ input,
 select{
     max-width: 280px;
 }
+
+.team form {
+    display: inline-block;
+}
