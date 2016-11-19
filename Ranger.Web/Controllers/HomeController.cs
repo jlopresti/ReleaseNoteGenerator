@@ -53,7 +53,7 @@ namespace Ranger.Web.Controllers
         public async Task<ActionResult> Release(string id, string release, string components)
         {
             string path = HttpContext.Server.MapPath("~/App_Data/configs/"+id);
-            var configPath = Directory.EnumerateFiles(path).FirstOrDefault(x => Path.GetFileName(x) == "config.json");
+            var configPath = Directory.EnumerateFiles(path).FirstOrDefault(x => Path.GetFileName(x) == AppService.CONFIG_NAME_PATH);
             var cfg = new ReleaseNoteConfiguration(configPath);
             var cmp = cfg.Config.SourceControl["projectConfigs"] as JArray;
             var l = cmp.Where(x => components.Contains(x["project"].Value<string>())).ToList();

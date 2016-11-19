@@ -15,7 +15,7 @@ namespace Ranger.Web.Services
     {
         private readonly Lazy<string> APP_DATA_PATH = new Lazy<string>(() => HttpContext.Current.Server.MapPath("~/App_Data/"));
         private const string CONFIGS_PATH = "configs";
-        private const string CONFIG_NAME_PATH = "global.config.json";
+        public const string CONFIG_NAME_PATH = "global.config.json";
         private const string TEMPLATES_PATH = "templates";
 
         public IEnumerable<string> GetTeams()
