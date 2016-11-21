@@ -234,6 +234,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\ConfigurationsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PastReleaseController.cs" />
     <Compile Include="Controllers\TeamsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -304,6 +305,9 @@
     <Content Include="Views\Home\Release.cshtml" />
     <Content Include="Views\Home\ReleaseNote.cshtml" />
     <None Include="Views\Configurations\Index.cshtml" />
+    <Content Include="Views\PastRelease\Index.cshtml" />
+    <Content Include="Views\PastRelease\Release.cshtml" />
+    <Content Include="Views\PastRelease\ReleaseNote.cshtml" />
     <None Include="Views\Teams\Add.cshtml" />
     <Content Include="Views\Teams\Edit.cshtml" />
     <None Include="Views\Teams\Index.cshtml" />

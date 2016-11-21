@@ -1,0 +1,20 @@
+﻿<div class="row" style="min-height: 200px">
+    <div class="progress" id="progress" style="width: 200px; margin-top: 100px; margin-left: auto; margin-right: auto;">
+        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+            
+        </div>
+    </div>
+    <div style="display: none" id="frame">
+        <iframe src="@ViewBag.Url" frameborder="0" width="100%" onload="resizeFrame(this)"></iframe>
+    </div>
+</div>
+
+@section scripts{
+    <script language="javascript" type="text/javascript">
+        function resizeFrame(obj) {
+            $("#progress").hide();
+            $("#frame").show();
+            obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
+        }
+    </script>
+}

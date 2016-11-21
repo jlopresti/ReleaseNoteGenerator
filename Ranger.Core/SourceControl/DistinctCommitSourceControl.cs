@@ -24,6 +24,12 @@ namespace Ranger.Core.SourceControl
             Guard.IsNotNullOrEmpty(() => releaseNumber);
 
             var result = await _innerSourceControl.GetCommits(releaseNumber);
+            result = GetDistinctCommits(result);
+            return result;
+        }
+
+        private List<Commit> GetDistinctCommits(List<Commit> result)
+        {
             _logger.Debug($"[SC] Getting {result.Count} items from source control");
             result = result.GroupBy(x => x.Id).Select(x =>
             {
@@ -32,6 +38,15 @@ namespace Ranger.Core.SourceControl
                 return c;
             }).ToList();
             _logger.Debug($"[SC] Getting {result.Count} distincts items from source control after reducing");
+            return result;
+        }
+
+        public async Task<List<Commit>> GetCommitsFromPastRelease(string release)
+        {
+            Guard.IsNotNullOrEmpty(() => release);
+
+            var result = await _innerSourceControl.GetCommitsFromPastRelease(release);
+            result = GetDistinctCommits(result);
             return result;
         }
     }

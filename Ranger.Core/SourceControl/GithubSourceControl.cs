@@ -38,7 +38,7 @@ namespace Ranger.Core.SourceControl
         public async Task<List<Commit>> GetCommits(string releaseNumber)
         {
             var commits = new List<Commit>();
-            foreach (var projectConfig in _config.ProjectConfigs)
+            foreach (var projectConfig in _config.ProjectConfigs) 
             {
                 var client = CreateGithubClient(projectConfig);
                 try
@@ -52,6 +52,43 @@ namespace Ranger.Core.SourceControl
                                 client.Repository.Commit.Compare(_config.Owner, projectConfig.Project,
                                     _config.ProdBranch,
                                     string.Format(_config.ReleaseBranchPattern, releaseNumber));
+                        var result = compare.Commits.Select(x =>
+                        {
+                            var c = new Commit
+                            {
+                                Title = x.Commit.Message,
+                                Url = x.HtmlUrl,
+                                Project = projectConfig.Project
+                            };
+                            c.Authors.Add(x.Author?.Login);
+                            return c;
+                        }).ToList();
+                        commits.AddRange(result);
+                    }
+                }
+                catch (NotFoundException ex)
+                {
+                }
+            }
+            return commits;
+        }
+
+        public async Task<List<Commit>> GetCommitsFromPastRelease(string release)
+        {
+            var commits = new List<Commit>();
+            foreach (var projectConfig in _config.ProjectConfigs)
+            {
+                var client = CreateGithubClient(projectConfig);
+                try
+                {
+                    var repoTags = await client.Repository.GetAllTags(_config.Owner, projectConfig.Project);
+                    var tags = repoTags.Select(x => x.Name).ToList();
+                    var releaseTagIndex = tags.IndexOf(release);
+                    if (releaseTagIndex > 0)
+                    {
+                        var latestMasterBeforeRelase = tags[releaseTagIndex - 1];
+                        var compare = await client.Repository.Commit.Compare(_config.Owner, projectConfig.Project,
+                                    latestMasterBeforeRelase, release);
                         var result = compare.Commits.Select(x =>
                         {
                             var c = new Commit

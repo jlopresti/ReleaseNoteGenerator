@@ -1,7 +1,8 @@
 ﻿@using FluentBootstrap
 @model Ranger.Web.Models.Home.CreateReleaseNoteViewModel
+
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Past Release";
 }
 
 <div class="row">
@@ -13,12 +14,12 @@
                 {
                     foreach (var team in Model.Teams)
                     {
-                        @dropdown.DropdownLink(team, Url.Action("Index", "Home", new { id = team }))
+                        @dropdown.DropdownLink(team, Url.Action("Index", "PastRelease", new { id = team }))
                     }
                 }
             </h2>
         </div>
-        @using (var form = Html.Bootstrap().Form("Index", "Home", FormMethod.Post, new { id = Model.Team}).HideValidationSummary().SetHorizontal().Begin())
+        @using (var form = Html.Bootstrap().Form("Index", "PastRelease", FormMethod.Post, new { id = Model.Team }).HideValidationSummary().SetHorizontal().Begin())
         {
             @form.InputFor(x => x.Release)
             foreach (var component in Model.Components)

@@ -3,10 +3,10 @@
     "provider": "stub",
     "projectConfigs": [
       {
-        "project": "aaaa"
+        "project": "test"
       },
       {
-        "project": "ttoto"
+        "project": "toto"
       }
     ],
     "messageCommitPattern": "sgr-\\w*"

@@ -36,6 +36,12 @@ namespace Ranger.Core.SourceControl
             Guard.IsNotNullOrEmpty(() => releaseNumber);
 
             var result = await _innerSourceControl.GetCommits(releaseNumber);
+            result = EnrichCommitWithData(result);
+            return result;
+        }
+
+        private List<Commit> EnrichCommitWithData(List<Commit> result)
+        {
             if (!string.IsNullOrEmpty(_excludePattern))
             {
                 result = result.Where(x => !Regex.IsMatch(x.Title, _excludePattern, RegexOptions.IgnoreCase)).ToList();
@@ -75,6 +81,15 @@ namespace Ranger.Core.SourceControl
                     }
                 }
             }
+        }
+
+        public async Task<List<Commit>> GetCommitsFromPastRelease(string release)
+        {
+            Guard.IsNotNullOrEmpty(() => release);
+
+            var result = await _innerSourceControl.GetCommits(release);
+            result = EnrichCommitWithData(result);
+            return result;
         }
     }
 }
