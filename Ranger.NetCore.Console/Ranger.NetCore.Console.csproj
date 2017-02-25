@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="template.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.1.1-beta" />
+    <PackageReference Include="SimpleInjector" Version="4.0.0-beta1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ranger.NetCore.Github\Ranger.NetCore.Github.csproj" />
+    <ProjectReference Include="..\Ranger.NetCore.Jira\Ranger.NetCore.Jira.csproj" />
+    <ProjectReference Include="..\Ranger.NetCore.RazorHtml\Ranger.NetCore.RazorHtml.csproj" />
+    <ProjectReference Include="..\Ranger.NetCore.Smtp\Ranger.NetCore.Smtp.csproj" />
+    <ProjectReference Include="..\Ranger.NetCore\Ranger.NetCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="config.stub.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="config.test.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

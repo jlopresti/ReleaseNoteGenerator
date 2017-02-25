@@ -1,0 +1,42 @@
+﻿{
+  "sourceControl": {
+    "provider": "github",
+    "host": "http://toto",
+    "login": "julien",
+    "apikey": "123",
+    "owner": "JiLo",
+    "project": "JLO",
+    "prodBranch": "master",
+    "releaseBranchPattern": "release/{0}",
+    "messageCommitPattern": "cloud-\\w*"
+  },
+  "issueTracker": {
+    "provider": "jira",
+    "host": "http://jira",
+    "login": "login",
+    "password": "pwd",
+    "project": "CLOUD"
+  },
+  "template": {
+    "provider": "html",
+    "html": "<b>@Model.Tickets[0].Title</b>"
+  },
+  //"template": {
+  //  "provider": "htmlFile",
+  //  "file": "C:\\Users\\Julien\\Documents\\Source\\Poc\\ReleaseNoteGenerator\\ReleaseNoteGenerator.Console\\bin\\Debug\\template.html"
+  //},
+  "publish": {
+    "provider": "local",
+    "outputfile": "note.html"
+  }
+  //"publish": {
+  //  "provider": "email",
+  //  "from": "toto@xxx.com",
+  //  "to": "toto@yyy.com",
+  //  "server": "smtp.corporate.fr",
+  //  "port": "25",
+  //  "username": "",
+  //  "password": "",
+  //  "ssl": true
+  //}
+}

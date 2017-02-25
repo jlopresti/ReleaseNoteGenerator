@@ -1,0 +1,21 @@
+﻿{
+  "sourceControl": {
+    "provider": "stub",
+    "messageCommitPattern": "sgr-\\w*",
+    "projectConfigs": [
+      { "project": "toto" },
+      { "project": "test" }
+    ]
+  },
+  "issueTracker": {
+    "provider": "stub"
+  },
+  "template": {
+    "provider": "htmlFile",
+    "file": "template.html"
+  },
+  "publish": {
+    "provider": "local",
+    "outputfile": "note.html"
+  }
+}

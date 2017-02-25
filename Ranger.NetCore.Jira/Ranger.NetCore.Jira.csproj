@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ranger.NetCore\Ranger.NetCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Dapplo.HttpExtensions">
+      <HintPath>Dll\Dapplo.HttpExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapplo.Jira">
+      <HintPath>Dll\Dapplo.Jira.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
