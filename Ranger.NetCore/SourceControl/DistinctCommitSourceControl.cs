@@ -49,5 +49,10 @@ namespace Ranger.NetCore.SourceControl
             result = GetDistinctCommits(result);
             return result;
         }
+
+        public void ActivatePlugin()
+        {
+            _innerSourceControl.ActivatePlugin();
+        }
     }
 }

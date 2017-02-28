@@ -7,6 +7,7 @@ using System.Runtime.Loader;
 using System.Text;
 using log4net.Plugin;
 using Ranger.NetCore.Console.Common;
+using Ranger.NetCore.Console.Models;
 using Ranger.NetCore.Helpers;
 using Ranger.NetCore.IssueTracker;
 using Ranger.NetCore.Linker;
@@ -28,13 +29,19 @@ namespace Ranger.NetCore.Console
             return _container.GetInstance<T>();
         }
 
-        public IDependencyResolver Configure(Type application, Type configuration)
+        public IEnumerable<T> ResolveAll<T>() where T : class
+        {
+            return _container.GetAllInstances<T>();
+        }
+
+        public IDependencyResolver Configure(Type application)
         {
             _container = new Container();
 
             _container.RegisterSingleton(typeof(IConsoleApplication<>), application);
             //_container.RegisterSingleton(typeof(IConsoleApplicationConfiguration), configuration);
-            //_container.RegisterSingleton(typeof(IReleaseNoteConfiguration), configuration);
+            _container.RegisterSingleton<IReleaseNoteConfiguration, ReleaseNoteConfiguration>();
+            _container.RegisterSingleton<IDependencyResolver>(this);
 
             string pluginDirectory =
     Path.Combine(AppContext.BaseDirectory);
@@ -46,7 +53,7 @@ namespace Ranger.NetCore.Console
                 .Where(x => x.FullName.StartsWith("Ranger.NetCore"))
                 .ToList();
 
-            _container.RegisterCollection<IIssueTracker>(pluginAssemblies);
+            _container.RegisterCollection<IIssueTracker>(pluginAssemblies);            
             _container.RegisterCollection<ISourceControl>(pluginAssemblies);
             _container.RegisterCollection<IPublisher>(pluginAssemblies);
             _container.RegisterCollection<ITemplate>(pluginAssemblies);
@@ -76,11 +83,12 @@ namespace Ranger.NetCore.Console
 
     public interface IDependencyBootstrapper
     {
-        IDependencyResolver Configure(Type application, Type configuguration);
+        IDependencyResolver Configure(Type application);
     }
 
     public interface IDependencyResolver
     {
         T Resolve<T>() where T : class;
+        IEnumerable<T> ResolveAll<T>() where T : class;
     }
 }

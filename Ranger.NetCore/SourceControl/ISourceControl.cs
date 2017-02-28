@@ -8,5 +8,6 @@ namespace Ranger.NetCore.SourceControl
     {
         Task<List<CommitInfo>> GetCommits(string releaseNumber);
         Task<List<CommitInfo>> GetCommitsFromPastRelease(string release);
+        void ActivatePlugin();
     }
 }

@@ -1,6 +1,6 @@
 namespace Ranger.NetCore.Console.Common
 {
-    public class SettingsWrapper<T> : IVerboseParameter, ISilentParameter
+    public class SettingsWrapper<T> : IConsoleApplicationConfiguration
     {
         private readonly T _settings;
 

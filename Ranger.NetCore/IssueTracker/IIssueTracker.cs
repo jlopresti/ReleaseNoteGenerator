@@ -8,5 +8,6 @@ namespace Ranger.NetCore.IssueTracker
     {
         Task<List<Issue>> GetIssues(string release);
         Task<Issue> GetIssue(string id);
+        void ActivatePlugin();
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using log4net;
+using Newtonsoft.Json.Linq;
 using Ranger.NetCore.Helpers;
 using Ranger.NetCore.IssueTracker;
 using Ranger.NetCore.Models;
@@ -27,8 +28,8 @@ namespace Ranger.NetCore.SourceControl
 
             _innerSourceControl = innerSourceControl;
             _issueTracker = issueTracker;
-            _pattern = config.Config.SourceControl.GetCommitMessagePattern();
-            _excludePattern = config.Config.SourceControl.GetExcludeCommitPattern();
+            _pattern = config.GetSourceControlConfig<JObject>().GetCommitMessagePattern();
+            _excludePattern = config.GetSourceControlConfig<JObject>().GetExcludeCommitPattern();
         }
 
         public async Task<List<CommitInfo>> GetCommits(string releaseNumber)
@@ -90,6 +91,11 @@ namespace Ranger.NetCore.SourceControl
             var result = await _innerSourceControl.GetCommits(release);
             result = await EnrichCommitWithData(result);
             return result;
+        }
+
+        public void ActivatePlugin()
+        {
+            _innerSourceControl.ActivatePlugin();
         }
     }
 }

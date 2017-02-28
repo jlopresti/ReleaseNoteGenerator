@@ -2,7 +2,11 @@ namespace Ranger.NetCore.Models
 {
     public interface IReleaseNoteConfiguration
     {
-        Config Config { get; }
-        string ReleaseNumber { get;}
+        string ReleaseNumber { get; }
+        T GetIssueTrackerConfig<T>();
+        T GetPublisherConfig<T>();
+        T GetSourceControlConfig<T>();
+        T GetTemplateConfig<T>();
+        bool LoadConfigFile(string path, string release);
     }
 }

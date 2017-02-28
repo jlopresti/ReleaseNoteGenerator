@@ -33,6 +33,8 @@ namespace Ranger.NetCore.Console
 
         public async Task<int> Run(ReleaseNoteSettings args)
         {
+            _configuration.LoadConfigFile(args.ConfigPath, args.ReleaseNumber);
+
             _logger.Debug("[APP] Start running application ...");
             _sourceControl = _providerFactory.CreateSourceControl(_configuration);
             _issueTracker = _providerFactory.CreateIssueTracker(_configuration);

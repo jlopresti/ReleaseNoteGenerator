@@ -12,7 +12,7 @@ namespace Ranger.NetCore.Console.Common
 {
     internal class ApplicationBootstrapper<TApp, TConfig> : IApplicationBootstrapper<TApp, TConfig> 
         where TApp : IConsoleApplication<TConfig>
-        where TConfig : class, IConsoleApplicationConfiguration, new()
+        where TConfig : class, new()
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(ApplicationBootstrapper<TApp, TConfig>));
         private Action _exitOnAction = () => { };
@@ -51,7 +51,7 @@ namespace Ranger.NetCore.Console.Common
                 var consoleParams = _reader.ReadConsoleArgs<TConfig>(args);
                 if (consoleParams.Success)
                 {
-                    SetupLoggingLevel(consoleParams.Parameters.Value);
+                    SetupLoggingLevel(consoleParams.Parameters);
 
                     var application = _dependencyResolver.Resolve<IConsoleApplication<TConfig>>();
                     var task = application.Run(consoleParams.Parameters.Value);
@@ -100,7 +100,7 @@ namespace Ranger.NetCore.Console.Common
             where TBootstrapper : IDependencyBootstrapper, new()
         {
             var bootstrapper = new TBootstrapper();
-            _dependencyResolver = bootstrapper.Configure(typeof(TApp), typeof(TConfig));
+            _dependencyResolver = bootstrapper.Configure(typeof(TApp));
             return this;
         }
 

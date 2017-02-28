@@ -12,7 +12,7 @@
   },
   "template": {
     "provider": "htmlFile",
-    "file": "template.html"
+    "file": ""
   },
   "publish": {
     "provider": "local",

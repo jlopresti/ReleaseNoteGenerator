@@ -6,5 +6,6 @@ namespace Ranger.NetCore.TemplateProvider
     public interface ITemplate
     {
         string Build(string releaseNumber, List<ReleaseNoteEntry> releaseNoteModel);
+        void ActivatePlugin();
     }
 }

@@ -39,5 +39,10 @@ namespace Ranger.NetCore.IssueTracker
             _logger.Debug($"[IT] Getting issue {id} from issue tracker");
             return _innerSourceControl.GetIssue(id);
         }
+
+        public void ActivatePlugin()
+        {
+            _innerSourceControl.ActivatePlugin();
+        }
     }
 }

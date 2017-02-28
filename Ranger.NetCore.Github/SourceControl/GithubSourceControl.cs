@@ -6,26 +6,23 @@ using log4net;
 using Newtonsoft.Json;
 using Octokit;
 using Ranger.NetCore.Common;
+using Ranger.NetCore.Models;
 using Ranger.NetCore.Models.SourceControl;
+using Ranger.NetCore.Publisher;
 using Ranger.NetCore.SourceControl;
 
 namespace Ranger.NetCore.Github.SourceControl
 {
     [Provider("github", ConfigurationType = typeof(GithubConfig))]
     [ConfigurationParameterValidation("projectConfigs")]
-    public class GithubSourceControl : ISourceControl
+    public class GithubSourceControl : BaseSourceControlPlugin<GithubConfig>
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(GithubSourceControl));
-        private readonly GithubConfig _config;
 
-        public GithubSourceControl(GithubConfig config)
+        public GithubSourceControl(IReleaseNoteConfiguration configuration)
+            : base(configuration)
         {
-            _config = config;
-            if (_config == null)
-            {
-                _logger.Error("Invalid github config", new JsonException("Json is invalid"));
-                return;
-            }
+
         }
 
         private GitHubClient CreateGithubClient(GithubProjectConfig config)
@@ -34,23 +31,23 @@ namespace Ranger.NetCore.Github.SourceControl
             { Credentials = new Octokit.Credentials(config.Login, config.Apikey) };
         }
 
-        public async Task<List<CommitInfo>> GetCommits(string releaseNumber)
+        public override async Task<List<CommitInfo>> GetCommits(string releaseNumber)
         {
             var commits = new List<CommitInfo>();
-            foreach (var projectConfig in _config.ProjectConfigs) 
+            foreach (var projectConfig in Configuration.ProjectConfigs) 
             {
                 var client = CreateGithubClient(projectConfig);
                 try
                 {
-                    var branchRef = await client.Repository.GetBranch(_config.Owner, projectConfig.Project,
-                        string.Format(_config.ReleaseBranchPattern, releaseNumber));
+                    var branchRef = await client.Repository.GetBranch(Configuration.Owner, projectConfig.Project,
+                        string.Format(Configuration.ReleaseBranchPattern, releaseNumber));
                     if (branchRef != null)
                     {
                         var compare =
                             await
-                                client.Repository.Commit.Compare(_config.Owner, projectConfig.Project,
-                                    _config.ProdBranch,
-                                    string.Format(_config.ReleaseBranchPattern, releaseNumber));
+                                client.Repository.Commit.Compare(Configuration.Owner, projectConfig.Project,
+                                    Configuration.ProdBranch,
+                                    string.Format(Configuration.ReleaseBranchPattern, releaseNumber));
                         var result = compare.Commits.Select(x =>
                         {
                             var c = new CommitInfo
@@ -72,21 +69,21 @@ namespace Ranger.NetCore.Github.SourceControl
             return commits;
         }
 
-        public async Task<List<CommitInfo>> GetCommitsFromPastRelease(string release)
+        public override async Task<List<CommitInfo>> GetCommitsFromPastRelease(string release)
         {
             var commits = new List<CommitInfo>();
-            foreach (var projectConfig in _config.ProjectConfigs)
+            foreach (var projectConfig in Configuration.ProjectConfigs)
             {
                 var client = CreateGithubClient(projectConfig);
                 try
                 {
-                    var repoTags = await client.Repository.GetAllTags(_config.Owner, projectConfig.Project);
+                    var repoTags = await client.Repository.GetAllTags(Configuration.Owner, projectConfig.Project);
                     var tags = repoTags.Select(x => x.Name).ToList();
                     var releaseTagIndex = tags.IndexOf(release);
                     if (releaseTagIndex > 0)
                     {
                         var latestMasterBeforeRelase = tags[releaseTagIndex - 1];
-                        var compare = await client.Repository.Commit.Compare(_config.Owner, projectConfig.Project,
+                        var compare = await client.Repository.Commit.Compare(Configuration.Owner, projectConfig.Project,
                                     latestMasterBeforeRelase, release);
                         var result = compare.Commits.Select(x =>
                         {

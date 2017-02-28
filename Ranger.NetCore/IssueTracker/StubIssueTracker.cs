@@ -13,7 +13,7 @@ namespace Ranger.NetCore.IssueTracker
     {
         private List<Issue> issues;
 
-        public StubIssueTracker(/*JObject configPath*/)
+        public StubIssueTracker()
         {
             issues = new List<Issue>();
             issues.Add(new Issue() { Id = "SGR-1", Title = "Hello 1", Type = "Story"});
@@ -37,6 +37,11 @@ namespace Ranger.NetCore.IssueTracker
         public Task<Issue> GetIssue(string id)
         {
             return Task.FromResult(issues.FirstOrDefault(x => x.Id.Equals(id, StringComparison.CurrentCultureIgnoreCase)));
+        }
+
+        public void ActivatePlugin()
+        {
+            
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Ranger.NetCore.Console.Common
 {
     internal interface IApplicationBootstrapper<TApp, TConfig> 
         where TApp : IConsoleApplication<TConfig> 
-        where TConfig : class, IConsoleApplicationConfiguration, new()
+        where TConfig : class, new()
     {
         IApplicationBootstrapper<TApp, TConfig> ConfigureLogging();
         int Start(string[] args);

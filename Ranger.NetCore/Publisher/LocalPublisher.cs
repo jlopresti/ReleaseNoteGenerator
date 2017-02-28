@@ -2,26 +2,28 @@
 using log4net;
 using Ranger.NetCore.Common;
 using Ranger.NetCore.Helpers;
-using Ranger.NetCore.Models.publisher;
+using Ranger.NetCore.Models;
+using Ranger.NetCore.Models.Publisher;
 
 namespace Ranger.NetCore.Publisher
 {
     [Provider("local", ConfigurationType = typeof(LocalPublishConfig))]
     [ConfigurationParameterValidation("outputfile")]
-    internal class LocalPublisher : IPublisher
+    internal class LocalPublisher : BasePublisherPlugin<LocalPublishConfig>
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(LocalPublisher));
-        private LocalPublishConfig _config;
 
-        public LocalPublisher(LocalPublishConfig config)
+        public LocalPublisher(IReleaseNoteConfiguration configuration)
+            : base(configuration)
         {
-            _config = config;
-            Guard.IsNotNull(() => _config);
+
         }
 
-        public bool Publish(string releaseNumber, string output)
+        public override bool Publish(string releaseNumber, string output)
         {
-            File.WriteAllText(_config.OutputFile, output);
+            Guard.IsNotNull(() => Configuration);
+
+            File.WriteAllText(Configuration.OutputFile, output);
             return true;
         }
     }

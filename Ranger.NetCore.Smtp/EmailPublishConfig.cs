@@ -1,6 +1,8 @@
-namespace Ranger.NetCore.Models.publisher
+using Ranger.NetCore.Publisher;
+
+namespace Ranger.NetCore.Smtp
 {
-    public class EmailPublishConfig
+    public class EmailPublishConfig : IPluginConfiguration
     {
         public string Server { get; set; }
         public string From { get; set; }
@@ -9,5 +11,6 @@ namespace Ranger.NetCore.Models.publisher
         public string Username { get; set; }
         public string Password { get; set; }
         public bool Ssl { get; set; }
+        public string Provider { get; set; }
     }
 }

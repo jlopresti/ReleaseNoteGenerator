@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json.Linq;
 using Ranger.NetCore.Common;
 using Ranger.NetCore.Helpers;
 using Ranger.NetCore.IssueTracker;
@@ -18,44 +19,55 @@ namespace Ranger.NetCore.Console
 {
     class ProviderFactory : IProviderFactory
     {
-        private readonly IEnumerable<ISourceControl> _sourceControls;
-        private readonly IEnumerable<IIssueTracker> _issueTrackers;
-        private readonly IEnumerable<ITemplate> _templates;
-        private readonly IEnumerable<IPublisher> _publishers;
+        private readonly IDependencyResolver _dependencyResolver;
 
-        public ProviderFactory(IEnumerable<ISourceControl> sourceControls, 
-            IEnumerable<IIssueTracker> issueTrackers,
-            IEnumerable<ITemplate> templates,
-            IEnumerable<IPublisher> publishers)
+        public ProviderFactory(IDependencyResolver dependencyResolver)
         {
-            _sourceControls = sourceControls;
-            _issueTrackers = issueTrackers;
-            _templates = templates;
-            _publishers = publishers;
+            _dependencyResolver = dependencyResolver;
         }
         public ISourceControl CreateSourceControl(IReleaseNoteConfiguration wrapper)
         {
-            var t = _sourceControls.SingleOrDefault(
+            var t = _dependencyResolver.ResolveAll
+                <ISourceControl>().SingleOrDefault(
                 x => x.GetType().GetTypeInfo()
                     .GetCustomAttribute<ProviderAttribute>()
-                    .Name.Equals(wrapper.Config.SourceControl.GetProvider(),
+                    .Name.Equals(wrapper.GetSourceControlConfig<BasePluginConfig>().Provider,
                         StringComparison.CurrentCultureIgnoreCase));
-            return new StubSourceControl();
+            t?.ActivatePlugin();
+            return t;
         }
 
         public IIssueTracker CreateIssueTracker(IReleaseNoteConfiguration wrapper)
         {
-            return new StubIssueTracker();
+            var t = _dependencyResolver.ResolveAll<IIssueTracker>().SingleOrDefault(
+                x => x.GetType().GetTypeInfo()
+                    .GetCustomAttribute<ProviderAttribute>()
+                    .Name.Equals(wrapper.GetIssueTrackerConfig<BasePluginConfig>().Provider,
+                        StringComparison.CurrentCultureIgnoreCase));
+            t?.ActivatePlugin();
+            return t;
         }
 
         public IPublisher CreatePublisher(IReleaseNoteConfiguration wrapper)
         {
-            return new NoOpPublisher();
+            var t = _dependencyResolver.ResolveAll<IPublisher>().SingleOrDefault(
+               x => x.GetType().GetTypeInfo()
+                   .GetCustomAttribute<ProviderAttribute>()
+                   .Name.Equals(wrapper.GetPublisherConfig<BasePluginConfig>().Provider,
+                       StringComparison.CurrentCultureIgnoreCase));
+            t?.ActivatePlugin();
+            return t;
         }
 
         public ITemplate CreateTemplate(IReleaseNoteConfiguration wrapper)
         {
-            return new HtmlFileTemplate(wrapper.Config.Template.ToObject<HtmlFileTemplateConfig>());
+            var t = _dependencyResolver.ResolveAll<ITemplate>().SingleOrDefault(
+                x => x.GetType().GetTypeInfo()
+                    .GetCustomAttribute<ProviderAttribute>()
+                    .Name.Equals(wrapper.GetTemplateConfig<BasePluginConfig>().Provider,
+                        StringComparison.CurrentCultureIgnoreCase));
+            t?.ActivatePlugin();
+            return t;
         }
 
         public IReleaseNoteLinker CreateReleaseNoteLinker()

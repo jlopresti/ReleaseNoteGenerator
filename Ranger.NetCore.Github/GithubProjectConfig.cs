@@ -1,25 +1,5 @@
-﻿using System.Collections.Generic;
-
-namespace Ranger.NetCore.Models.SourceControl
+﻿namespace Ranger.NetCore.Github
 {
-    public class GithubConfig : GithubProjectConfig
-    {
-        private IEnumerable<GithubProjectConfig> _projectConfigs;
-
-        public IEnumerable<GithubProjectConfig> ProjectConfigs
-        {
-            get { return _projectConfigs; }
-            set
-            {
-                _projectConfigs = value;
-                foreach (var projectConfig in value)
-                {
-                    projectConfig.Setup(this);
-                }
-            }
-        }
-    }
-
     public class GithubProjectConfig
     {
         public string Host { get; set; }

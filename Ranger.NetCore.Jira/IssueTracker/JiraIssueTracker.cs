@@ -7,34 +7,35 @@ using Dapplo.Jira;
 using Ranger.NetCore.Common;
 using Ranger.NetCore.Helpers;
 using Ranger.NetCore.IssueTracker;
+using Ranger.NetCore.Models;
 using Ranger.NetCore.Models.IssueTracker;
+using Ranger.NetCore.Publisher;
 
 namespace Ranger.NetCore.Jira.IssueTracker
 {
     [Provider("jira", ConfigurationType = typeof(JiraConfiguration))]
     [ConfigurationParameterValidation("host", "login", "password", "project")]
-    internal class JiraIssueTracker : IIssueTracker
+    internal class JiraIssueTracker : BaseIssueTrackerPlugin<JiraConfiguration>
     {
-        private readonly JiraConfiguration _config;
-        private readonly IJiraClient _client;
+        private IJiraClient _client;
 
-        public JiraIssueTracker(JiraConfiguration config)
+        public JiraIssueTracker(IReleaseNoteConfiguration configuration)
+            : base(configuration)
         {
-            //Guard.IsNotNull(() => config);
 
-            //_config = config;
-
-            //Guard.IsNotNull(() => _config);
-
-            //_client = JiraClient.Create(new Uri(_config.Host));
-            //_client.SetBasicAuthentication(_config.Login, _config.Password);
         }
 
-        public async Task<List<Issue>> GetIssues(string release)
+        protected override void OnPluginActivated()
+        {
+            _client = JiraClient.Create(new Uri(Configuration.Host));
+            _client.SetBasicAuthentication(Configuration.Login, Configuration.Password);
+        }
+
+        public override async Task<List<Issue>> GetIssues(string release)
         {
             Guard.IsNotNullOrEmpty(() => release);
 
-            var issues = await _client.Issue.SearchAsync($"project = {_config.Project} AND fixVersion = {release}", 500);
+            var issues = await _client.Issue.SearchAsync($"project = {Configuration.Project} AND fixVersion = {release}", 500);
             var result = issues.Select(x =>
             {
                 var issue = new Issue { Id = x.Key, Title = x.Fields.Summary, Type = x.Fields.IssueType.Name};
@@ -44,7 +45,7 @@ namespace Ranger.NetCore.Jira.IssueTracker
             return result;
         }
 
-        public async Task<Issue> GetIssue(string id)
+        public override async Task<Issue> GetIssue(string id)
         {
             Guard.IsNotNullOrEmpty(() => id);
 

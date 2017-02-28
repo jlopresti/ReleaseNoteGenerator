@@ -9,5 +9,10 @@ namespace Ranger.NetCore.Publisher
         {
             return true;
         }
+
+        public void ActivatePlugin()
+        {
+            
+        }
     }
 }
