@@ -4,11 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Ranger.NetCore.Common;
-using Ranger.NetCore.IssueTracker;
 using Ranger.NetCore.Models;
 using Ranger.NetCore.Models.IssueTracker;
 
-namespace Ranger.NetCore.Publisher
+namespace Ranger.NetCore.IssueTracker
 {
     public abstract class BaseIssueTrackerPlugin<T> : IIssueTracker
         where T : IPluginConfiguration

@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Ranger.NetCore.Common;
+using Ranger.NetCore.IssueTracker;
 using Issue = Ranger.NetCore.Models.IssueTracker.Issue;
 
-namespace Ranger.NetCore.IssueTracker
+namespace Ranger.NetCore.Stubs.IssueTracker
 {
     [Provider("stub")]
     public class StubIssueTracker : IIssueTracker

@@ -1,6 +1,7 @@
 ﻿using Ranger.NetCore.Common;
+using Ranger.NetCore.Publisher;
 
-namespace Ranger.NetCore.Publisher
+namespace Ranger.NetCore.Plugins
 {
     [Provider("noop")]
     public class NoOpPublisher : IPublisher

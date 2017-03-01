@@ -1,6 +1,4 @@
-using Ranger.NetCore.Publisher;
-
-namespace Ranger.NetCore.Models.Template
+namespace Ranger.NetCore.RazorHtml.Configs
 {
     public class HtmlTemplateConfig : IPluginConfiguration
     {

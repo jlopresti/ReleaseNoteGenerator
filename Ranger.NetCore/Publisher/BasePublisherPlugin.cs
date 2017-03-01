@@ -37,7 +37,7 @@ namespace Ranger.NetCore.Publisher
             var isValid = Validator.TryValidateObject(config, ctx, results, true);
             if (!isValid)
             {
-                throw new ApplicationException(results.Aggregate(string.Empty, (x, y) => x + y.ErrorMessage + Environment.NewLine));
+                throw new ApplicationException(results.Aggregate($"[{typeof(T).Name}] ", (x, y) => x + y.ErrorMessage + Environment.NewLine));
             }
         }
 

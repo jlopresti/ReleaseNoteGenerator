@@ -10,8 +10,7 @@ using Ranger.NetCore.Publisher;
 
 namespace Ranger.NetCore.Smtp.Publisher
 {
-    [Provider("email", ConfigurationType = typeof(EmailPublishConfig))]
-    [ConfigurationParameterValidation("server", "port", "from", "to")]
+    [Provider("email")]
     internal class EmailPublisher : BasePublisherPlugin<EmailPublishConfig>
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(EmailPublisher));

@@ -5,14 +5,13 @@ using Ranger.NetCore.Common;
 using Ranger.NetCore.Helpers;
 using Ranger.NetCore.Models;
 using Ranger.NetCore.Models.Binder;
-using Ranger.NetCore.Models.Template;
 using Ranger.NetCore.Publisher;
+using Ranger.NetCore.RazorHtml.Configs;
 using Ranger.NetCore.TemplateProvider;
 
 namespace Ranger.NetCore.RazorHtml.TemplateProvider
 {
-    [Provider("htmlFile", ConfigurationType = typeof(HtmlFileTemplateConfig))]
-    [ConfigurationParameterValidation("file")]
+    [Provider("htmlFile")]
     public class HtmlFileTemplate : BaseTemplatePlugin<HtmlFileTemplateConfig>
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(HtmlFileTemplate));

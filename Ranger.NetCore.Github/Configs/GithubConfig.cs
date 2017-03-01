@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Ranger.NetCore.Publisher;
 
-namespace Ranger.NetCore.Github
+namespace Ranger.NetCore.Github.Configs
 {
     public class GithubConfig : GithubProjectConfig, IPluginConfiguration
     {

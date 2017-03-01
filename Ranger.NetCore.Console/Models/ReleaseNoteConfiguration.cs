@@ -55,11 +55,10 @@ namespace Ranger.NetCore.Console.Models
 
         public bool LoadConfigFile(string path, string release)
         {
-            Guard.IsValidFilePath(() => path);
+            //Guard.IsValidFilePath(() => path);
             ReleaseNumber = release;
             _logger.DebugFormat("[APP] Reading config file at {0}", path);
-            _config = File.ReadAllText(path).ToObject<Config>();
-            Guard.IsValidConfig(() => _config);
+            _config = File.ReadAllText(path).ToObject<Config>();            
             _isConfigLoaded = true;
 
             return true;

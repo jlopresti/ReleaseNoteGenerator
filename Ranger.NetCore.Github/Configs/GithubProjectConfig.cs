@@ -1,4 +1,4 @@
-﻿namespace Ranger.NetCore.Github
+﻿namespace Ranger.NetCore.Github.Configs
 {
     public class GithubProjectConfig
     {

@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using Ranger.NetCore.Publisher;
 
-namespace Ranger.NetCore.Models.Template
+namespace Ranger.NetCore.RazorHtml.Configs
 {
     public class HtmlFileTemplateConfig : IPluginConfiguration
     {

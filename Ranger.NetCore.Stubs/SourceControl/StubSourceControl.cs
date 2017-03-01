@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using Ranger.NetCore.Common;
 using Ranger.NetCore.Models;
 using Ranger.NetCore.Models.SourceControl;
+using Ranger.NetCore.SourceControl;
 
-namespace Ranger.NetCore.SourceControl
+namespace Ranger.NetCore.Stubs.SourceControl
 {
     [Provider("stub")]
     public class StubSourceControl : ISourceControl
@@ -24,7 +25,7 @@ namespace Ranger.NetCore.SourceControl
                 Authors = new List<string> { "Jilo1" },
                 Title = "CLOUD-8679 : Hello world 1"
             });
-            commits.Add(new CommitInfo() { Authors = new List<string> { "Jilo2" }, Title = "SGR-2 : Hello world 2" });
+            commits.Add(new CommitInfo() { Authors = new List<string> { "Jilo2" }, Title = "JRA-9 : Hello world 2" });
             commits.Add(new CommitInfo() { Authors = new List<string> { "Jilo3" }, Title = "SGR-2 : Hello world 2bis" });
             commits.Add(new CommitInfo() { Authors = new List<string> { "Jilo4" }, Title = "SGR-3 : Hello world 3" });
             commits.Add(new CommitInfo() { Authors = new List<string> { "Jilo5" }, Title = "Hello world" });

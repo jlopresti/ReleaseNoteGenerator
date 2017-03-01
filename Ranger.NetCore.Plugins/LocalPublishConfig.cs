@@ -1,6 +1,4 @@
-﻿using Ranger.NetCore.Publisher;
-
-namespace Ranger.NetCore.Models.Publisher
+﻿namespace Ranger.NetCore.Plugins
 {
     internal class LocalPublishConfig : IPluginConfiguration
     {

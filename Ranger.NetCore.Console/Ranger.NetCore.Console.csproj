@@ -20,8 +20,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Ranger.NetCore.Github\Ranger.NetCore.Github.csproj" />
     <ProjectReference Include="..\Ranger.NetCore.Jira\Ranger.NetCore.Jira.csproj" />
+    <ProjectReference Include="..\Ranger.NetCore.Plugins\Ranger.NetCore.Plugins.csproj" />
     <ProjectReference Include="..\Ranger.NetCore.RazorHtml\Ranger.NetCore.RazorHtml.csproj" />
     <ProjectReference Include="..\Ranger.NetCore.Smtp\Ranger.NetCore.Smtp.csproj" />
+    <ProjectReference Include="..\Ranger.NetCore.Stubs\Ranger.NetCore.Stubs.csproj" />
     <ProjectReference Include="..\Ranger.NetCore\Ranger.NetCore.csproj" />
   </ItemGroup>
 

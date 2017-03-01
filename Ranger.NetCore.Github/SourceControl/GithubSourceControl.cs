@@ -6,6 +6,7 @@ using log4net;
 using Newtonsoft.Json;
 using Octokit;
 using Ranger.NetCore.Common;
+using Ranger.NetCore.Github.Configs;
 using Ranger.NetCore.Models;
 using Ranger.NetCore.Models.SourceControl;
 using Ranger.NetCore.Publisher;
@@ -13,8 +14,7 @@ using Ranger.NetCore.SourceControl;
 
 namespace Ranger.NetCore.Github.SourceControl
 {
-    [Provider("github", ConfigurationType = typeof(GithubConfig))]
-    [ConfigurationParameterValidation("projectConfigs")]
+    [Provider("github")]
     public class GithubSourceControl : BaseSourceControlPlugin<GithubConfig>
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(GithubSourceControl));

@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapplo.Jira" Version="0.5.35" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Ranger.NetCore\Ranger.NetCore.csproj" />
   </ItemGroup>
 

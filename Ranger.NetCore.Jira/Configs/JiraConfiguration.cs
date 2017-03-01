@@ -1,7 +1,5 @@
 ﻿
-using Ranger.NetCore.Publisher;
-
-namespace Ranger.NetCore.Jira
+namespace Ranger.NetCore.Jira.Configs
 {
     public class JiraConfiguration : IPluginConfiguration
     {

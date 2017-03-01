@@ -5,9 +5,8 @@ using System.Linq;
 using Ranger.NetCore.Common;
 using Ranger.NetCore.Models;
 using Ranger.NetCore.Models.Binder;
-using Ranger.NetCore.TemplateProvider;
 
-namespace Ranger.NetCore.Publisher
+namespace Ranger.NetCore.TemplateProvider
 {
     public abstract class BaseTemplatePlugin<T> : ITemplate
         where T : IPluginConfiguration
@@ -40,7 +39,7 @@ namespace Ranger.NetCore.Publisher
             var isValid = Validator.TryValidateObject(config, ctx, results, true);
             if (!isValid)
             {
-                throw new ApplicationException(results.Aggregate(string.Empty, (x,y) => x + y.ErrorMessage + Environment.NewLine));
+                throw new ApplicationException(results.Aggregate($"[{typeof(T).Name}] ", (x,y) => x + y.ErrorMessage + Environment.NewLine));
             }
         }
 

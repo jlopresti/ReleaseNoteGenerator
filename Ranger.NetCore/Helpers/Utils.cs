@@ -11,7 +11,7 @@ namespace Ranger.NetCore.Helpers
 {
     public static class Utils
     {
-        private static readonly ILog _logger = LogManager.GetLogger(typeof(DistinctIssue));
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(Utils));
         public static T ToObject<T>(this string json)
         {
             if (string.IsNullOrEmpty(json)) return default(T);
@@ -25,20 +25,6 @@ namespace Ranger.NetCore.Helpers
                 _logger.Debug("Invalid json", ex);
                 return default(T);
             }   
-        }
-
-        public static List<ProviderAttribute> GetProviders<T>()
-        {
-            //TODO : Don't forget to implement Plugin system
-            throw new NotImplementedException();
-            //var type = typeof(T);
-            //var types = Assembly.GetEntryAssembly()?.GetReferencedAssemblies()
-            //    .Select(s => s.GetType())
-            //    .Where(p => type.IsAssignableFrom(p))
-            //    .Where(p => p.GetCustomAttribute<ProviderAttribute>() != null)
-            //    .ToList();
-
-            //return types.Select(x => x.GetCustomAttribute<ProviderAttribute>()).ToList();
         }
     }
 }

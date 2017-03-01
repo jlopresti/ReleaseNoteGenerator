@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 using Ranger.NetCore.Common;
 using Ranger.NetCore.Models;
 using Ranger.NetCore.Models.SourceControl;
-using Ranger.NetCore.SourceControl;
 
-namespace Ranger.NetCore.Publisher
+namespace Ranger.NetCore.SourceControl
 {
     public abstract class BaseSourceControlPlugin<T> : ISourceControl
         where T : IPluginConfiguration
