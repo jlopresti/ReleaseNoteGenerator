@@ -18,14 +18,5 @@ namespace Ranger.NetCore.Console.Models
         [Option('s', "silent", Required = false, HelpText = "Execute in silent mode.")]
         public bool Silent { get; set; }
 
-        //[ParserState]
-        //public IParserState LastParserState { get; set; }
-
-        //[HelpOption('h', "help")]
-        //public string GetUsage()
-        //{
-        //    return HelpText.AutoBuild(this);
-        //}
-
     }
 }

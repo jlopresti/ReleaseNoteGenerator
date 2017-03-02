@@ -2,9 +2,8 @@ using System;
 using System.IO;
 using log4net;
 using Ranger.NetCore.Helpers;
-using Ranger.NetCore.Models;
 
-namespace Ranger.NetCore.Console.Models
+namespace Ranger.NetCore.Models
 {
     public class ReleaseNoteConfiguration : IReleaseNoteConfiguration
     {

@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Ranger.NetCore.IssueTracker;
+﻿using Ranger.NetCore.IssueTracker;
 using Ranger.NetCore.Linker;
 using Ranger.NetCore.Models;
-using Ranger.NetCore.Models.IssueTracker;
 using Ranger.NetCore.Publisher;
 using Ranger.NetCore.SourceControl;
 using Ranger.NetCore.TemplateProvider;
 
-namespace Ranger.NetCore.Console
+namespace Ranger.NetCore
 {
     public interface IProviderFactory
     {

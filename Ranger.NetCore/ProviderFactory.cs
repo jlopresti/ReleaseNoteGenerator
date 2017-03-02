@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Newtonsoft.Json.Linq;
 using Ranger.NetCore.Common;
-using Ranger.NetCore.Helpers;
 using Ranger.NetCore.IssueTracker;
 using Ranger.NetCore.Linker;
 using Ranger.NetCore.Models;
-using Ranger.NetCore.Models.SourceControl;
 using Ranger.NetCore.Publisher;
-using Ranger.NetCore.RazorHtml.TemplateProvider;
 using Ranger.NetCore.SourceControl;
 using Ranger.NetCore.TemplateProvider;
 
-namespace Ranger.NetCore.Console
+namespace Ranger.NetCore
 {
     public class ProviderFactory : IProviderFactory
     {
@@ -28,14 +23,10 @@ namespace Ranger.NetCore.Console
         {
             var t = _dependencyResolver.ResolveAll
                 <ISourceControl>().SingleOrDefault(
-                x =>
-                {
-                    var provider = wrapper.GetSourceControlConfig<BasePluginConfig>().Provider;
-                    return x.GetType().GetTypeInfo()
-                            .GetCustomAttribute<ProviderAttribute>()
-                            .Name.Equals(provider,
-                                StringComparison.CurrentCultureIgnoreCase);
-                });
+                x => x.GetType().GetTypeInfo()
+                    .GetCustomAttribute<ProviderAttribute>()
+                    .Name.Equals(wrapper.GetSourceControlConfig<BasePluginConfig>().Provider,
+                        StringComparison.CurrentCultureIgnoreCase));
 
             t?.ActivatePlugin();
             return t;
