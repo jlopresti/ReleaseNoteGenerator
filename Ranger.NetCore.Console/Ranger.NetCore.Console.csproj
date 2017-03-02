@@ -28,6 +28,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="System.Runtime.Loader">
+      <HintPath>..\..\..\..\..\.nuget\packages\system.runtime.loader\4.0.0\ref\netstandard1.5\System.Runtime.Loader.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="config.stub.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

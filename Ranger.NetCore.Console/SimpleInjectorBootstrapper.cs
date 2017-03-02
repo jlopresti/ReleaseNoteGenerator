@@ -39,20 +39,19 @@ namespace Ranger.NetCore.Console
             _container = new Container();
 
             _container.RegisterSingleton(typeof(IConsoleApplication<>), application);
-            //_container.RegisterSingleton(typeof(IConsoleApplicationConfiguration), configuration);
+
             _container.RegisterSingleton<IReleaseNoteConfiguration, ReleaseNoteConfiguration>();
             _container.RegisterSingleton<IDependencyResolver>(this);
 
-            string pluginDirectory =
-    Path.Combine(AppContext.BaseDirectory);
+            string pluginDirectory = Path.Combine(AppContext.BaseDirectory);
 
             var pluginAssemblies =
                 (from file in new DirectoryInfo(pluginDirectory).GetFiles()
-                 where file.Extension.ToLower() == ".dll"
-                 select Assembly.Load(AssemblyLoadContext.GetAssemblyName(file.FullName)))
-                .Where(x => x.FullName.StartsWith("Ranger.NetCore"))
+                 where file.Extension.ToLower() == ".dll" && file.Name != ("Ranger.NetCore.Console.dll")
+                 select AssemblyLoadContext.Default.LoadFromAssemblyPath(file.FullName))
                 .ToList();
 
+            
             _container.RegisterCollection<IIssueTracker>(pluginAssemblies);
             _container.RegisterCollection<ISourceControl>(pluginAssemblies);
             _container.RegisterCollection<IPublisher>(pluginAssemblies);
