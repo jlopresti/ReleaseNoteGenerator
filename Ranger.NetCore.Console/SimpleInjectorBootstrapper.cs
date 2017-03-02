@@ -48,12 +48,12 @@ namespace Ranger.NetCore.Console
 
             var pluginAssemblies =
                 (from file in new DirectoryInfo(pluginDirectory).GetFiles()
-                where file.Extension.ToLower() == ".dll"
-                select Assembly.Load(AssemblyLoadContext.GetAssemblyName(file.FullName)))
+                 where file.Extension.ToLower() == ".dll"
+                 select Assembly.Load(AssemblyLoadContext.GetAssemblyName(file.FullName)))
                 .Where(x => x.FullName.StartsWith("Ranger.NetCore"))
                 .ToList();
 
-            _container.RegisterCollection<IIssueTracker>(pluginAssemblies);            
+            _container.RegisterCollection<IIssueTracker>(pluginAssemblies);
             _container.RegisterCollection<ISourceControl>(pluginAssemblies);
             _container.RegisterCollection<IPublisher>(pluginAssemblies);
             _container.RegisterCollection<ITemplate>(pluginAssemblies);
