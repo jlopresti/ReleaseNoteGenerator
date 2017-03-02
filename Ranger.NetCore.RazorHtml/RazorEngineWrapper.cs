@@ -9,7 +9,7 @@ namespace Ranger.NetCore.RazorHtml
 {
     public class RazorEngineWrapper
     {
-        private IRazorLightEngine _service;
+        private readonly IRazorLightEngine _service;
 
         public RazorEngineWrapper()
         {

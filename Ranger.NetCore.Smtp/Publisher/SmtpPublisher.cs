@@ -10,12 +10,12 @@ using Ranger.NetCore.Publisher;
 
 namespace Ranger.NetCore.Smtp.Publisher
 {
-    [Provider("email")]
-    internal class EmailPublisher : BasePublisherPlugin<EmailPublishConfig>
+    [Provider("smtp")]
+    internal class SmtpPublisher : BasePublisherPlugin<SmtpPublishConfig>
     {
-        readonly ILog _logger = LogManager.GetLogger(typeof(EmailPublisher));
+        readonly ILog _logger = LogManager.GetLogger(typeof(SmtpPublisher));
 
-        public EmailPublisher(IReleaseNoteConfiguration configuration)
+        public SmtpPublisher(IReleaseNoteConfiguration configuration)
             : base(configuration)
         {
             
@@ -23,6 +23,11 @@ namespace Ranger.NetCore.Smtp.Publisher
 
         public override bool Publish(string release, string output)
         {
+            if (string.IsNullOrEmpty(release) || string.IsNullOrEmpty(output))
+            {
+                return false;
+            }
+
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(Configuration.From, "Release Note Generator"));
             message.To.AddRange(

@@ -11,13 +11,12 @@ using Ranger.NetCore.TemplateProvider;
 
 namespace Ranger.NetCore.RazorHtml.TemplateProvider
 {
-    [Provider("htmlFile")]
-    public class HtmlFileTemplate : BaseTemplatePlugin<HtmlFileTemplateConfig>
+    [Provider("razor-file")]
+    public class RazorHtmlFileTemplate : BaseTemplatePlugin<RazorHtmlFileTemplateConfig>
     {
-        readonly ILog _logger = LogManager.GetLogger(typeof(HtmlFileTemplate));
-        private RazorEngineWrapper _razor;
+        private readonly RazorEngineWrapper _razor;
 
-        public HtmlFileTemplate(IReleaseNoteConfiguration configuration)
+        public RazorHtmlFileTemplate(IReleaseNoteConfiguration configuration)
             : base(configuration)
         {
             _razor = new RazorEngineWrapper();

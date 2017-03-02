@@ -36,7 +36,10 @@ namespace Ranger.NetCore.Jira.IssueTracker
 
         public override async Task<List<Issue>> GetIssues(string release)
         {
-            //Guard.IsNotNullOrEmpty(() => release);
+            if (string.IsNullOrEmpty(release))
+            {
+                return new List<Issue>();
+            }
 
             var issues = await _client.Issue.SearchAsync($"project = {Configuration.Project} AND fixVersion = {release}", 500);
             var result = issues.Select(x =>
@@ -50,7 +53,10 @@ namespace Ranger.NetCore.Jira.IssueTracker
 
         public override async Task<Issue> GetIssue(string id)
         {
-            //Guard.IsNotNullOrEmpty(() => id);
+            if (string.IsNullOrEmpty(id))
+            {
+                return null;
+            }
 
             var issue = await _client.Issue.GetAsync(id);
             var result = new Issue { Id = issue.Key, Title = issue.Fields.Summary, Type = issue.Fields.IssueType.Name };

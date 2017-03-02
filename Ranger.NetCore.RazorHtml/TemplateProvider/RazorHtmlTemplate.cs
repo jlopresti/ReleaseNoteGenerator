@@ -10,13 +10,12 @@ using Ranger.NetCore.TemplateProvider;
 
 namespace Ranger.NetCore.RazorHtml.TemplateProvider
 {
-    [Provider("html")]
-    public class HtmlTemplate : BaseTemplatePlugin<HtmlTemplateConfig>
+    [Provider("razor-html")]
+    public class RazorHtmlTemplate : BaseTemplatePlugin<RazorHtmlTemplateConfig>
     {
-        readonly ILog _logger = LogManager.GetLogger(typeof(HtmlTemplate));
-        private RazorEngineWrapper _razor;
+        private readonly RazorEngineWrapper _razor;
 
-        public HtmlTemplate(IReleaseNoteConfiguration configuration)
+        public RazorHtmlTemplate(IReleaseNoteConfiguration configuration)
             : base(configuration)
         {
             _razor = new RazorEngineWrapper();
@@ -24,7 +23,6 @@ namespace Ranger.NetCore.RazorHtml.TemplateProvider
 
         public override string Build(string releaseNumber, List<ReleaseNoteEntry> entries)
         {
-            if (Configuration.Html == null) return string.Empty;
             return _razor.Run(Configuration.Html, new ReleaseNoteViewModel { Tickets = entries, Release = releaseNumber });
         }
     }
