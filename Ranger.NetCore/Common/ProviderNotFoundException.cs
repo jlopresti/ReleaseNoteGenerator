@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ranger.NetCore.Console.Exceptions
+namespace Ranger.NetCore.Common
 {
     public class ProviderNotFoundException : Exception
     {

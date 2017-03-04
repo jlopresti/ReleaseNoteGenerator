@@ -24,7 +24,16 @@ namespace Ranger.NetCore.Helpers
             {
                 _logger.Debug("Invalid json", ex);
                 return default(T);
-            }   
+            }
+        }
+
+        public static T GetPlugins<T>(this IEnumerable<T> source, string plugin)
+        {
+            return source.SingleOrDefault(x => x.GetType()
+                                        .GetTypeInfo()
+                                        .GetCustomAttribute<ProviderAttribute>()
+                                        .Name
+                                        .Equals(plugin, StringComparison.CurrentCultureIgnoreCase));
         }
     }
 }
