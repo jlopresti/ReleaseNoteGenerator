@@ -13,6 +13,7 @@ using Ranger.NetCore.IssueTracker;
 using Ranger.NetCore.Linker;
 using Ranger.NetCore.Models;
 using Ranger.NetCore.Publisher;
+using Ranger.NetCore.Reducer;
 using Ranger.NetCore.SourceControl;
 using Ranger.NetCore.TemplateProvider;
 using SimpleInjector;
@@ -57,10 +58,6 @@ namespace Ranger.NetCore.Console
             _container.RegisterCollection<ITemplate>(pluginAssemblies);
 
             _container.RegisterSingleton<IProviderFactory, ProviderFactory>();
-
-            _container.RegisterDecorator(
-    typeof(ISourceControl),
-    typeof(DistinctCommitSourceControl));
 
             _container.Verify();
 

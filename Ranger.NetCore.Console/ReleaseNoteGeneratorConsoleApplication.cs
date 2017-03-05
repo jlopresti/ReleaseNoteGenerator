@@ -8,6 +8,7 @@ using Ranger.NetCore.IssueTracker;
 using Ranger.NetCore.Linker;
 using Ranger.NetCore.Models;
 using Ranger.NetCore.Publisher;
+using Ranger.NetCore.Reducer;
 using Ranger.NetCore.SourceControl;
 using Ranger.NetCore.TemplateProvider;
 
@@ -24,6 +25,7 @@ namespace Ranger.NetCore.Console
         private readonly IReleaseNoteConfiguration _configuration;
         readonly ILog _logger = LogManager.GetLogger(typeof(ReleaseNoteGeneratorConsoleApplication));
         private ICommitEnrichment _commitEnrichment;
+        private ICommitReducer _commitReducer;
 
         public ReleaseNoteGeneratorConsoleApplication(IProviderFactory providerFactory, 
             IReleaseNoteConfiguration configuration)
@@ -39,16 +41,20 @@ namespace Ranger.NetCore.Console
             _logger.Debug("[APP] Start running application ...");
             _sourceControl = _providerFactory.CreateSourceControl(_configuration);
             _issueTracker = _providerFactory.CreateIssueTracker(_configuration);
+            _commitReducer = _providerFactory.CreateCommitReducer(_configuration);
             _commitEnrichment = _providerFactory.CreateCommitEnrichment(_configuration);
             _template = _providerFactory.CreateTemplate(_configuration);
             _publisher = _providerFactory.CreatePublisher(_configuration);
-            _releaseNoteLinker = _providerFactory.CreateReleaseNoteLinker();
+            _releaseNoteLinker = _providerFactory.CreateReleaseNoteLinker(_configuration);
 
             _logger.Info($"[APP] Retrieving issues for release {_configuration.ReleaseNumber}");
             var issues = await _issueTracker.GetIssues(_configuration.ReleaseNumber);
 
             _logger.Info($"[APP] Retrieving commits for release {_configuration.ReleaseNumber}");
             var commits = await _sourceControl.GetCommits(_configuration.ReleaseNumber);
+
+            _logger.Info($"[APP] Reduce commits {_configuration.ReleaseNumber}");
+            commits = _commitReducer.MergeCommits(commits);
 
             _logger.Info($"[APP] Enrich commit with issue tracker data");
             commits = await _commitEnrichment.EnrichCommitWithData(commits);

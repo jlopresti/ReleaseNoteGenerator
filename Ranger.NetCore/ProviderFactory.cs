@@ -7,6 +7,7 @@ using Ranger.NetCore.IssueTracker;
 using Ranger.NetCore.Linker;
 using Ranger.NetCore.Models;
 using Ranger.NetCore.Publisher;
+using Ranger.NetCore.Reducer;
 using Ranger.NetCore.SourceControl;
 using Ranger.NetCore.TemplateProvider;
 
@@ -100,7 +101,7 @@ namespace Ranger.NetCore
             return plugin;
         }
 
-        public IReleaseNoteLinker CreateReleaseNoteLinker()
+        public IReleaseNoteLinker CreateReleaseNoteLinker(IReleaseNoteConfiguration wrapper)
         {
             return new ReleaseNoteLinker();
         }
@@ -109,6 +110,11 @@ namespace Ranger.NetCore
         {
             var issueTracker = CreateIssueTracker(wrapper);
             return new EnrichCommitWithIssueTracker(issueTracker, wrapper);
+        }
+
+        public ICommitReducer CreateCommitReducer(IReleaseNoteConfiguration wrapper)
+        {
+            return new MergeCommitReducer();
         }
     }
 }
