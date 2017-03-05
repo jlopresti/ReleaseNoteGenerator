@@ -14,9 +14,10 @@ using Ranger.NetCore.Publisher;
 
 namespace Ranger.NetCore.Jira.IssueTracker
 {
-    [Provider("jira")]
     internal class JiraIssueTracker : BaseIssueTrackerPlugin<JiraConfiguration>
     {
+        public override string PluginId => "jira";
+
         private IJiraClient _client;
 
         public JiraIssueTracker(IReleaseNoteConfiguration configuration)
@@ -45,7 +46,11 @@ namespace Ranger.NetCore.Jira.IssueTracker
             var result = issues.Select(x =>
             {
                 var issue = new Issue { Id = x.Key, Title = x.Fields.Summary, Type = x.Fields.IssueType?.Name};
-                issue.AdditionalData.Add("Components", x.Fields?.Components?.Select(_ => _.Name).ToList());
+                var compo = x.Fields?.Components;
+                if (compo != null)
+                {
+                    issue.AdditionalData.Add("Components", x.Fields?.Components?.Select(_ => _.Name).ToList());
+                }
                 return issue;
             }).ToList();
             return result;

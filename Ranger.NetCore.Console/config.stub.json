@@ -8,10 +8,12 @@
     ]
   },
   "issueTracker": {
-    "provider": "stub"
+    "provider": "jira",
+    "host": "https://jira.atlassian.com",
+    "project":  "JRA" 
   },
   "template": {
-    "provider": "htmlFile",
+    "provider": "razor-file",
     "file": "template.html"
   },
   "publish": {

@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ranger.NetCore.Github\Ranger.NetCore.Github.csproj" />
     <ProjectReference Include="..\Ranger.NetCore\Ranger.NetCore.csproj" />
   </ItemGroup>
 

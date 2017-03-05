@@ -11,9 +11,10 @@ using Ranger.NetCore.TemplateProvider;
 
 namespace Ranger.NetCore.RazorHtml.TemplateProvider
 {
-    [Provider("razor-file")]
     public class RazorHtmlFileTemplate : BaseTemplatePlugin<RazorHtmlFileTemplateConfig>
     {
+        public override string PluginId => "razor-file";
+
         private readonly RazorEngineWrapper _razor;
 
         public RazorHtmlFileTemplate(IReleaseNoteConfiguration configuration)

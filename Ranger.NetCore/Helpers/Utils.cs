@@ -6,6 +6,7 @@ using log4net;
 using Newtonsoft.Json;
 using Ranger.NetCore.Common;
 using Ranger.NetCore.IssueTracker;
+using Ranger.NetCore.SourceControl;
 
 namespace Ranger.NetCore.Helpers
 {
@@ -28,12 +29,9 @@ namespace Ranger.NetCore.Helpers
         }
 
         public static T GetPlugins<T>(this IEnumerable<T> source, string plugin)
+            where T : IRangerPlugin
         {
-            return source.SingleOrDefault(x => x.GetType()
-                                        .GetTypeInfo()
-                                        .GetCustomAttribute<ProviderAttribute>()
-                                        .Name
-                                        .Equals(plugin, StringComparison.CurrentCultureIgnoreCase));
+            return source.SingleOrDefault(x => x.PluginId.Equals(plugin, StringComparison.CurrentCultureIgnoreCase));
         }
     }
 }

@@ -8,9 +8,10 @@ using Issue = Ranger.NetCore.Models.IssueTracker.Issue;
 
 namespace Ranger.NetCore.Stubs.IssueTracker
 {
-    [Provider("stub")]
     public class StubIssueTracker : IIssueTracker
     {
+        public string PluginId => "stub";
+
         private List<Issue> issues;
 
         public StubIssueTracker()

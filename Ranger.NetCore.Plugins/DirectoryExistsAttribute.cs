@@ -9,8 +9,8 @@ namespace Ranger.NetCore.Plugins
         {
             if (!(value is string)) return false;
 
-            var dir = Path.GetDirectoryName(value.ToString());
-            return Directory.Exists(dir);
+            var dir = Path.GetDirectoryName(value.ToString());            
+            return dir == string.Empty || Directory.Exists(dir);
         }
     }
 }

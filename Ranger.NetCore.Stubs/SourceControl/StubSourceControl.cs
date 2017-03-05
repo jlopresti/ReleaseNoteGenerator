@@ -7,16 +7,17 @@ using Ranger.NetCore.SourceControl;
 
 namespace Ranger.NetCore.Stubs.SourceControl
 {
-    [Provider("stub")]
-    public class StubSourceControl : ISourceControl
+    public class StubSourceControl : BaseSourceControlPlugin<BasePluginConfig>
     {
+        public override string PluginId => "stub";
+
         private readonly IReleaseNoteConfiguration _config;
 
-        public StubSourceControl(IReleaseNoteConfiguration config)
+        public StubSourceControl(IReleaseNoteConfiguration config):base(config)
         {
-            _config = config;
+            
         }
-        public async Task<List<CommitInfo>> GetCommits(string releaseNumber)
+        public override async Task<List<CommitInfo>> GetCommits(string releaseNumber)
         {
             var commits = new List<CommitInfo>();
 
@@ -36,7 +37,7 @@ namespace Ranger.NetCore.Stubs.SourceControl
             return commits;
         }
 
-        public async Task<List<CommitInfo>> GetCommitsFromPastRelease(string release)
+        public override async Task<List<CommitInfo>> GetCommitsFromPastRelease(string release)
         {
             var commits = new List<CommitInfo>();
 
@@ -55,7 +56,7 @@ namespace Ranger.NetCore.Stubs.SourceControl
             return commits;
         }
 
-        public void ActivatePlugin()
+        public new void ActivatePlugin()
         {
             
         }

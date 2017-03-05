@@ -44,7 +44,6 @@ namespace Ranger.NetCore.Console
             _container.RegisterSingleton<IDependencyResolver>(this);
 
             string pluginDirectory = Path.Combine(AppContext.BaseDirectory);
-
             var pluginAssemblies =
                 (from file in new DirectoryInfo(pluginDirectory).GetFiles()
                  where file.Extension.ToLower() == ".dll" && file.Name != ("Ranger.NetCore.Console.dll")
@@ -58,6 +57,10 @@ namespace Ranger.NetCore.Console
             _container.RegisterCollection<ITemplate>(pluginAssemblies);
 
             _container.RegisterSingleton<IProviderFactory, ProviderFactory>();
+
+            _container.RegisterDecorator(
+    typeof(ISourceControl),
+    typeof(DistinctCommitSourceControl));
 
             _container.Verify();
 

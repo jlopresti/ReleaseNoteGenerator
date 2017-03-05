@@ -44,5 +44,6 @@ namespace Ranger.NetCore.TemplateProvider
         }
 
         public abstract string Build(string releaseNumber, List<ReleaseNoteEntry> releaseNoteModel);
+        public abstract string PluginId { get; }
     }
 }

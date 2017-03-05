@@ -42,5 +42,7 @@ namespace Ranger.NetCore.Publisher
         }
 
         public abstract bool Publish(string releaseNumber, string output);
+
+        public abstract string PluginId { get; }
     }
 }

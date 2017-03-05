@@ -10,9 +10,10 @@ using Ranger.NetCore.TemplateProvider;
 
 namespace Ranger.NetCore.RazorHtml.TemplateProvider
 {
-    [Provider("razor-html")]
     public class RazorHtmlTemplate : BaseTemplatePlugin<RazorHtmlTemplateConfig>
     {
+        public override string PluginId => "razor-html";
+
         private readonly RazorEngineWrapper _razor;
 
         public RazorHtmlTemplate(IReleaseNoteConfiguration configuration)

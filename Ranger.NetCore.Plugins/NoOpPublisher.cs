@@ -3,9 +3,10 @@ using Ranger.NetCore.Publisher;
 
 namespace Ranger.NetCore.Plugins
 {
-    [Provider("noop")]
     public class NoOpPublisher : IPublisher
     {
+        public string PluginId => "noop";
+
         public bool Publish(string releaseNumber, string output)
         {
             return true;

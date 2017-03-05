@@ -10,9 +10,10 @@ using Ranger.NetCore.Publisher;
 
 namespace Ranger.NetCore.Smtp.Publisher
 {
-    [Provider("smtp")]
-    internal class SmtpPublisher : BasePublisherPlugin<SmtpPublishConfig>
+    public class SmtpPublisher : BasePublisherPlugin<SmtpPublishConfig>
     {
+        public override string PluginId => "smtp";
+
         readonly ILog _logger = LogManager.GetLogger(typeof(SmtpPublisher));
 
         public SmtpPublisher(IReleaseNoteConfiguration configuration)

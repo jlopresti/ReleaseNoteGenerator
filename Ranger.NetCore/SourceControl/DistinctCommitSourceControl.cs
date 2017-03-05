@@ -14,14 +14,12 @@ namespace Ranger.NetCore.SourceControl
 
         public DistinctCommitSourceControl(ISourceControl innerSourceControl)
         {
-            Guard.IsNotNull(() => innerSourceControl);
 
             _innerSourceControl = innerSourceControl;
         }
 
         public async Task<List<CommitInfo>> GetCommits(string releaseNumber)
         {
-            Guard.IsNotNullOrEmpty(() => releaseNumber);
 
             var result = await _innerSourceControl.GetCommits(releaseNumber);
             result = GetDistinctCommits(result);
@@ -42,8 +40,7 @@ namespace Ranger.NetCore.SourceControl
         }
 
         public async Task<List<CommitInfo>> GetCommitsFromPastRelease(string release)
-        {
-            Guard.IsNotNullOrEmpty(() => release);
+        {          
 
             var result = await _innerSourceControl.GetCommitsFromPastRelease(release);
             result = GetDistinctCommits(result);
@@ -54,5 +51,7 @@ namespace Ranger.NetCore.SourceControl
         {
             _innerSourceControl.ActivatePlugin();
         }
+
+        public string PluginId => _innerSourceControl.PluginId;
     }
 }

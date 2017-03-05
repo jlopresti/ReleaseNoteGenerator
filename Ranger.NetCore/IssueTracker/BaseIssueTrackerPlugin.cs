@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Ranger.NetCore.Common;
 using Ranger.NetCore.Models;
@@ -46,5 +47,6 @@ namespace Ranger.NetCore.IssueTracker
         public abstract Task<List<Issue>> GetIssues(string release);
 
         public abstract Task<Issue> GetIssue(string id);
+        public abstract string PluginId { get; }
     }
 }

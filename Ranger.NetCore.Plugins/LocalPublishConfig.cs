@@ -2,7 +2,7 @@
 
 namespace Ranger.NetCore.Plugins
 {
-    internal class LocalPublishConfig : IPluginConfiguration
+    public class LocalPublishConfig : IPluginConfiguration
     {
         [Required, DirectoryExists]
         public string OutputFile { get; set; }

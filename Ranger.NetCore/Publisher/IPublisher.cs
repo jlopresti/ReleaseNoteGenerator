@@ -1,8 +1,7 @@
 namespace Ranger.NetCore.Publisher
 {
-    public interface IPublisher
+    public interface IPublisher : IRangerPlugin
     {
         bool Publish(string releaseNumber, string output);
-        void ActivatePlugin();
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Ranger.NetCore.Common;
 using Ranger.NetCore.Models;
@@ -39,12 +40,13 @@ namespace Ranger.NetCore.SourceControl
             var isValid = Validator.TryValidateObject(config, ctx, results, true);
             if (!isValid)
             {
-                throw new ApplicationException(results.Aggregate(string.Empty, (x, y) => x + y.ErrorMessage + Environment.NewLine));
+                throw new ApplicationException(results.Aggregate($"[{typeof(T).Name}] ", (x, y) => x + y.ErrorMessage + Environment.NewLine));
             }
         }
 
         public abstract Task<List<CommitInfo>> GetCommits(string releaseNumber);
 
         public abstract Task<List<CommitInfo>> GetCommitsFromPastRelease(string release);
+        public abstract string PluginId { get; }
     }
 }

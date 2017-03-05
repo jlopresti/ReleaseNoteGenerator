@@ -14,9 +14,10 @@ using Ranger.NetCore.SourceControl;
 
 namespace Ranger.NetCore.Github.SourceControl
 {
-    [Provider("github")]
     public class GithubSourceControl : BaseSourceControlPlugin<GithubConfig>
     {
+        public override string PluginId => "github";
+
         readonly ILog _logger = LogManager.GetLogger(typeof(GithubSourceControl));
 
         public GithubSourceControl(IReleaseNoteConfiguration configuration)
