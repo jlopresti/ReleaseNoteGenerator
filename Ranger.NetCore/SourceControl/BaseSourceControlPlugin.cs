@@ -11,7 +11,7 @@ using Ranger.NetCore.Models.SourceControl;
 namespace Ranger.NetCore.SourceControl
 {
     public abstract class BaseSourceControlPlugin<T> : ISourceControl
-        where T : IPluginConfiguration
+        where T : ISourceControlPluginConfiguration
     {
         public IReleaseNoteConfiguration ConfigurationManager { get; }
         public T Configuration { get; private set; }

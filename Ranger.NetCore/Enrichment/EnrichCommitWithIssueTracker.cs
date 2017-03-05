@@ -12,45 +12,29 @@ using Ranger.NetCore.Models.SourceControl;
 
 namespace Ranger.NetCore.SourceControl
 {
-    public class EnrichCommitWithIssueTracker : ISourceControl
+    public class EnrichCommitWithIssueTracker : ICommitEnrichment
     {
         readonly ILog _logger = LogManager.GetLogger(typeof(EnrichCommitWithIssueTracker));
-        private readonly ISourceControl _innerSourceControl;
         private readonly IIssueTracker _issueTracker;
-        private string _pattern;
-        private string _excludePattern;
+        public BaseSourceControlPluginConfig Config { get; set; }
 
-        public EnrichCommitWithIssueTracker(ISourceControl innerSourceControl, 
-            IIssueTracker issueTracker, 
-            IReleaseNoteConfiguration config)
+        public EnrichCommitWithIssueTracker(IIssueTracker issueTracker, IReleaseNoteConfiguration configurationManager)
         {
-            Guard.IsNotNull(() => innerSourceControl, () => issueTracker,() => config);
-
-            _innerSourceControl = innerSourceControl;
             _issueTracker = issueTracker;
-            _pattern = config.GetSourceControlConfig<JObject>().GetCommitMessagePattern();
-            _excludePattern = config.GetSourceControlConfig<JObject>().GetExcludeCommitPattern();
+            Config = configurationManager.GetSourceControlConfig<BaseSourceControlPluginConfig>();
         }
 
-        public async Task<List<CommitInfo>> GetCommits(string releaseNumber)
-        {
-            Guard.IsNotNullOrEmpty(() => releaseNumber);
 
-            var result = await _innerSourceControl.GetCommits(releaseNumber);
-            result = await EnrichCommitWithData(result);
-            return result;
-        }
-
-        private async Task<List<CommitInfo>> EnrichCommitWithData(List<CommitInfo> result)
+        public async Task<List<CommitInfo>> EnrichCommitWithData(List<CommitInfo> result)
         {
-            if (!string.IsNullOrEmpty(_excludePattern))
+            if (!string.IsNullOrEmpty(Config.ExcludeCommitPattern))
             {
-                result = result.Where(x => !Regex.IsMatch(x.Title, _excludePattern, RegexOptions.IgnoreCase)).ToList();
+                result = result.Where(x => !Regex.IsMatch(x.Title, Config.ExcludeCommitPattern, RegexOptions.IgnoreCase)).ToList();
             }
 
-            if (!string.IsNullOrWhiteSpace(_pattern))
+            if (!string.IsNullOrWhiteSpace(Config.MessageCommitPattern))
             {
-                await ApplyKeyExtractionFromMessage(result, _pattern);
+                await ApplyKeyExtractionFromMessage(result, Config.MessageCommitPattern);
             }
             return result;
         }
@@ -84,18 +68,5 @@ namespace Ranger.NetCore.SourceControl
             }
         }
 
-        public async Task<List<CommitInfo>> GetCommitsFromPastRelease(string release)
-        {
-            Guard.IsNotNullOrEmpty(() => release);
-
-            var result = await _innerSourceControl.GetCommits(release);
-            result = await EnrichCommitWithData(result);
-            return result;
-        }
-
-        public void ActivatePlugin()
-        {
-            _innerSourceControl.ActivatePlugin();
-        }
     }
 }

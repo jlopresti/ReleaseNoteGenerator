@@ -14,5 +14,6 @@ namespace Ranger.NetCore
         IPublisher CreatePublisher(IReleaseNoteConfiguration wrapper);
         ITemplate CreateTemplate(IReleaseNoteConfiguration wrapper);
         IReleaseNoteLinker CreateReleaseNoteLinker();
+        ICommitEnrichment CreateCommitEnrichment(IReleaseNoteConfiguration wrapper);
     }
 }

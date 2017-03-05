@@ -7,7 +7,7 @@ using Ranger.NetCore.SourceControl;
 
 namespace Ranger.NetCore.Stubs.SourceControl
 {
-    public class StubSourceControl : BaseSourceControlPlugin<BasePluginConfig>
+    public class StubSourceControl : BaseSourceControlPlugin<BaseSourceControlPluginConfig>
     {
         public override string PluginId => "stub";
 

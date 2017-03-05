@@ -2,7 +2,7 @@
 
 namespace Ranger.NetCore.Github.Configs
 {
-    public class GithubConfig : GithubProjectConfig, IPluginConfiguration
+    public class GithubConfig : GithubProjectConfig, ISourceControlPluginConfiguration
     {
         private IEnumerable<GithubProjectConfig> _projectConfigs;
 
@@ -20,5 +20,6 @@ namespace Ranger.NetCore.Github.Configs
         }
 
         public string Provider { get; set; }
+        public string ExcludeCommitPattern { get; set; }
     }
 }

@@ -104,5 +104,11 @@ namespace Ranger.NetCore
         {
             return new ReleaseNoteLinker();
         }
+
+        public ICommitEnrichment CreateCommitEnrichment(IReleaseNoteConfiguration wrapper)
+        {
+            var issueTracker = CreateIssueTracker(wrapper);
+            return new EnrichCommitWithIssueTracker(issueTracker, wrapper);
+        }
     }
 }

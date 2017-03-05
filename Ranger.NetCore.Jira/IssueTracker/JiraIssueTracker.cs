@@ -42,7 +42,8 @@ namespace Ranger.NetCore.Jira.IssueTracker
                 return new List<Issue>();
             }
 
-            var issues = await _client.Issue.SearchAsync($"project = {Configuration.Project} AND fixVersion = {release}", 500);
+            var issues = await _client.Issue.SearchAsync($"project = {Configuration.Project} AND fixVersion = {release}", 500,
+                new List<string>(){ "components"});
             var result = issues.Select(x =>
             {
                 var issue = new Issue { Id = x.Key, Title = x.Fields.Summary, Type = x.Fields.IssueType?.Name};

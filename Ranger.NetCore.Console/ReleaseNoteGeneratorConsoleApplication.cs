@@ -23,6 +23,7 @@ namespace Ranger.NetCore.Console
         private readonly IProviderFactory _providerFactory;
         private readonly IReleaseNoteConfiguration _configuration;
         readonly ILog _logger = LogManager.GetLogger(typeof(ReleaseNoteGeneratorConsoleApplication));
+        private ICommitEnrichment _commitEnrichment;
 
         public ReleaseNoteGeneratorConsoleApplication(IProviderFactory providerFactory, 
             IReleaseNoteConfiguration configuration)
@@ -38,6 +39,7 @@ namespace Ranger.NetCore.Console
             _logger.Debug("[APP] Start running application ...");
             _sourceControl = _providerFactory.CreateSourceControl(_configuration);
             _issueTracker = _providerFactory.CreateIssueTracker(_configuration);
+            _commitEnrichment = _providerFactory.CreateCommitEnrichment(_configuration);
             _template = _providerFactory.CreateTemplate(_configuration);
             _publisher = _providerFactory.CreatePublisher(_configuration);
             _releaseNoteLinker = _providerFactory.CreateReleaseNoteLinker();
@@ -47,6 +49,9 @@ namespace Ranger.NetCore.Console
 
             _logger.Info($"[APP] Retrieving commits for release {_configuration.ReleaseNumber}");
             var commits = await _sourceControl.GetCommits(_configuration.ReleaseNumber);
+
+            _logger.Info($"[APP] Enrich commit with issue tracker data");
+            commits = await _commitEnrichment.EnrichCommitWithData(commits);
 
             _logger.Info($"[APP] Start generating model for release {_configuration.ReleaseNumber}");
             var releaseNoteModel = _releaseNoteLinker.Link(commits, issues);
