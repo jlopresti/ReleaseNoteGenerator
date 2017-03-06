@@ -10,7 +10,7 @@ using Ranger.NetCore.Models.SourceControl;
 
 namespace Ranger.NetCore.SourceControl
 {
-    public abstract class BaseSourceControlPlugin<T> : ISourceControl
+    public abstract class BaseSourceControlPlugin<T> : ISourceControlPlugin
         where T : ISourceControlPluginConfiguration
     {
         public IReleaseNoteConfiguration ConfigurationManager { get; }
@@ -21,7 +21,7 @@ namespace Ranger.NetCore.SourceControl
             ConfigurationManager = configuration;
         }
 
-        public void ActivatePlugin()
+        public void Activate()
         {
             Configuration = ConfigurationManager.GetSourceControlConfig<T>();
             ValidateConfig(Configuration);

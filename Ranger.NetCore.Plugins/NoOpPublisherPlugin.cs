@@ -3,7 +3,7 @@ using Ranger.NetCore.Publisher;
 
 namespace Ranger.NetCore.Plugins
 {
-    public class NoOpPublisher : IPublisher
+    public class NoOpPublisherPlugin : IPublisherPlugin
     {
         public string PluginId => "noop";
 
@@ -12,7 +12,7 @@ namespace Ranger.NetCore.Plugins
             return true;
         }
 
-        public void ActivatePlugin()
+        public void Activate()
         {
             
         }

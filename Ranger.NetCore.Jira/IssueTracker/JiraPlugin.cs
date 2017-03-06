@@ -15,13 +15,13 @@ using Ranger.NetCore.Publisher;
 
 namespace Ranger.NetCore.Jira.IssueTracker
 {
-    internal class JiraIssueTracker : BaseIssueTrackerPlugin<JiraConfiguration>
+    internal class JiraPlugin : BaseIssueTrackerPlugin<JiraConfiguration>
     {
         public override string PluginId => "jira";
 
         private IJiraClient _client;
 
-        public JiraIssueTracker(IReleaseNoteConfiguration configuration)
+        public JiraPlugin(IReleaseNoteConfiguration configuration)
             : base(configuration)
         {
 

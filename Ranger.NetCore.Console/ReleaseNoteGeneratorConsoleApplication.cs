@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using log4net;
+using Ranger.NetCore.Common;
 using Ranger.NetCore.Console.Common;
 using Ranger.NetCore.Console.Models;
 using Ranger.NetCore.Enrichment;
@@ -11,16 +12,16 @@ using Ranger.NetCore.Models;
 using Ranger.NetCore.Publisher;
 using Ranger.NetCore.Reducer;
 using Ranger.NetCore.SourceControl;
-using Ranger.NetCore.TemplateProvider;
+using Ranger.NetCore.Template;
 
 namespace Ranger.NetCore.Console
 {
     internal class ReleaseNoteGeneratorConsoleApplication : IConsoleApplication<ReleaseNoteSettings>
     {
-        private ISourceControl _sourceControl;
-        private IIssueTracker _issueTracker;
-        private ITemplate _template;
-        private IPublisher _publisher;
+        private ISourceControlPlugin _sourceControlPlugin;
+        private IIssueTrackerPlugin _issueTrackerPlugin;
+        private ITemplatePlugin _templatePlugin;
+        private IPublisherPlugin _publisherPlugin;
         private IReleaseNoteLinker _releaseNoteLinker;
         private readonly IProviderFactory _providerFactory;
         private readonly IReleaseNoteConfiguration _configuration;
@@ -49,17 +50,17 @@ namespace Ranger.NetCore.Console
             _configuration.LoadConfigFile(args.ConfigPath, args.ReleaseNumber);
 
             _logger.Debug("[APP] Start running application ...");
-            _sourceControl = _providerFactory.CreateSourceControl(_configuration);
-            _issueTracker = _providerFactory.CreateIssueTracker(_configuration);
-            _template = _providerFactory.CreateTemplate(_configuration);
-            _publisher = _providerFactory.CreatePublisher(_configuration);
+            _sourceControlPlugin = _providerFactory.CreateSourceControl(_configuration);
+            _issueTrackerPlugin = _providerFactory.CreateIssueTracker(_configuration);
+            _templatePlugin = _providerFactory.CreateTemplate(_configuration);
+            _publisherPlugin = _providerFactory.CreatePublisher(_configuration);
             _commitEnrichment.Setup();
 
             _logger.Info($"[APP] Retrieving issues for release {_configuration.ReleaseNumber}");
-            var issues = await _issueTracker.GetIssues(_configuration.ReleaseNumber);
+            var issues = await _issueTrackerPlugin.GetIssues(_configuration.ReleaseNumber);
 
             _logger.Info($"[APP] Retrieving commits for release {_configuration.ReleaseNumber}");
-            var commits = await _sourceControl.GetCommits(_configuration.ReleaseNumber);
+            var commits = await _sourceControlPlugin.GetCommits(_configuration.ReleaseNumber);
 
             _logger.Info($"[APP] Reduce commits {_configuration.ReleaseNumber}");
             commits = _commitReducer.MergeCommits(commits);
@@ -71,11 +72,11 @@ namespace Ranger.NetCore.Console
             var releaseNoteModel = _releaseNoteLinker.Link(commits, issues);
 
             _logger.Info($"[APP] Start generating release note for release {_configuration.ReleaseNumber}");
-            var output = _template.Build(_configuration.ReleaseNumber, releaseNoteModel);
+            var output = _templatePlugin.Build(_configuration.ReleaseNumber, releaseNoteModel);
             _logger.Debug($"[APP] Release note generated : \n{output}");
 
             _logger.Info($"[APP] Start publishing for release {_configuration.ReleaseNumber}");
-            var result = _publisher.Publish(_configuration.ReleaseNumber, output);
+            var result = _publisherPlugin.Publish(_configuration.ReleaseNumber, output);
 
             var resultCode = result ? Constants.SUCCESS_EXIT_CODE : Constants.FAIL_EXIT_CODE;
             _logger.Debug($"[APP] Process terminated with exit code {resultCode} ...");

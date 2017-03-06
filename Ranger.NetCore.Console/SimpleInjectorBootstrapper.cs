@@ -18,7 +18,7 @@ using Ranger.NetCore.Models;
 using Ranger.NetCore.Publisher;
 using Ranger.NetCore.Reducer;
 using Ranger.NetCore.SourceControl;
-using Ranger.NetCore.TemplateProvider;
+using Ranger.NetCore.Template;
 using SimpleInjector;
 
 namespace Ranger.NetCore.Console
@@ -55,10 +55,10 @@ namespace Ranger.NetCore.Console
                 .ToList();
 
             
-            _container.RegisterCollection<IIssueTracker>(pluginAssemblies);
-            _container.RegisterCollection<ISourceControl>(pluginAssemblies);
-            _container.RegisterCollection<IPublisher>(pluginAssemblies);
-            _container.RegisterCollection<ITemplate>(pluginAssemblies);
+            _container.RegisterCollection<IIssueTrackerPlugin>(pluginAssemblies);
+            _container.RegisterCollection<ISourceControlPlugin>(pluginAssemblies);
+            _container.RegisterCollection<IPublisherPlugin>(pluginAssemblies);
+            _container.RegisterCollection<ITemplatePlugin>(pluginAssemblies);
 
             _container.RegisterSingleton<IProviderFactory, ProviderFactory>();
             _container.RegisterSingleton<IReleaseNoteLinker, ReleaseNoteLinker>();

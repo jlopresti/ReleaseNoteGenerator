@@ -10,11 +10,11 @@ using Ranger.NetCore.Publisher;
 
 namespace Ranger.NetCore.Smtp.Publisher
 {
-    public class SmtpPublisher : BasePublisherPlugin<SmtpPublishConfig>
+    public class SmtpPublisherPlugin : BasePublisherPlugin<SmtpPublishConfig>
     {
         public override string PluginId => "smtp";
 
-        public SmtpPublisher(IReleaseNoteConfiguration configuration)
+        public SmtpPublisherPlugin(IReleaseNoteConfiguration configuration)
             : base(configuration)
         {
             

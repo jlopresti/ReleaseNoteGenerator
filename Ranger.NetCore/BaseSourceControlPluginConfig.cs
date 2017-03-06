@@ -1,3 +1,5 @@
+using Ranger.NetCore.Common;
+
 namespace Ranger.NetCore
 {
     public class BaseSourceControlPluginConfig : ISourceControlPluginConfiguration

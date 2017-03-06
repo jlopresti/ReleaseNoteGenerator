@@ -8,13 +8,13 @@ using Issue = Ranger.NetCore.Models.IssueTracker.Issue;
 
 namespace Ranger.NetCore.Stubs.IssueTracker
 {
-    public class StubIssueTracker : IIssueTracker
+    public class StubIssueTrackerPlugin : IIssueTrackerPlugin
     {
         public string PluginId => "stub";
 
         private List<Issue> issues;
 
-        public StubIssueTracker()
+        public StubIssueTrackerPlugin()
         {
             issues = new List<Issue>();
             issues.Add(new Issue() { Id = "SGR-1", Title = "Hello 1", Type = "Story"});
@@ -40,7 +40,7 @@ namespace Ranger.NetCore.Stubs.IssueTracker
             return Task.FromResult(issues.FirstOrDefault(x => x.Id.Equals(id, StringComparison.CurrentCultureIgnoreCase)));
         }
 
-        public void ActivatePlugin()
+        public void Activate()
         {
             
         }

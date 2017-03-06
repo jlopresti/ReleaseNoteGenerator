@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Ranger.NetCore
+namespace Ranger.NetCore.Common
 {
     public interface IDependencyResolver
     {

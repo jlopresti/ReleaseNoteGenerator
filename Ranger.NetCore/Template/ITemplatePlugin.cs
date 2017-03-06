@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Ranger.NetCore.Common;
 using Ranger.NetCore.Models.Binder;
 
-namespace Ranger.NetCore.TemplateProvider
+namespace Ranger.NetCore.Template
 {
-    public interface ITemplate : IRangerPlugin
+    public interface ITemplatePlugin : IRangerPlugin
     {
         string Build(string releaseNumber, List<ReleaseNoteEntry> releaseNoteModel);
     }

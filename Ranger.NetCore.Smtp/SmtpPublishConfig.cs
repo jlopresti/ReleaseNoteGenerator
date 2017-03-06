@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Ranger.NetCore.Common;
 using Ranger.NetCore.Publisher;
 
 namespace Ranger.NetCore.Smtp

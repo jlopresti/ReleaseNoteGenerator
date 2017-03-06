@@ -1,19 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using log4net;
-using Ranger.NetCore.Common;
-using Ranger.NetCore.Enrichment;
+﻿using log4net;
 using Ranger.NetCore.Helpers;
 using Ranger.NetCore.IssueTracker;
-using Ranger.NetCore.Linker;
 using Ranger.NetCore.Models;
 using Ranger.NetCore.Publisher;
-using Ranger.NetCore.Reducer;
 using Ranger.NetCore.SourceControl;
-using Ranger.NetCore.TemplateProvider;
+using Ranger.NetCore.Template;
 
-namespace Ranger.NetCore
+namespace Ranger.NetCore.Common
 {
     public class ProviderFactory : IProviderFactory
     {
@@ -25,7 +18,7 @@ namespace Ranger.NetCore
             _dependencyResolver = dependencyResolver;
             _logger = logger;
         }
-        public ISourceControl CreateSourceControl(IReleaseNoteConfiguration wrapper)
+        public ISourceControlPlugin CreateSourceControl(IReleaseNoteConfiguration wrapper)
         {
             var providerName = wrapper.GetSourceControlConfig<BasePluginConfig>().Provider;
 
@@ -34,18 +27,18 @@ namespace Ranger.NetCore
                 throw new ApplicationException("Source control provider name is not specified");
             }
 
-            var plugin = _dependencyResolver.ResolveAll<ISourceControl>().GetPlugins(providerName);
+            var plugin = _dependencyResolver.ResolveAll<ISourceControlPlugin>().GetPlugins(providerName);
 
             if (plugin == null)
             {
                 throw new ApplicationException($"No source control plugin found with name {providerName}");
             }
 
-            plugin.ActivatePlugin();
+            plugin.Activate();
             return plugin;
         }
 
-        public IIssueTracker CreateIssueTracker(IReleaseNoteConfiguration wrapper)
+        public IIssueTrackerPlugin CreateIssueTracker(IReleaseNoteConfiguration wrapper)
         {
             var providerName = wrapper.GetIssueTrackerConfig<BasePluginConfig>().Provider;
 
@@ -54,18 +47,18 @@ namespace Ranger.NetCore
                 throw new ApplicationException("Issue tracker provider name is not specified");
             }
 
-            var plugin = _dependencyResolver.ResolveAll<IIssueTracker>().GetPlugins(providerName);
+            var plugin = _dependencyResolver.ResolveAll<IIssueTrackerPlugin>().GetPlugins(providerName);
 
             if (plugin == null)
             {
                 throw new ApplicationException($"No issue tracker plugin found with name {providerName}");
             }
 
-            plugin.ActivatePlugin();
+            plugin.Activate();
             return plugin;
         }
 
-        public IPublisher CreatePublisher(IReleaseNoteConfiguration wrapper)
+        public IPublisherPlugin CreatePublisher(IReleaseNoteConfiguration wrapper)
         {
             var providerName = wrapper.GetPublisherConfig<BasePluginConfig>().Provider;
 
@@ -74,18 +67,18 @@ namespace Ranger.NetCore
                 throw new ApplicationException("Publisher provider name is not specified");
             }
 
-            var plugin = _dependencyResolver.ResolveAll<IPublisher>().GetPlugins(providerName);
+            var plugin = _dependencyResolver.ResolveAll<IPublisherPlugin>().GetPlugins(providerName);
 
             if (plugin == null)
             {
                 throw new ApplicationException($"No publisher plugin found with name {providerName}");
             }
 
-            plugin.ActivatePlugin();
+            plugin.Activate();
             return plugin;
         }
 
-        public ITemplate CreateTemplate(IReleaseNoteConfiguration wrapper)
+        public ITemplatePlugin CreateTemplate(IReleaseNoteConfiguration wrapper)
         {
             var providerName = wrapper.GetTemplateConfig<BasePluginConfig>().Provider;
 
@@ -94,14 +87,14 @@ namespace Ranger.NetCore
                 throw new ApplicationException("Template provider name is not specified");
             }
 
-            var plugin = _dependencyResolver.ResolveAll<ITemplate>().GetPlugins(providerName);
+            var plugin = _dependencyResolver.ResolveAll<ITemplatePlugin>().GetPlugins(providerName);
 
             if (plugin == null)
             {
                 throw new ApplicationException($"No template plugin found with name {providerName}");
             }
 
-            plugin.ActivatePlugin();
+            plugin.Activate();
             return plugin;
         }
     }

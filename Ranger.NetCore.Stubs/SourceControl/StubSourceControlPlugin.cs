@@ -7,13 +7,13 @@ using Ranger.NetCore.SourceControl;
 
 namespace Ranger.NetCore.Stubs.SourceControl
 {
-    public class StubSourceControl : BaseSourceControlPlugin<BaseSourceControlPluginConfig>
+    public class StubSourceControlPlugin : BaseSourceControlPlugin<BaseSourceControlPluginConfig>
     {
         public override string PluginId => "stub";
 
         private readonly IReleaseNoteConfiguration _config;
 
-        public StubSourceControl(IReleaseNoteConfiguration config):base(config)
+        public StubSourceControlPlugin(IReleaseNoteConfiguration config):base(config)
         {
             
         }

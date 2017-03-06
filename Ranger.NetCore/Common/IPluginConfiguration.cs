@@ -1,4 +1,4 @@
-﻿namespace Ranger.NetCore
+﻿namespace Ranger.NetCore.Common
 {
     public interface IPluginConfiguration
     {

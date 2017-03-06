@@ -7,7 +7,7 @@ using Ranger.NetCore.Models;
 
 namespace Ranger.NetCore.Publisher
 {
-    public abstract class BasePublisherPlugin<T> : IPublisher
+    public abstract class BasePublisherPlugin<T> : IPublisherPlugin
         where T : IPluginConfiguration
     {
         public IReleaseNoteConfiguration ConfigurationManager { get; }
@@ -18,7 +18,7 @@ namespace Ranger.NetCore.Publisher
             ConfigurationManager = configuration;
         }
 
-        public void ActivatePlugin()
+        public void Activate()
         {
             Configuration = ConfigurationManager.GetPublisherConfig<T>();
             ValidateConfig(Configuration);

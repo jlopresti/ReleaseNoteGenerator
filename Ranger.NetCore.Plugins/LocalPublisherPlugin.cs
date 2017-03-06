@@ -6,11 +6,11 @@ using Ranger.NetCore.Publisher;
 
 namespace Ranger.NetCore.Plugins
 {
-    public class LocalPublisher : BasePublisherPlugin<LocalPublishConfig>
+    public class LocalPublisherPlugin : BasePublisherPlugin<LocalPublishConfig>
     {
         public override string PluginId => "local";
 
-        public LocalPublisher(IReleaseNoteConfiguration configuration)
+        public LocalPublisherPlugin(IReleaseNoteConfiguration configuration)
             : base(configuration)
         {
 

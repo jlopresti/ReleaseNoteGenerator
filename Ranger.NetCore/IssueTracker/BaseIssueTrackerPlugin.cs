@@ -10,7 +10,7 @@ using Ranger.NetCore.Models.IssueTracker;
 
 namespace Ranger.NetCore.IssueTracker
 {
-    public abstract class BaseIssueTrackerPlugin<T> : IIssueTracker
+    public abstract class BaseIssueTrackerPlugin<T> : IIssueTrackerPlugin
         where T : IPluginConfiguration
     {
         public IReleaseNoteConfiguration ConfigurationManager { get; }
@@ -21,7 +21,7 @@ namespace Ranger.NetCore.IssueTracker
             ConfigurationManager = configuration;
         }
 
-        public void ActivatePlugin()
+        public void Activate()
         {
             Configuration = ConfigurationManager.GetIssueTrackerConfig<T>();
             ValidateConfig(Configuration);

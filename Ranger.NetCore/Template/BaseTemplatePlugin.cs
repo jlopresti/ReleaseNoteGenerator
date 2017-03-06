@@ -5,10 +5,11 @@ using System.Linq;
 using Ranger.NetCore.Common;
 using Ranger.NetCore.Models;
 using Ranger.NetCore.Models.Binder;
+using Ranger.NetCore.Template;
 
-namespace Ranger.NetCore.TemplateProvider
+namespace Ranger.NetCore.Template
 {
-    public abstract class BaseTemplatePlugin<T> : ITemplate
+    public abstract class BaseTemplatePlugin<T> : ITemplatePlugin
         where T : IPluginConfiguration
     {
         public IReleaseNoteConfiguration ConfigurationManager { get; }
@@ -19,7 +20,7 @@ namespace Ranger.NetCore.TemplateProvider
             ConfigurationManager = configuration;
         }
 
-        public void ActivatePlugin()
+        public void Activate()
         {
             Configuration = ConfigurationManager.GetTemplateConfig<T>();
             ValidateConfig(Configuration);

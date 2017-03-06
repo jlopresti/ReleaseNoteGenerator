@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using log4net;
 using Newtonsoft.Json.Linq;
+using Ranger.NetCore.Common;
 using Ranger.NetCore.Helpers;
 using Ranger.NetCore.IssueTracker;
 using Ranger.NetCore.Models;
@@ -14,7 +15,7 @@ namespace Ranger.NetCore.Enrichment
 {
     public class EnrichCommitWithIssueTracker : ICommitEnrichment
     {
-        private IIssueTracker _issueTracker;
+        private IIssueTrackerPlugin _issueTrackerPlugin;
         private readonly IProviderFactory _providerFactory;
         private readonly IReleaseNoteConfiguration _configurationManager;
         private ILog _logger;
@@ -31,7 +32,7 @@ namespace Ranger.NetCore.Enrichment
 
         public void Setup()
         {
-            _issueTracker = _providerFactory.CreateIssueTracker(_configurationManager);
+            _issueTrackerPlugin = _providerFactory.CreateIssueTracker(_configurationManager);
             _config = _configurationManager.GetSourceControlConfig<BaseSourceControlPluginConfig>();
         }
 
@@ -59,7 +60,7 @@ namespace Ranger.NetCore.Enrichment
                 commit.ExtractKeyFromTitle(pattern);
                 if (commit.HasExtractedKey)
                 {
-                    var issue = await _issueTracker.GetIssue(commit.Id);
+                    var issue = await _issueTrackerPlugin.GetIssue(commit.Id);
                     if (issue != null && !issue.Type.Equals("defect", StringComparison.CurrentCultureIgnoreCase))
                     {
                         commit.Id = issue.Id;

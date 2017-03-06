@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Ranger.NetCore.Common;
 
 namespace Ranger.NetCore.Github.Configs
 {

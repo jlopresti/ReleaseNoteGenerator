@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Ranger.NetCore.Common;
 
 namespace Ranger.NetCore.Plugins
 {

@@ -14,11 +14,11 @@ using Ranger.NetCore.SourceControl;
 
 namespace Ranger.NetCore.Github.SourceControl
 {
-    public class GithubSourceControl : BaseSourceControlPlugin<GithubConfig>
+    public class GithubPlugin : BaseSourceControlPlugin<GithubConfig>
     {
         public override string PluginId => "github";
 
-        public GithubSourceControl(IReleaseNoteConfiguration configuration)
+        public GithubPlugin(IReleaseNoteConfiguration configuration)
             : base(configuration)
         {
 
