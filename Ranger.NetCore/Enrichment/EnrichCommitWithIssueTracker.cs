@@ -10,31 +10,42 @@ using Ranger.NetCore.IssueTracker;
 using Ranger.NetCore.Models;
 using Ranger.NetCore.Models.SourceControl;
 
-namespace Ranger.NetCore.SourceControl
+namespace Ranger.NetCore.Enrichment
 {
     public class EnrichCommitWithIssueTracker : ICommitEnrichment
     {
-        readonly ILog _logger = LogManager.GetLogger(typeof(EnrichCommitWithIssueTracker));
-        private readonly IIssueTracker _issueTracker;
-        public BaseSourceControlPluginConfig Config { get; set; }
+        private IIssueTracker _issueTracker;
+        private readonly IProviderFactory _providerFactory;
+        private readonly IReleaseNoteConfiguration _configurationManager;
+        private ILog _logger;
+        private BaseSourceControlPluginConfig _config;
 
-        public EnrichCommitWithIssueTracker(IIssueTracker issueTracker, IReleaseNoteConfiguration configurationManager)
+        public EnrichCommitWithIssueTracker(IProviderFactory providerFactory, 
+            IReleaseNoteConfiguration configurationManager, 
+            ILog logger)
         {
-            _issueTracker = issueTracker;
-            Config = configurationManager.GetSourceControlConfig<BaseSourceControlPluginConfig>();
+            _providerFactory = providerFactory;
+            _configurationManager = configurationManager;
+            _logger = logger;
+        }
+
+        public void Setup()
+        {
+            _issueTracker = _providerFactory.CreateIssueTracker(_configurationManager);
+            _config = _configurationManager.GetSourceControlConfig<BaseSourceControlPluginConfig>();
         }
 
 
         public async Task<List<CommitInfo>> EnrichCommitWithData(List<CommitInfo> result)
         {
-            if (!string.IsNullOrEmpty(Config.ExcludeCommitPattern))
+            if (!string.IsNullOrEmpty(_config.ExcludeCommitPattern))
             {
-                result = result.Where(x => !Regex.IsMatch(x.Title, Config.ExcludeCommitPattern, RegexOptions.IgnoreCase)).ToList();
+                result = result.Where(x => !Regex.IsMatch(x.Title, _config.ExcludeCommitPattern, RegexOptions.IgnoreCase)).ToList();
             }
 
-            if (!string.IsNullOrWhiteSpace(Config.MessageCommitPattern))
+            if (!string.IsNullOrWhiteSpace(_config.MessageCommitPattern))
             {
-                await ApplyKeyExtractionFromMessage(result, Config.MessageCommitPattern);
+                await ApplyKeyExtractionFromMessage(result, _config.MessageCommitPattern);
             }
             return result;
         }

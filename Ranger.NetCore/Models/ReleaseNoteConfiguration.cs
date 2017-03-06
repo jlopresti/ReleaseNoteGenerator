@@ -7,10 +7,15 @@ namespace Ranger.NetCore.Models
 {
     public class ReleaseNoteConfiguration : IReleaseNoteConfiguration
     {
-        readonly ILog _logger = LogManager.GetLogger(typeof(ReleaseNoteConfiguration));
+        private readonly ILog _logger;
         private bool _isConfigLoaded = false;
         private Config _config;
         public string ReleaseNumber { get; private set; }
+
+        public ReleaseNoteConfiguration(ILog logger)
+        {
+            _logger = logger;
+        }
 
         public T GetSourceControlConfig<T>()
         {

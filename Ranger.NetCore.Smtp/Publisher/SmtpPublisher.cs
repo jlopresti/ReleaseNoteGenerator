@@ -14,8 +14,6 @@ namespace Ranger.NetCore.Smtp.Publisher
     {
         public override string PluginId => "smtp";
 
-        readonly ILog _logger = LogManager.GetLogger(typeof(SmtpPublisher));
-
         public SmtpPublisher(IReleaseNoteConfiguration configuration)
             : base(configuration)
         {

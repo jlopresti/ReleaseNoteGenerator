@@ -14,7 +14,7 @@ namespace Ranger.NetCore.Console.Common
         where TApp : IConsoleApplication<TConfig>
         where TConfig : class, new()
     {
-        readonly ILog _logger = LogManager.GetLogger(typeof(ApplicationBootstrapper<TApp, TConfig>));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(ApplicationBootstrapper<TApp, TConfig>));
         private Action _exitOnAction = () => { };
         private Hierarchy _hierarchy;
         private IDependencyResolver _dependencyResolver;

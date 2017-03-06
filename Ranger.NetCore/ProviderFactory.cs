@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using log4net;
 using Ranger.NetCore.Common;
+using Ranger.NetCore.Enrichment;
 using Ranger.NetCore.Helpers;
 using Ranger.NetCore.IssueTracker;
 using Ranger.NetCore.Linker;
@@ -16,10 +18,12 @@ namespace Ranger.NetCore
     public class ProviderFactory : IProviderFactory
     {
         private readonly IDependencyResolver _dependencyResolver;
+        private readonly ILog _logger;
 
-        public ProviderFactory(IDependencyResolver dependencyResolver)
+        public ProviderFactory(IDependencyResolver dependencyResolver, ILog logger)
         {
             _dependencyResolver = dependencyResolver;
+            _logger = logger;
         }
         public ISourceControl CreateSourceControl(IReleaseNoteConfiguration wrapper)
         {
@@ -99,22 +103,6 @@ namespace Ranger.NetCore
 
             plugin.ActivatePlugin();
             return plugin;
-        }
-
-        public IReleaseNoteLinker CreateReleaseNoteLinker(IReleaseNoteConfiguration wrapper)
-        {
-            return new ReleaseNoteLinker();
-        }
-
-        public ICommitEnrichment CreateCommitEnrichment(IReleaseNoteConfiguration wrapper)
-        {
-            var issueTracker = CreateIssueTracker(wrapper);
-            return new EnrichCommitWithIssueTracker(issueTracker, wrapper);
-        }
-
-        public ICommitReducer CreateCommitReducer(IReleaseNoteConfiguration wrapper)
-        {
-            return new MergeCommitReducer();
         }
     }
 }

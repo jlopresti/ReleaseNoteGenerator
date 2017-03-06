@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using log4net;
 using Ranger.NetCore.Console.Common;
 using Ranger.NetCore.Console.Models;
+using Ranger.NetCore.Enrichment;
 using Ranger.NetCore.Helpers;
 using Ranger.NetCore.IssueTracker;
 using Ranger.NetCore.Linker;
@@ -23,15 +24,24 @@ namespace Ranger.NetCore.Console
         private IReleaseNoteLinker _releaseNoteLinker;
         private readonly IProviderFactory _providerFactory;
         private readonly IReleaseNoteConfiguration _configuration;
-        readonly ILog _logger = LogManager.GetLogger(typeof(ReleaseNoteGeneratorConsoleApplication));
+        private readonly ILog _logger;
         private ICommitEnrichment _commitEnrichment;
         private ICommitReducer _commitReducer;
 
-        public ReleaseNoteGeneratorConsoleApplication(IProviderFactory providerFactory, 
-            IReleaseNoteConfiguration configuration)
+        public ReleaseNoteGeneratorConsoleApplication(
+            IProviderFactory providerFactory, 
+            IReleaseNoteConfiguration configuration, 
+            IReleaseNoteLinker releaseNoteLinker,
+            ICommitReducer commitReducer,
+            ICommitEnrichment commitEnrichment,
+            ILog logger)
         {
             _providerFactory = providerFactory;
             _configuration = configuration;
+            _releaseNoteLinker = releaseNoteLinker;
+            _commitReducer = commitReducer;
+            _commitEnrichment = commitEnrichment;
+            _logger = logger;
         }
 
         public async Task<int> Run(ReleaseNoteSettings args)
@@ -41,11 +51,9 @@ namespace Ranger.NetCore.Console
             _logger.Debug("[APP] Start running application ...");
             _sourceControl = _providerFactory.CreateSourceControl(_configuration);
             _issueTracker = _providerFactory.CreateIssueTracker(_configuration);
-            _commitReducer = _providerFactory.CreateCommitReducer(_configuration);
-            _commitEnrichment = _providerFactory.CreateCommitEnrichment(_configuration);
             _template = _providerFactory.CreateTemplate(_configuration);
             _publisher = _providerFactory.CreatePublisher(_configuration);
-            _releaseNoteLinker = _providerFactory.CreateReleaseNoteLinker(_configuration);
+            _commitEnrichment.Setup();
 
             _logger.Info($"[APP] Retrieving issues for release {_configuration.ReleaseNumber}");
             var issues = await _issueTracker.GetIssues(_configuration.ReleaseNumber);

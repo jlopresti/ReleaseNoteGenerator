@@ -12,7 +12,6 @@ namespace Ranger.NetCore.Helpers
 {
     public static class Utils
     {
-        private static readonly ILog _logger = LogManager.GetLogger(typeof(Utils));
         public static T ToObject<T>(this string json)
         {
             if (string.IsNullOrEmpty(json)) return default(T);
@@ -23,7 +22,6 @@ namespace Ranger.NetCore.Helpers
             }
             catch (JsonException ex)
             {
-                _logger.Debug("Invalid json", ex);
                 return default(T);
             }
         }

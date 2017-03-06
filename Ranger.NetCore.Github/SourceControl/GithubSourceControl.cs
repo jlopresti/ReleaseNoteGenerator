@@ -18,8 +18,6 @@ namespace Ranger.NetCore.Github.SourceControl
     {
         public override string PluginId => "github";
 
-        readonly ILog _logger = LogManager.GetLogger(typeof(GithubSourceControl));
-
         public GithubSourceControl(IReleaseNoteConfiguration configuration)
             : base(configuration)
         {

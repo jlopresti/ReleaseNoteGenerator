@@ -9,11 +9,11 @@ namespace Ranger.NetCore.Reducer
 {
     public class MergeCommitReducer : ICommitReducer
     {
-        readonly ILog _logger = LogManager.GetLogger(typeof(MergeCommitReducer));
+        private readonly ILog _logger;
 
-        public MergeCommitReducer()
+        public MergeCommitReducer(ILog logger)
         {
-
+            _logger = logger;
         }
 
         public List<CommitInfo> MergeCommits(List<CommitInfo> result)

@@ -5,9 +5,12 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text;
+using log4net;
 using log4net.Plugin;
+using Ranger.NetCore.Common;
 using Ranger.NetCore.Console.Common;
 using Ranger.NetCore.Console.Models;
+using Ranger.NetCore.Enrichment;
 using Ranger.NetCore.Helpers;
 using Ranger.NetCore.IssueTracker;
 using Ranger.NetCore.Linker;
@@ -58,6 +61,14 @@ namespace Ranger.NetCore.Console
             _container.RegisterCollection<ITemplate>(pluginAssemblies);
 
             _container.RegisterSingleton<IProviderFactory, ProviderFactory>();
+            _container.RegisterSingleton<IReleaseNoteLinker, ReleaseNoteLinker>();
+            _container.RegisterSingleton<ICommitReducer, MergeCommitReducer>();
+            _container.RegisterSingleton<ICommitEnrichment, EnrichCommitWithIssueTracker>();
+
+            _container.RegisterConditional(typeof(ILog),
+                c => typeof(Log4NetAdapter<>).MakeGenericType(c.Consumer.ImplementationType),
+                Lifestyle.Singleton,
+                c => true);
 
             _container.Verify();
 
