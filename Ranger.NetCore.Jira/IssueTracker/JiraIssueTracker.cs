@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Dapplo.Jira;
@@ -41,20 +42,27 @@ namespace Ranger.NetCore.Jira.IssueTracker
             {
                 return new List<Issue>();
             }
-
-            var issues = await _client.Issue.SearchAsync($"project = {Configuration.Project} AND fixVersion = {release}", 500,
-                new List<string>(){ "components"});
-            var result = issues.Select(x =>
+            try
             {
-                var issue = new Issue { Id = x.Key, Title = x.Fields.Summary, Type = x.Fields.IssueType?.Name};
-                var compo = x.Fields?.Components;
-                if (compo != null)
+                var issues =
+                    await _client.Issue.SearchAsync($"project = {Configuration.Project} AND fixVersion = {release}", 500,
+                        new List<string>() {"components"});
+                var result = issues.Select(x =>
                 {
-                    issue.AdditionalData.Add("Components", x.Fields?.Components?.Select(_ => _.Name).ToList());
-                }
-                return issue;
-            }).ToList();
-            return result;
+                    var issue = new Issue {Id = x.Key, Title = x.Fields.Summary, Type = x.Fields.IssueType?.Name};
+                    var compo = x.Fields?.Components;
+                    if (compo != null)
+                    {
+                        issue.AdditionalData.Add("Components", x.Fields?.Components?.Select(_ => _.Name).ToList());
+                    }
+                    return issue;
+                }).ToList();
+                return result;
+            }
+            catch (HttpRequestException ex)
+            {
+                throw new ApplicationException("Jira credentials is invalid.");
+            }
         }
 
         public override async Task<Issue> GetIssue(string id)

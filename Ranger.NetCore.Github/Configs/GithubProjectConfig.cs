@@ -8,7 +8,6 @@ namespace Ranger.NetCore.Github.Configs
         public string Host { get; set; }
         public string Login { get; set; }
         public string Apikey { get; set; }
-        [Required]
         public string Project { get; set; }
         [Required]
         public string Owner { get; set; }
