@@ -5,7 +5,6 @@ using System.Linq;
 using Ranger.NetCore.Common;
 using Ranger.NetCore.Models;
 using Ranger.NetCore.Models.Binder;
-using Ranger.NetCore.Template;
 
 namespace Ranger.NetCore.Template
 {

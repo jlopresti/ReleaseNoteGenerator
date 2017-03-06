@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using log4net;
 using Newtonsoft.Json;
 using Ranger.NetCore.Common;
-using Ranger.NetCore.IssueTracker;
-using Ranger.NetCore.SourceControl;
 
 namespace Ranger.NetCore.Helpers
 {

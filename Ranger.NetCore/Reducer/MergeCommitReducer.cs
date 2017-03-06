@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using log4net;
 using Ranger.NetCore.Models.SourceControl;
-using Ranger.NetCore.SourceControl;
 
 namespace Ranger.NetCore.Reducer
 {
