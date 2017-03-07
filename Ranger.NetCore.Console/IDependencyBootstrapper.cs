@@ -1,4 +1,5 @@
 using System;
+using Ranger.NetCore.Common;
 
 namespace Ranger.NetCore.Console
 {
