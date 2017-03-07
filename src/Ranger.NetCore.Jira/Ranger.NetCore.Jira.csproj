@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapplo.Jira" Version="0.5.35" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ranger.NetCore\Ranger.NetCore.csproj" />
+  </ItemGroup>
+
+</Project>

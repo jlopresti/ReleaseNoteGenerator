@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ranger.NetCore.Github\Ranger.NetCore.Github.csproj" />
+    <ProjectReference Include="..\Ranger.NetCore\Ranger.NetCore.csproj" />
+  </ItemGroup>
+
+</Project>

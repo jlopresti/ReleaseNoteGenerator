@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Common\ConfigurationParameterValidationAttribute.cs" />
+    <Compile Remove="Common\IConfigurationValidationAttribute.cs" />
+    <Compile Remove="Helpers\AppDomain.cs" />
+    <Compile Remove="Helpers\Guard.cs" />
+    <Compile Remove="Helpers\JObjectExtensions.cs" />
+    <Compile Remove="SourceControl\EnrichCommitWithIssueTracker.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.2-beta2" />
+  </ItemGroup>
+
+</Project>

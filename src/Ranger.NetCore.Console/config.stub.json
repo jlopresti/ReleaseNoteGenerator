@@ -1,0 +1,23 @@
+﻿{
+  "sourceControl": {
+    "provider": "stub",
+    "messageCommitPattern": "jra-\\w*",
+    "projectConfigs": [
+      { "project": "toto" },
+      { "project": "test" }
+    ]
+  },
+  "issueTracker": {
+    "provider": "jira",
+    "host": "https://jira.atlassian.com",
+    "project":  "JRA" 
+  },
+  "template": {
+    "provider": "razor-file",
+    "file": "template.html"
+  },
+  "publish": {
+    "provider": "local",
+    "outputfile": "note.html"
+  }
+}
