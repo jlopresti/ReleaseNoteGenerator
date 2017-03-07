@@ -1,2 +1,2 @@
 language: csharp
-solution: src\Ranger.sln
+solution: src/Ranger.sln
